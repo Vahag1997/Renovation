@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>STUDIO AURA | About</title>
+<!-- Google Fonts: EB Garamond & Outfit -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed": "#e6e1df",
+                    "tertiary-container": "#1d1b1a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#474646",
+                    "surface-container-low": "#f4f3f1",
+                    "surface-container-high": "#e9e8e6",
+                    "on-secondary": "#ffffff",
+                    "primary": "#000000",
+                    "on-tertiary-container": "#868381",
+                    "surface-tint": "#5f5e5e",
+                    "surface-container-highest": "#e3e2e0",
+                    "on-secondary-container": "#78603e",
+                    "background": "#faf9f7",
+                    "on-surface": "#1a1c1b",
+                    "on-primary-container": "#858383",
+                    "tertiary-fixed-dim": "#cac6c3",
+                    "on-surface-variant": "#444748",
+                    "surface": "#faf9f7",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "outline-variant": "#c4c7c7",
+                    "secondary-container": "#fedeb2",
+                    "primary-container": "#1c1b1b",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#281800",
+                    "surface-variant": "#e3e2e0",
+                    "surface-dim": "#dadad8",
+                    "inverse-on-surface": "#f1f1ef",
+                    "secondary-fixed": "#fedeb2",
+                    "on-tertiary-fixed": "#1d1b1a",
+                    "on-primary-fixed": "#1c1b1b",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#484645",
+                    "on-error": "#ffffff",
+                    "secondary": "#725b38",
+                    "on-secondary-fixed-variant": "#584323",
+                    "outline": "#747878",
+                    "inverse-primary": "#c8c6c5",
+                    "surface-container": "#efeeec",
+                    "inverse-surface": "#2f3130",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#e5e2e1",
+                    "secondary-fixed-dim": "#e0c298",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#000000",
+                    "surface-bright": "#faf9f7",
+                    "on-background": "#1a1c1b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max-width": "1200px",
+                    "margin-mobile": "24px",
+                    "gutter": "32px",
+                    "section-gap": "128px",
+                    "unit": "4px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "headline-md": ["EB Garamond"],
+                    "button": ["Outfit"],
+                    "body-lg": ["Outfit"],
+                    "body-md": ["Outfit"],
+                    "label-caps": ["Outfit"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "button": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "300"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #faf9f7;
+            -webkit-font-smoothing: antialiased;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 32px;
+        }
+        .vertical-divider {
+            width: 1px;
+            background-color: #c4c7c7;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar -->
+<header class="w-full top-0 sticky z-50 bg-background border-b border-outline-variant">
+<nav class="flex justify-between items-center w-full px-6 md:px-margin-desktop py-6 max-w-container-max-width mx-auto">
+<div class="font-headline-md text-headline-md tracking-widest text-primary">STUDIO AURA</div>
+<!-- Desktop Links -->
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-label-caps text-label-caps text-on-surface-variant pb-1 hover:text-primary transition-colors duration-300" href="#">PORTFOLIO</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant pb-1 hover:text-primary transition-colors duration-300" href="#">SERVICES</a>
+<a class="font-label-caps text-label-caps text-primary border-b border-primary pb-1" href="#">ABOUT</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant pb-1 hover:text-primary transition-colors duration-300" href="#">CONTACT</a>
+</div>
+<button class="hidden md:block bg-primary text-on-primary px-8 py-3 font-button text-button transition-all duration-300 hover:bg-secondary">
+                BOOK CONSULTATION
+            </button>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</nav>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="w-full h-[819px] overflow-hidden relative">
+<img alt="The Studio Aura workspace" class="w-full h-full object-cover grayscale brightness-90 transition-transform duration-1000 hover:scale-105" data-alt="A sun-drenched, minimalist architecture studio workspace featuring expansive windows and high ceilings. The interior is characterized by a monochromatic palette of whites and soft greys with natural wood accents. Architectural models and rolls of drafting paper are neatly arranged on a long charcoal-colored communal table. The atmosphere is calm, quiet, and professional, bathed in a soft afternoon glow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq5ysJTrrWTlYgp5_6zd762ppWrQmqo2bvxX6RomSYe_hFmglFTf5yLNklXuFvyUgZBq5LVoEmaVvcwZ_Lwdi_s2bay_Bg3SA58USgB2jaIAiStb8kUusyg6l9w9oTWlM0o-2UPo1-LBPe2KYXn3YVs9ylFstHy4mvQDFNFEghDSAglGjvuwiC1bKwXMOcGb15Yy4hN7OgsrR5_lESPK9AudJSlxL_odcUt-LTQRbjADDrO5OUF2KqSBZ8QUxHSYz9cgQKRIha9A8"/>
+<div class="absolute inset-0 flex items-end p-margin-mobile md:p-margin-desktop">
+<h1 class="font-display-lg-mobile md:text-display-lg font-display-lg text-on-primary drop-shadow-sm max-w-2xl">
+                    Crafting spaces that resonate with the human spirit.
+                </h1>
+</div>
+</section>
+<!-- Philosophy Section -->
+<section class="max-w-container-max-width mx-auto px-6 md:px-margin-desktop mt-section-gap">
+<div class="editorial-grid">
+<div class="col-span-12 md:col-span-5">
+<span class="font-label-caps text-label-caps text-secondary mb-4 block">PHILOSOPHY</span>
+<h2 class="font-headline-md text-headline-md text-primary mb-8">The Poetics of Space</h2>
+</div>
+<div class="col-span-12 md:col-start-7 md:col-span-6 border-t border-outline-variant pt-8 md:pt-0 md:border-t-0">
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 leading-relaxed">
+                        At Studio Aura, we believe architecture is more than just structure; it is an emotional experience. Our approach, rooted in the 'poetics of space', focuses on the interplay of natural light, the honesty of raw materials, and the silent resonance of empty volumes.
+                    </p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                        We avoid the ephemeral nature of trends, opting instead for a timeless minimalism that honors the site and its occupants. Every line we draw is intentional, every shadow curated to evoke a sense of calm and clarity in an increasingly noisy world.
+                    </p>
+<div class="pt-8 border-t border-outline-variant w-24"></div>
+</div>
+</div>
+</section>
+<!-- Team Section -->
+<section class="max-w-container-max-width mx-auto px-6 md:px-margin-desktop mt-section-gap">
+<span class="font-label-caps text-label-caps text-secondary mb-12 block text-center">THE ARCHITECTS OF AURA</span>
+<div class="editorial-grid">
+<!-- Team Member 1 -->
+<div class="col-span-12 md:col-span-4 mb-12 md:mb-0 group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden mb-6 bg-surface-container">
+<img alt="Elena Vance" class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0" data-alt="A professional portrait of a woman with a confident expression, dressed in a minimalist black turtleneck. She stands against a neutral, off-white gallery wall in soft, diffused lighting. The image captures a sense of quiet luxury and intellectual authority. The composition is clean and editorial, using a shallow depth of field to emphasize the subject's thoughtful gaze." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0UHkG1W0nX-M5PrfTXPa3l7-5HXhRH-YRcDcuwMP_MmiqZJMRZTgYxYZBSjq2fktvz9DQvgPvecpDz_hmDcVb10s-dFFv-pqA_KOPMQO_Hkikaq8OFXnywJ_bwyOtXoMcNTQ0hcGTTsX_jLjo4axdaOae1WLnGSeMedNibyRtBF-9EWgo07D_1JajaltGPRRnEQGlID1A2VAm7LtJFGqE7pcVjZfjKVm8iMPb1TLELZ_xQxIy4sBVh3NFmM4BwYZslDr2iID40ng"/>
+</div>
+<div class="border-l border-primary pl-4">
+<h3 class="font-headline-sm text-headline-sm text-primary">Elena Vance</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">PRINCIPAL ARCHITECT</p>
+</div>
+</div>
+<!-- Team Member 2 -->
+<div class="col-span-12 md:col-span-4 mb-12 md:mb-0 group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden mb-6 bg-surface-container">
+<img alt="Julian Thorne" class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0" data-alt="A portrait of a male interior designer leaning against a large window with city views in the background. He is wearing a dark, textured blazer over a simple white tee. The lighting is natural and directional, creating soft shadows across his face. The overall aesthetic is modern, minimalist, and high-end, evoking a sense of creative focus and refined taste." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA-N5liX_Yb5yU7XjrqCX7PKUFDK0JVCLV-p69QO2daNLmmjYxqEUvPTpwUzPufhf8Eq8SnxlRIszwuq3a6KURESY4MIDXDLHjpQ6DnSJjazjivRCAMdslqRS02LOJ-lasIcdcdh-8mVqNlrDB6RqlaV3b_qc6NbytvnyQ6Pxi8ElDTY6HcOWQ3muZXAdD6tLYLRiHQM50y7CYDotfhdq4uCWJByZH9dRPxtSoVmQWRcswYpb9_uQnpPBEIHtUxTMcKf16PPyoCd4"/>
+</div>
+<div class="border-l border-primary pl-4">
+<h3 class="font-headline-sm text-headline-sm text-primary">Julian Thorne</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">INTERIOR LEAD</p>
+</div>
+</div>
+<!-- Team Member 3 -->
+<div class="col-span-12 md:col-span-4 group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden mb-6 bg-surface-container">
+<img alt="Sana Ahmed" class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0" data-alt="Close-up editorial portrait of a woman with an artistic aesthetic, wearing subtle silver jewelry and a light linen shirt. Her hair is styled in a clean, professional manner. She is positioned in a bright studio space filled with soft, reflected light. The mood is serene and focused, representing a high level of expertise and attention to detail within a modern design firm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFpXPwJjL9odGGPS0ec8ctZYX6VXwMWCcXC-3Mcl-db41nn5Lh8M9bIoZGRXJKO1o0rvhmBbqkIwfIsViRc7FcNkMJ2WyWjvuS49e3xE0eN45UXH-DY0Kmq1tofgHAR3zQHuTXbKKEzy0mJdoiRC1uAY-pGs1U7eBzO28nz6jEMP2RRtUYmJ5QkLlpdVQkZ07_E7Tvvrgsz-z80gL6hRvCloHJ3mK6BXqfqzWv-0qnzqpB_JRHoKGH740uPyshB5tt7FB3ukTfKx8"/>
+</div>
+<div class="border-l border-primary pl-4">
+<h3 class="font-headline-sm text-headline-sm text-primary">Sana Ahmed</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">PROJECT DIRECTOR</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="bg-surface-container-low py-24 mt-section-gap border-y border-outline-variant">
+<div class="max-w-container-max-width mx-auto px-6 md:px-margin-desktop">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter text-center">
+<div>
+<div class="font-display-lg text-display-lg text-primary">12</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.2em] mt-2">YEARS OF PRACTICE</div>
+</div>
+<div>
+<div class="font-display-lg text-display-lg text-primary">85</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.2em] mt-2">COMPLETED WORKS</div>
+</div>
+<div>
+<div class="font-display-lg text-display-lg text-primary">24</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.2em] mt-2">DESIGN AWARDS</div>
+</div>
+<div>
+<div class="font-display-lg text-display-lg text-primary">06</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.2em] mt-2">GLOBAL STUDIOS</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Partners Section -->
+<section class="max-w-container-max-width mx-auto px-6 md:px-margin-desktop mt-section-gap">
+<div class="flex flex-col md:flex-row justify-between items-start mb-16">
+<h2 class="font-headline-md text-headline-md text-primary max-w-xs mb-8 md:mb-0">Collaborating with the world's finest artisans.</h2>
+<div class="w-full md:w-2/3">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
+<div class="border-b border-outline-variant pb-4 flex justify-between items-center group cursor-default">
+<span class="font-label-caps text-label-caps group-hover:text-secondary transition-colors">CARRARA STONE GUILD</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_outward</span>
+</div>
+<div class="border-b border-outline-variant pb-4 flex justify-between items-center group cursor-default">
+<span class="font-label-caps text-label-caps group-hover:text-secondary transition-colors">VITRA COLLECTIONS</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_outward</span>
+</div>
+<div class="border-b border-outline-variant pb-4 flex justify-between items-center group cursor-default">
+<span class="font-label-caps text-label-caps group-hover:text-secondary transition-colors">NORDIC LUMEN WORKS</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_outward</span>
+</div>
+<div class="border-b border-outline-variant pb-4 flex justify-between items-center group cursor-default">
+<span class="font-label-caps text-label-caps group-hover:text-secondary transition-colors">TEXTURA WEAVERS</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_outward</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="w-full bg-primary text-on-primary py-section-gap mt-section-gap overflow-hidden relative">
+<div class="max-w-container-max-width mx-auto px-6 md:px-margin-desktop text-center relative z-10">
+<span class="font-label-caps text-label-caps tracking-[0.3em] mb-8 block opacity-60">START A DIALOGUE</span>
+<h2 class="font-display-lg text-display-lg mb-12">Collaborate With Us</h2>
+<a class="inline-block border border-on-primary px-12 py-5 font-button text-button transition-all duration-500 hover:bg-on-primary hover:text-primary" href="#">
+                    REQUEST A CONSULTATION
+                </a>
+</div>
+<!-- Atmospheric micro-interaction element -->
+<div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none bg-[radial-gradient(circle_at_var(--x)_var(--y),_#ffffff33_0%,_transparent_50%)]" id="glow-effect"></div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap border-t border-outline-variant bg-background">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-6 md:px-margin-desktop py-16 max-w-container-max-width mx-auto">
+<div class="md:col-span-4">
+<div class="font-headline-sm text-headline-sm tracking-widest text-primary mb-6">STUDIO AURA</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">
+                    Elevating the human condition through minimalist spatial design and intentional materiality.
+                </p>
+</div>
+<div class="md:col-start-6 md:col-span-3 flex flex-col gap-4">
+<span class="font-label-caps text-label-caps text-primary mb-2">NAVIGATE</span>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">INSTAGRAM</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">PINTEREST</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">JOURNAL</a>
+</div>
+<div class="md:col-span-3 flex flex-col gap-4">
+<span class="font-label-caps text-label-caps text-primary mb-2">OFFICE</span>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">CAREERS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">PRIVACY</a>
+<div class="mt-4 font-body-md text-body-md text-on-surface-variant opacity-60">
+                    © 2024 STUDIO AURA. ALL RIGHTS RESERVED.
+                </div>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for the Final CTA section
+        const ctaSection = document.querySelector('.bg-primary');
+        const glowEffect = document.getElementById('glow-effect');
+
+        ctaSection.addEventListener('mousemove', (e) => {
+            const rect = ctaSection.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            glowEffect.style.setProperty('--x', `${x}px`);
+            glowEffect.style.setProperty('--y', `${y}px`);
+        });
+
+        // Smooth scroll appearance
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-8');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-8');
+                observer.observe(section);
+            });
+        });
+    </script>
+</body></html>

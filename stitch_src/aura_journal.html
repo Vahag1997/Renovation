@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed": "#e6e1df",
+                    "tertiary-container": "#1d1b1a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#474646",
+                    "surface-container-low": "#f4f3f1",
+                    "surface-container-high": "#e9e8e6",
+                    "on-secondary": "#ffffff",
+                    "primary": "#000000",
+                    "on-tertiary-container": "#868381",
+                    "surface-tint": "#5f5e5e",
+                    "surface-container-highest": "#e3e2e0",
+                    "on-secondary-container": "#78603e",
+                    "background": "#faf9f7",
+                    "on-surface": "#1a1c1b",
+                    "on-primary-container": "#858383",
+                    "tertiary-fixed-dim": "#cac6c3",
+                    "on-surface-variant": "#444748",
+                    "surface": "#faf9f7",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "outline-variant": "#c4c7c7",
+                    "secondary-container": "#fedeb2",
+                    "primary-container": "#1c1b1b",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#281800",
+                    "surface-variant": "#e3e2e0",
+                    "surface-dim": "#dadad8",
+                    "inverse-on-surface": "#f1f1ef",
+                    "secondary-fixed": "#fedeb2",
+                    "on-tertiary-fixed": "#1d1b1a",
+                    "on-primary-fixed": "#1c1b1b",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#484645",
+                    "on-error": "#ffffff",
+                    "secondary": "#725b38",
+                    "on-secondary-fixed-variant": "#584323",
+                    "outline": "#747878",
+                    "inverse-primary": "#c8c6c5",
+                    "surface-container": "#efeeec",
+                    "inverse-surface": "#2f3130",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#e5e2e1",
+                    "secondary-fixed-dim": "#e0c298",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#000000",
+                    "surface-bright": "#faf9f7",
+                    "on-background": "#1a1c1b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max-width": "1200px",
+                    "margin-mobile": "24px",
+                    "gutter": "32px",
+                    "section-gap": "128px",
+                    "unit": "4px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "headline-md": ["ebGaramond"],
+                    "button": ["outfit"],
+                    "body-lg": ["outfit"],
+                    "body-md": ["outfit"],
+                    "label-caps": ["outfit"],
+                    "headline-sm": ["ebGaramond"],
+                    "display-lg-mobile": ["ebGaramond"],
+                    "display-lg": ["ebGaramond"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "button": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "300"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #faf9f7; color: #1a1c1b; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .ebGaramond { font-family: 'EB Garamond', serif; }
+        .outfit { font-family: 'Outfit', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="w-full top-0 sticky z-50 bg-background border-b border-outline-variant">
+<div class="flex justify-between items-center w-full px-margin-desktop py-6 max-w-container-max-width mx-auto">
+<div class="font-headline-md text-headline-md tracking-widest text-primary">STUDIO AURA</div>
+<div class="hidden md:flex gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300 pb-1" href="#">PORTFOLIO</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300 pb-1" href="#">SERVICES</a>
+<a class="font-label-caps text-label-caps text-primary border-b border-primary pb-1" href="#">JOURNAL</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300 pb-1" href="#">ABOUT</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300 pb-1" href="#">CONTACT</a>
+</div>
+<button class="font-button text-button bg-primary text-on-primary px-6 py-3 uppercase transition-all duration-300 hover:opacity-90">
+                BOOK CONSULTATION
+            </button>
+</div>
+</nav>
+<!-- Hero: Featured Article -->
+<header class="max-w-container-max-width mx-auto px-margin-desktop mt-12 mb-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-7 order-2 md:order-1">
+<p class="font-label-caps text-label-caps text-secondary mb-4">FEATURED EDITORIAL</p>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-8 max-w-2xl">The Art of Light in Urban Dwellings</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-lg">
+                    Exploring how natural illumination transforms concrete structures into breathing sanctuaries, redefining the relationship between density and serenity.
+                </p>
+<a class="group flex items-center gap-2 font-button text-button text-primary border-b border-primary w-fit pb-1 transition-all" href="#">
+                    READ ARTICLE 
+                    <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="md:col-span-5 order-1 md:order-2 mb-8 md:mb-0">
+<div class="aspect-[4/5] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" data-alt="A sophisticated architectural photograph of a minimalist urban apartment interior. High-contrast natural sunlight streams through floor-to-ceiling windows, creating dramatic sharp shadows across pristine white walls and a charcoal grey designer chair. The atmosphere is one of quiet luxury and editorial calm, emphasizing the interplay of light and dark in a modern boutique aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVA6ZQ0FkfMxzbXC5Aq-li57WxOA75PBXsbTn_diD8trmGU9EWt8oiYXnJknso1UoqQ-EncDiJFYhmh9OnLOM4Zn1dq1E9vxhagm6_tIk-lmKjd9EOO6bSDOYsk6_7Zb4JyGfIptDmZgu01cLu0S7nbZeLeAXf2POqCSE4WNsmbpJXAxu2QH9SvgAgGX_q4Rwcv-iaf1I4EeS4uiD8_L_7iP82URVefT4wvArudklM0Jcb01jBqcMxBcrOdK3of6_oQJ8cKLFWFzg"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Categories / Filter -->
+<section class="max-w-container-max-width mx-auto px-margin-desktop mb-12">
+<div class="flex flex-wrap items-center gap-x-12 gap-y-4 border-b border-outline-variant pb-6">
+<span class="font-label-caps text-label-caps text-on-surface-variant opacity-50 uppercase">Filter by</span>
+<a class="font-label-caps text-label-caps text-primary border-b border-primary" href="#">ALL POSTS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">MATERIALS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">ARCHITECTURE</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">LIGHTING</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">PROCESS</a>
+</div>
+</section>
+<!-- Article Grid (Masonry Style) -->
+<main class="max-w-container-max-width mx-auto px-margin-desktop mb-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Article 1 -->
+<article class="md:col-span-6 mb-16">
+<div class="aspect-square bg-surface-container-low overflow-hidden mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" data-alt="Close-up detail of high-end tactile building materials. A slab of rough-hewn grey travertine rests against a smooth, polished bronze panel. The lighting is soft and lateral, highlighting the deep textures of the stone and the warm metallic sheen of the bronze, reflecting a quiet luxury aesthetic focused on materiality and craft." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-LQqWSSgEcVGEwMh2ZWXsL5IWebtlPvtLTUa-t_Pxmnh9DtDLFBkI4B0iNEZ48bi4cbDvitk6YXrC_-iDFyoIQzmwXcY0J5EFkqM-qo3FROkfqd-1i8dnX5DuRahCsXHcA8UXaq_m4riYwBD6-wLS4gCIK2UZJTG-sKa8RfrhkGUWqq-KJR1uGJ9156DthO2o7L7aNnIeJrUKYlJqUS19JRjnIKF2HRc3z_C3XWoBZPBZ7F5VU8PTOfFDeK4QBVNfs8Kz4t6YrBY"/>
+</div>
+<p class="font-label-caps text-label-caps text-secondary mb-2">MATERIALITY</p>
+<h3 class="font-headline-sm text-headline-sm mb-4">The Honesty of Raw Stone: A Tactile Journey</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">Why we are returning to unpolished minerals and volcanic rock in contemporary interiors.</p>
+<a class="font-label-caps text-label-caps text-primary border-b border-outline-variant hover:border-primary pb-1 transition-all" href="#">READ MORE</a>
+</article>
+<!-- Article 2 -->
+<article class="md:col-span-6 md:mt-24 mb-16">
+<div class="aspect-[3/4] bg-surface-container-low overflow-hidden mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" data-alt="An abstract architectural view of a spiraling white staircase in a modern museum. The composition is highly geometric and minimalist, with stark lines and expansive negative space. Bright, even lighting illuminates the curves of the structure, creating a sense of infinite movement and sophisticated architectural design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC88Is6Dabn2k2S548CO1fFYf39ryZAiKClle5oaa-rT6JeU8vTx7a-eZeNfjwCuYfsCtym9swUxjaHGGGZdwKFx6u1yPTX6f8YvW2KCTfg1gJ-Nb5GYzHdXn2aZMDlH-Ucv9FbfDQzV45AjrkUc27A7A1PO2zfBKwM4m3bGfgFj174IRt3lQ1h4iX9FV2VdtH7N-QOix7qGyFg_lLpkZNRC8dWqJunaNHijkuhu_Sggy01Xkcm3bHxYCOh7WMpu7ahUfWMr_vGGxg"/>
+</div>
+<p class="font-label-caps text-label-caps text-secondary mb-2">ARCHITECTURE</p>
+<h3 class="font-headline-sm text-headline-sm mb-4">Form Follows Feeling: Beyond Functionalism</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">Reframing the emotional response to residential volume and spatial rhythm.</p>
+<a class="font-label-caps text-label-caps text-primary border-b border-outline-variant hover:border-primary pb-1 transition-all" href="#">READ MORE</a>
+</article>
+<!-- Article 3 -->
+<article class="md:col-span-4 mb-16">
+<div class="aspect-video bg-surface-container-low overflow-hidden mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" data-alt="Interior view of a designer studio with drawing boards and architectural models. Soft, moody lighting catches the edge of a drafting table where sketches are laid out. The color palette is monochromatic with warm wood accents, emphasizing the intentional and disciplined creative process of a modern design boutique." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJN0Irzz1kxNNiVmz3QXtr0ERqI9fEC7DOGb6K0aqcMgPOJIKVS3xUiKp8sZStDdVqK1TcjmH2OU_5yaKiKPS6fMuH3nERt7BPfIlEEt87Wnsh3qhS6aBR7fCPftPot2trv-a0KE5uAt2l_-2euhdJkhiCzarc83patVRobcEy9s2jYdbO9p4SSR3sB4CbswttkZ9fgQdMhNfw53D941Y6bmxMpw0ZNB_5B0KpM3FoWNkNVVR8tS_xJ9cmMiedPJL1Mw3RT880Spk"/>
+</div>
+<p class="font-label-caps text-label-caps text-secondary mb-2">PROCESS</p>
+<h3 class="font-headline-sm text-headline-sm mb-4">The Discipline of the Sketch</h3>
+<a class="font-label-caps text-label-caps text-primary border-b border-outline-variant hover:border-primary pb-1 transition-all" href="#">READ MORE</a>
+</article>
+<!-- Article 4 -->
+<article class="md:col-span-8 mb-16">
+<div class="aspect-[16/9] bg-surface-container-low overflow-hidden mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" data-alt="A wide-angle shot of a minimalist luxury lounge area at dusk. Floor lamps with soft, warm golden glows create pockets of intimacy in a large, open-plan space with dark charcoal furniture. The mood is serene and exclusive, highlighting the sophisticated atmosphere achieved through curated lighting in a high-end interior setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ9mZzaYMgV1GYH6-lumxUBi081kndTC7FAKIrRin9b_s4jPf_FeIijoGe-OP_R1lhUJAB5BYEOTRTI0udaX754ykNYC6uglvFRZMdu3lxG8ReEoowTxRvCQz1uGgQQDl9znzeK7DI_Z47EEm4IYvih1dWeABs71HiMYDldB1RIK_GwDAE3jspyWH9rmd2vFdiaEPO_MDEOV_d5Q_Pqk0a8RErDgaaKXUTsuaDC46ebBKLAt7jSAnc5YBjqVdiAPAUaKoFlYMF00A"/>
+</div>
+<p class="font-label-caps text-label-caps text-secondary mb-2">LIGHTING</p>
+<h3 class="font-headline-sm text-headline-sm mb-4">Atmospheric Intimacy: Designing for the Golden Hour</h3>
+<a class="font-label-caps text-label-caps text-primary border-b border-outline-variant hover:border-primary pb-1 transition-all" href="#">READ MORE</a>
+</article>
+</div>
+</main>
+<!-- Newsletter Signup -->
+<section class="bg-surface-container-low py-section-gap">
+<div class="max-w-container-max-width mx-auto px-margin-desktop text-center">
+<div class="max-w-2xl mx-auto border border-outline-variant p-12 md:p-24 bg-background">
+<p class="font-label-caps text-label-caps text-secondary mb-4">THE INNER CIRCLE</p>
+<h2 class="font-headline-md text-headline-md mb-8">Join our Inner Circle for curated design insights.</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-12">Receive monthly editorials on architecture, materiality, and the quiet luxury lifestyle.</p>
+<form class="flex flex-col md:flex-row gap-4 items-end">
+<div class="w-full text-left">
+<label class="font-label-caps text-[10px] text-on-surface-variant mb-2 block">EMAIL ADDRESS</label>
+<input class="w-full bg-transparent border-0 border-b border-primary px-0 py-3 focus:ring-0 font-body-md placeholder:text-outline" placeholder="email@example.com" type="email"/>
+</div>
+<button class="w-full md:w-auto bg-primary text-on-primary font-button text-button px-12 py-4 uppercase hover:bg-opacity-90 transition-all whitespace-nowrap" type="submit">
+                        SUBSCRIBE
+                    </button>
+</form>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full mt-section-gap bg-background border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop py-16 max-w-container-max-width mx-auto items-start">
+<div class="md:col-span-4">
+<div class="font-headline-sm text-headline-sm tracking-widest text-primary mb-8">STUDIO AURA</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">A multidisciplinary design studio dedicated to the pursuit of quiet luxury and intentional living.</p>
+</div>
+<div class="md:col-span-4 grid grid-cols-2 gap-8">
+<div class="flex flex-col gap-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">INSTAGRAM</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">PINTEREST</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">JOURNAL</a>
+</div>
+<div class="flex flex-col gap-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">CAREERS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">PRIVACY</a>
+</div>
+</div>
+<div class="md:col-span-4 text-left md:text-right flex flex-col justify-between h-full">
+<p class="font-label-caps text-label-caps text-on-surface-variant">© 2024 STUDIO AURA. ALL RIGHTS RESERVED.</p>
+<div class="mt-8 flex gap-6 md:justify-end">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-50 transition-opacity">search</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-50 transition-opacity">share</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Simple scroll reveal effect for images
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img');
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100');
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            images.forEach(img => {
+                img.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                img.style.transform = 'translateY(20px)';
+                img.classList.add('opacity-0');
+                observer.observe(img);
+            });
+        });
+    </script>
+</body></html>

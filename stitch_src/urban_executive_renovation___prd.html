@@ -1,0 +1,176 @@
+# Urban Executive Renovation
+
+## Product Overview
+
+**The Pitch:** A premium, data-rich corporate web platform for high-end urban construction and renovation. It merges architectural precision with transparent pricing, converting high-net-worth clients through technical proof and glassmorphic aesthetics.
+
+**For:** Real estate investors and luxury homeowners who value exact budgets, rigid timelines, and flawless execution over generic sales pitches.
+
+**Device:** desktop
+
+**Design Direction:** Architectural, transparent, and precise. Heavy use of technical data grids, frosted glass overlays (glassmorphism), and sharp typography to communicate absolute competence.
+
+**Inspired by:** Foster + Partners, high-end fintech dashboards (like Stripe or Linear)
+
+---
+
+## Screens
+
+- **Home - Hero & Tiers:** Split-screen landing view and detailed package comparison
+- **Home - Portfolio Index:** Data-rich grid of past projects with strict budget/timeline metrics
+- **Home - Process & Trust:** Horizontal technical timeline and company performance metrics
+- **Cost Calculator Modal:** Multi-step estimation engine with instant dynamic quotes
+- **Project Detail Overlay:** Deep dive into a single project featuring before/after sliders and architectural blueprints
+
+---
+
+## Key Flows
+
+**Generate Project Estimate:** Converts anonymous traffic into qualified leads.
+
+1. User is on **Home - Hero & Tiers** -> sees **"Calculate exact cost"** primary CTA
+2. User clicks **"Calculate exact cost"** -> **Cost Calculator Modal** slides up with a frosted glass backdrop
+3. User inputs square footage and selects the "Executive" tier -> instant budget range generates, prompting email capture for the detailed breakdown
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#C5A059` - Metallic bronze highlights, CTAs, active states
+- **Background:** `#F0F2F5` - Cool slate gray
+- **Surface:** `rgba(255, 255, 255, 0.7)` - Glassmorphic cards, overlaid modules
+- **Text:** `#111827` - High-contrast graphite for maximum readability
+- **Muted:** `#6B7280` - Secondary data labels, grid lines, subtle borders
+- **Accent:** `#2563EB` - Blueprint blue for technical diagrams and links
+
+## Typography
+
+Choose fonts that are **distinctive and characterful**, not generic defaults.
+
+- **Headings:** `Space Grotesk`, 700, 32-64px
+- **Body:** `IBM Plex Sans`, 400, 16px
+- **Small text:** `IBM Plex Mono`, 400, 13px (Used for all data points, budgets, and measurements)
+- **Buttons:** `Space Grotesk`, 600, 15px, uppercase
+
+**Style notes:** Sharp 2px border radii, backdrop-blur for depth, 1px solid `rgba(255,255,255,0.4)` borders on all cards to simulate glass edges. Subtle drop shadow `0 8px 32px rgba(17, 24, 39, 0.05)`.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #C5A059;
+  --color-background: #F0F2F5;
+  --color-surface: rgba(255, 255, 255, 0.7);
+  --color-text: #111827;
+  --color-muted: #6B7280;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 2px;
+  --spacing-base: 8px;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Home - Hero & Tiers
+
+**Purpose:** Instantly establish architectural competence and define service boundaries.
+
+**Layout:** 60/40 split hero section followed by a 3-column CSS grid for pricing tiers.
+
+**Key Elements:**
+- **Split Hero Graphic:** Left side shows an interactive CAD blueprint (blue lines on white); right side shows the hyper-realistic finished apartment.
+- **Top Bar:** Fixed `h-16`, `backdrop-blur-md`. Logo left, navigation center, "Client Portal" login right.
+- **Tier Cards:** Standard, Business, Executive. Each card features `backdrop-blur-lg`, list of 15+ technical deliverables, and a primary CTA. Executive card bordered in `#C5A059`.
+
+**States:**
+- **Hover Tier Card:** Lifts `4px`, shadow intensifies to `0 12px 40px rgba(0,0,0,0.1)`, list icons turn bronze.
+
+**Components:**
+- **Hero Headline:** `Space Grotesk`, 64px, "Precision Engineering for Urban Spaces"
+- **Data Ticker:** Scrolling `h-8` bar below hero showing live company stats (e.g., `Projects Active: 14 | Avg Variance: 0.4%`)
+
+### Home - Portfolio Index
+
+**Purpose:** Prove competence through strict, data-backed case studies.
+
+**Layout:** Edge-to-edge masonry grid.
+
+**Key Elements:**
+- **Project Cards:** Image background with a dark gradient overlay at the bottom.
+- **Telemetry Overlay:** Persistent bottom-left text on each card showing `IBM Plex Mono` stats: `142m² | 4.5 Mo | $215k`.
+- **Filter Bar:** Horizontal list of tags (Penthouses, Lofts, Commercial) acting as a toggle group.
+
+**Interactions:**
+- **Hover Card:** Image scales `1.05x`, gradient darkens, "View Blueprint" button fades in.
+- **Click Filter:** Grid items reshuffle with a 300ms spring animation.
+
+### Home - Process & Trust
+
+**Purpose:** Demystify the construction timeline and guarantee safety.
+
+**Layout:** Center-aligned headers, full-width horizontal timeline spanning screen edge to edge.
+
+**Key Elements:**
+- **Horizontal Timeline:** A single continuous 2px bronze line. 6 distinct nodes (Consult, Blueprint, Demo, Build, Finish, Handover).
+- **Stat Blocks:** 4 large number counters (`99% On-time`, `10-Year Warranty`, `$0 Hidden Fees`, `50+ Engineers`).
+- **Video Trigger:** Glassmorphic play button centered over a blurred construction site thumbnail.
+
+**Interactions:**
+- **Scroll Timeline:** Progress bar fills with bronze color as user scrolls down the page.
+
+### Cost Calculator Modal
+
+**Purpose:** Frictionless, high-intent lead generation.
+
+**Layout:** Centered `600px` modal over a darkened, blurred background.
+
+**Key Elements:**
+- **Input Slider:** Custom slider with bronze handle for "Square Meters" (`50m²` to `500m²`).
+- **Dropdown Selectors:** Scope of work (Cosmetic, Structural, Full-Cycle).
+- **Live Output:** Sticky bottom bar showing dynamic cost (e.g., `$120,000 - $145,000`) and a "Send Full Proposal" form field.
+
+**States:**
+- **Loading:** Output text pulses with a skeletal shimmer while calculating.
+- **Error:** Red `1px` border on inputs if email is invalid, shaking animation `200ms`.
+
+### Project Detail Overlay
+
+**Purpose:** Deep dive into a specific build to show mastery of detail.
+
+**Layout:** Full-screen takeover, closing via top-right `X` or `Esc` key.
+
+**Key Elements:**
+- **Before/After Slider:** `w-full h-96` container with a vertical draggable handle separating the concrete shell from the finished luxury room.
+- **Spec Sheet:** 2-column list of materials used (e.g., `Flooring: European Oak, 14mm`, `HVAC: Daikin VRV`).
+- **Financial Breakdown:** Circular chart showing budget distribution (Materials, Labor, Permits).
+
+**Interactions:**
+- **Drag Slider:** Immediate 1:1 follow of mouse cursor.
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML + Tailwind CSS v3
+
+**Build Order:**
+1. **Home - Hero & Tiers** - Establishes the core glassmorphism effect, grid structures, and typography hierarchy.
+2. **Cost Calculator Modal** - Forces implementation of input forms, exact bronze accents, and interactive state management.
+3. **Home - Portfolio Index** - Standardizes the masonry grid and image overlay treatments.
+4. **Project Detail Overlay** - Leverages the portfolio index for routing, introduces the complex before/after slider component.
+5. **Home - Process & Trust** - Completes the scroll-linked animations and static content blocks.
+
+</details>

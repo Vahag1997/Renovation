@@ -1,0 +1,179 @@
+# Modern Minimalist Boutique
+
+## Product Overview
+
+**The Pitch:** An editorial-style, highly visual digital storefront for a premium interior design and renovation studio. It transforms the standard contractor portfolio into a high-end magazine experience to attract affluent clients.
+
+**For:** Luxury homeowners and real estate investors who value aesthetics, craftsmanship, and a seamless, high-touch design experience.
+
+**Device:** desktop
+
+**Design Direction:** Clean, contemporary, editorial magazine feel. Off-white canvases disrupted by high-contrast typography, large-scale photography, thin elegant lines, and subtle gold accents.
+
+**Inspired by:** Kinfolk Magazine, Architectural Digest digital, premium fashion e-commerce (e.g., Celine, SSENSE).
+
+---
+
+## Screens
+
+- **Home:** Editorial hero entry, brand story, and aesthetic introduction
+- **Services:** Minimalist tier breakdowns for renovation and interior design
+- **Portfolio:** Asymmetrical grid showcasing high-resolution project photography
+- **Contact:** Sleek lead capture form and studio contact details
+
+---
+
+## Key Flows
+
+**Lead Generation:** User discovers the brand and requests a consultation.
+
+1. User is on Home -> sees large editorial hero with 'Apartment Renovation & Design'
+2. User clicks **View Services** -> scrolls smoothly to Services screen
+3. User selects **Exclusive Package** -> clicks **Calculate Cost**
+4. User fills sleek single-column form on Contact screen -> clicks **Submit Inquiry**
+5. Form replaces with minimal success message: "Your inquiry is received. Our designers will reach out within 24 hours."
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#111111` - Buttons, links, CTAs, thin dividers
+- **Background:** `#F9F8F6` - Main page background, off-white paper feel
+- **Surface:** `#FFFFFF` - Service cards, form backgrounds
+- **Text:** `#111111` - Body text, headings
+- **Muted:** `#888888` - Secondary text, captions, subtle borders
+- **Accent:** `#C5A880` - Subtle gold highlights, active states, special typography
+
+## Typography
+
+- **Headings:** `Cormorant Garamond`, 400 & 600, 32-72px
+- **Body:** `Outfit`, 300, 16px
+- **Small text:** `Outfit`, 300, 13px, uppercase tracking
+- **Buttons:** `Outfit`, 400, 14px, uppercase, 2px letter-spacing
+
+**Style notes:** Sharp corners (`0px` border radius). Flat design. No drop shadows. Emphasis on 1px solid black or muted grey lines to separate sections, creating an editorial grid structure. High negative space.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #111111;
+  --color-background: #F9F8F6;
+  --color-surface: #FFFFFF;
+  --color-text: #111111;
+  --color-muted: #888888;
+  --color-accent: #C5A880;
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Outfit', sans-serif;
+  --radius: 0px;
+  --spacing-sm: 16px;
+  --spacing-md: 32px;
+  --spacing-lg: 80px;
+  --spacing-xl: 120px;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Home
+
+**Purpose:** Hook the user with an immersive, magazine-like first impression and introduce the studio's ethos.
+
+**Layout:** Full-bleed photography top, rigid typography-driven text blocks below.
+
+**Key Elements:**
+- **Contact Bar:** Top 40px, `#111111` background, `#F9F8F6` text, `13px Outfit`. Contains phone, email, and social links aligned right.
+- **Header:** 80px height, `#F9F8F6` background. Centered text logo 'STUDIO AURA' in `24px Cormorant Garamond`. Thin 1px bottom border.
+- **Hero Section:** Full viewport height minus header. High-res interior photo as background. Center-aligned `72px Cormorant Garamond` text: "Apartment Renovation & Design", white color, subtle `#111111` 20% overlay.
+- **About Block:** 2-column layout. Left: `48px` heading "Redefining Space". Right: `16px Outfit` paragraph explaining the studio's philosophy.
+
+**States:**
+- **Loading:** Entire screen fades in from `#F9F8F6` background, images load with a subtle scale-down effect.
+
+**Components:**
+- **Primary Button:** 240x48px, `#111111` background, `#FFFFFF` text. Uppercase, no border radius. "DISCOVER OUR WORK".
+
+**Interactions:**
+- **Hover Primary Button:** Background shifts to `#C5A880` (Gold), text remains `#FFFFFF`. 300ms ease transition.
+
+### Services
+
+**Purpose:** Detail renovation packages and interior design pricing with absolute clarity.
+
+**Layout:** 3-column grid breaking out of a standard container, staggered alignment.
+
+**Key Elements:**
+- **Section Heading:** Centered, `48px Cormorant Garamond`, "Curated Offerings".
+- **Renovation Cards:** 3 vertical cards. White background (`#FFFFFF`), 1px solid `#E5E5E5` border. Titles: "Standard", "Business", "Exclusive" in `24px Cormorant Garamond`.
+- **Feature Lists:** Under each card title, `14px Outfit` bullet points. Checkmarks replaced by thin `#C5A880` dashes.
+- **Design Pricing:** 2-column layout below renovation. "Interior Design" vs "Architectural Planning". Large price text `32px` in `#C5A880`.
+
+**Components:**
+- **Service Card:** 100% height, 40px internal padding. Bottom border expands to 3px `#111111` on hover.
+
+**Interactions:**
+- **Hover Service Card:** 1px border changes to `#111111`. Pointer cursor.
+
+### Portfolio & Process
+
+**Purpose:** Showcase past work as an art gallery and explain the client journey.
+
+**Layout:** Asymmetrical image grid followed by a minimalist vertical timeline.
+
+**Key Elements:**
+- **Image Grid:** 2-column staggered layout. Left column images offset 120px down. Images lack borders, sitting directly on `#F9F8F6`.
+- **Captions:** Below each image, `13px Outfit` uppercase, `#888888`. E.g., "PENTHOUSE / UPPER EAST SIDE".
+- **Process List:** 6-step vertical list. Left column: large numbers `01` to `06` in `64px Cormorant Garamond`, `#E5E5E5`. Right column: Step title and short description.
+
+**Components:**
+- **Process Item:** 1px solid top border. 40px top/bottom padding. Layout: Flex row.
+
+**Interactions:**
+- **Hover Image:** Image desaturates slightly (grayscale 20%), caption text changes to `#111111`.
+
+### Contact
+
+**Purpose:** Drive conversions through a premium, frictionless lead form.
+
+**Layout:** Split screen. Left: Form. Right: Large lifestyle image.
+
+**Key Elements:**
+- **Form Heading:** "Calculate Your Renovation Cost", `40px Cormorant Garamond`.
+- **Inputs:** Minimalist form fields. No background, 1px bottom border only (`#111111`). `16px Outfit` placeholder text.
+- **Fields:** Name, Property Size (sq ft), Service Type (Dropdown), Timeline.
+- **Submit Button:** Full width, `#111111` background, "REQUEST CONSULTATION".
+- **Footer:** Bottom 120px. 4 columns of minimalist text links. `#111111` background, `#FFFFFF` text.
+
+**States:**
+- **Empty Form:** Bottom borders `#888888`.
+- **Active Field:** Bottom border thickens to 2px `#C5A880`.
+- **Error:** Bottom border turns `#D9534F`, small `12px` red text appears below field.
+
+**Interactions:**
+- **Focus Input:** Placeholder translates up to become a `11px` label.
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML + Tailwind CSS v3
+
+**Build Order:**
+1. **Design System Setup:** Configure `tailwind.config.js` with exact fonts (`Cormorant Garamond`, `Outfit`), colors, and disable default border radii.
+2. **Home Screen:** Establish the global header, contact bar, and typography scale. Crucial for locking in the editorial vibe.
+3. **Services Screen:** Build the 3-column grid and card components. Ensures consistent 1px border treatments.
+4. **Portfolio Screen:** Implement the asymmetrical masonry-style image grid and hover states.
+5. **Contact Screen:** Build the specialized input fields (bottom-border only) and footer.
+
+</details>

@@ -1,0 +1,182 @@
+# Architectural Heritage Renovation
+
+## Product Overview
+
+**The Pitch:** A premium digital presence for a high-end, full-cycle interior design and renovation firm. It establishes immediate trust and authority through sophisticated typography, transparent service tiers, and immersive portfolio showcases.
+
+**For:** High-net-worth homeowners and property investors who value turnkey, luxury residential renovations without the stress of project management.
+
+**Device:** desktop
+
+**Design Direction:** Established luxury. Classic architectural elegance meets modern usability, utilizing a warm beige and deep charcoal palette with brushed bronze accents.
+
+**Inspired by:** Restoration Hardware (RH), Architectural Digest
+
+---
+
+## Screens
+
+- **Home Page:** Comprehensive overview of services, pricing, process, and portfolio
+- **Portfolio Detail:** Immersive gallery and case study for a specific completed project
+- **Service Package:** Detailed breakdown of a specific renovation/design tier (e.g., 'Exclusive')
+- **Consultation Modal:** High-conversion lead capture form with trust signals
+
+---
+
+## Key Flows
+
+**Booking a Consultation:** Homeowner requests an initial cost estimate
+1. User is on **Home Page** -> sees Hero CTA `Calculate cost`
+2. User clicks `Calculate cost` -> **Consultation Modal** opens with 4 fields
+3. User submits form -> Success state displays 24-hour response guarantee
+
+**Exploring the Portfolio:** Prospect evaluates past work quality
+1. User is on **Home Page** -> scrolls to `Portfolio` section
+2. User clicks `View project` on a specific card -> navigates to **Portfolio Detail**
+3. User views full image grid and project stats (timeline, budget)
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#B89B72` - Brushed bronze for CTAs, highlights, active states
+- **Background:** `#F9F8F6` - Warm beige page background
+- **Surface:** `#FFFFFF` - Crisp white for service cards, modals, header
+- **Text:** `#2C2A28` - Deep charcoal for maximum readability without harshness
+- **Muted:** `#8E8B87` - Soft gray for secondary text, metadata, subtle borders
+- **Accent:** `#9A805C` - Deepened bronze for hover states
+
+## Typography
+
+- **Headings:** `Playfair Display`, 700, 32-56px
+- **Body:** `Lato`, 400, 16px
+- **Small text:** `Lato`, 400, 14px
+- **Buttons:** `Lato`, 600, 14px, uppercase, 1px letter-spacing
+
+**Style notes:** 8px border radius on cards, generous 120px vertical section spacing, soft ambient shadows (`0 8px 32px rgba(44, 42, 40, 0.06)`), high-contrast serif headlines against clean sans-serif body copy.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #B89B72;
+  --color-background: #F9F8F6;
+  --color-surface: #FFFFFF;
+  --color-text: #2C2A28;
+  --color-muted: #8E8B87;
+  --color-accent: #9A805C;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Lato', sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --spacing-section: 120px;
+  --shadow-card: 0 8px 32px rgba(44, 42, 40, 0.06);
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Home Page
+
+**Purpose:** Primary landing page establishing brand authority and driving consultation bookings
+
+**Layout:** 12-column grid, sticky header, alternating full-width and container-constrained sections
+
+**Key Elements:**
+- **Top Bar:** 40px height, `#2C2A28` background, `#FFFFFF` text. Displays `+1 (800) 555-0199`, `Mon-Fri: 9am - 7pm`, `hello@archheritage.com`
+- **Sticky Header:** 80px height, `#FFFFFF` background. Centered logo, inline navigation, `#B89B72` `Get Consultation` button
+- **Hero Section:** Split 50/50. Left: `Playfair Display` 56px headline "Apartment Renovation and Interior Design from a Trusted Company". Right: Bleed realistic interior image. Trust badges overlapping the image corner.
+- **Renovation Services:** 3-column grid of `#FFFFFF` cards. Each features a price (e.g., `$150 / m²`), feature list with bronze checkmarks, and a secondary outline button `Learn more`.
+- **Portfolio Section:** 2x2 grid of large image cards. Hover reveals dark gradient overlay with stats: `120m² | 4 Rooms | 6 Months`.
+- **Process Timeline:** Vertical connecting line with 6 numbered nodes, alternating left/right text blocks describing the journey.
+- **Lead Form (Bottom):** `#FFFFFF` surface bounded box, 120px padding. Form fields: `Name`, `Phone`, `Area (m²)`, `Service Type` dropdown. Solid `#B89B72` submit button.
+
+**States:**
+- **Loading:** Skeleton screens for portfolio images, fade-in for hero image.
+- **Error:** Inline red `#D9534F` text for validation errors on the lead form.
+
+**Components:**
+- **Pricing Card:** 380px width, `#FFFFFF` background, `--shadow-card`, 32px padding, `--radius-md`
+- **Trust Badge:** 40px height, `#FFFFFF` background, 1px `#B89B72` border, 12px `Lato` text, 24px left-aligned bronze icon
+
+**Interactions:**
+- **Hover Service Card:** Y-axis lift `-8px`, shadow increases to `0 16px 48px rgba(44, 42, 40, 0.12)`
+- **Click 'Calculate cost':** Smooth scroll to Lead Form section
+
+**Responsive:**
+- **Desktop:** 12-column grid, max-width 1280px container
+- **Tablet:** 8-column grid, Services and Portfolio stack 2x2
+- **Mobile:** Hamburger menu, all grids stack 1-column, 40px section padding
+
+### Portfolio Detail
+
+**Purpose:** Showcase project quality, scope, and specific details
+
+**Layout:** Full-width hero image, tight text column (8-cols), masonry gallery grid
+
+**Key Elements:**
+- **Hero:** 60vh height full-bleed image, dark overlay, 48px white `Playfair Display` title "The Wellington Penthouse"
+- **Project Stats Bar:** Full width `#FFFFFF` bar below hero, 4 columns: `Area: 180m²`, `Duration: 8 Months`, `Budget: Confidential`, `Style: Modern Classic`
+- **Narrative Text:** 8-column centered container, 16px `Lato` body text, 32px line-height, drop cap on first letter
+- **Gallery:** 3-column masonry grid of high-res interior photos, 16px gap
+- **Bottom CTA:** Centered block, `#F9F8F6` background, "Want a similar result?", `#B89B72` button `Book Consultation`
+
+**States:**
+- **Loading:** Shimmer effect on masonry gallery blocks
+
+**Interactions:**
+- **Click Gallery Image:** Opens fullscreen lightbox with next/prev arrows
+
+**Responsive:**
+- **Desktop:** 3-column masonry
+- **Tablet:** 2-column masonry
+- **Mobile:** 1-column stacked images, stats bar wraps to 2x2 grid
+
+### Service Package (Exclusive Tier)
+
+**Purpose:** Justify premium pricing by listing exhaustive deliverables
+
+**Layout:** Side navigation (sticky) + Main content area
+
+**Key Elements:**
+- **Header:** 120px padding, `#2C2A28` background, `#FFFFFF` text. "Exclusive Renovation Tier"
+- **Sticky Nav:** Left 3-columns. Links: `Overview`, `Inclusions`, `Exclusions`, `Timeline`
+- **Deliverables List:** Right 9-columns. Two-column bulleted list with `#B89B72` custom icons (floor plans, 3D renders, procurement, weekly reports)
+- **Comparison Table:** Visual matrix comparing Standard, Business, and Exclusive (Exclusive column highlighted with `#F9F8F6` background)
+
+### Consultation Modal
+
+**Purpose:** Focused lead capture
+
+**Layout:** Centered modal overlay, 50/50 split (image/form)
+
+**Key Elements:**
+- **Backdrop:** `#2C2A28` at 60% opacity, `backdrop-blur-sm`
+- **Container:** 800px width, `--radius-md`, hidden overflow
+- **Left Pane:** Cover image of a completed living room, `#FFFFFF` text overlay: "Get a detailed estimate within 24 hours."
+- **Right Pane:** 40px padding, `#FFFFFF` background. Inputs: Name, Phone (with mask), Property Type. `#B89B72` submit button.
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML + Tailwind CSS v3
+
+**Build Order:**
+1. **Home Page** - Establishes the core typography (`Playfair Display` & `Lato`), grid structure, and primary UI components (cards, buttons).
+2. **Consultation Modal** - Implements form elements, input states, and overlay logic critical for the primary conversion action.
+3. **Portfolio Detail** - Introduces masonry layouts and specific text formatting constraints for case studies.
+4. **Service Package** - Implements complex list styling and sticky sidebar behaviors.
+
+</details>

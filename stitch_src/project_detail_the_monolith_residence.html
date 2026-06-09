@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .comparison-slider {
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+        .comparison-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .comparison-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #ffffff;
+            cursor: ew-resize;
+            z-index: 10;
+        }
+        .comparison-handle::after {
+            content: '↔';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e6e1df",
+                        "tertiary-container": "#1d1b1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#474646",
+                        "surface-container-low": "#f4f3f1",
+                        "surface-container-high": "#e9e8e6",
+                        "on-secondary": "#ffffff",
+                        "primary": "#000000",
+                        "on-tertiary-container": "#868381",
+                        "surface-tint": "#5f5e5e",
+                        "surface-container-highest": "#e3e2e0",
+                        "on-secondary-container": "#78603e",
+                        "background": "#faf9f7",
+                        "on-surface": "#1a1c1b",
+                        "on-primary-container": "#858383",
+                        "tertiary-fixed-dim": "#cac6c3",
+                        "on-surface-variant": "#444748",
+                        "surface": "#faf9f7",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "outline-variant": "#c4c7c7",
+                        "secondary-container": "#fedeb2",
+                        "primary-container": "#1c1b1b",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#281800",
+                        "surface-variant": "#e3e2e0",
+                        "surface-dim": "#dadad8",
+                        "inverse-on-surface": "#f1f1ef",
+                        "secondary-fixed": "#fedeb2",
+                        "on-tertiary-fixed": "#1d1b1a",
+                        "on-primary-fixed": "#1c1b1b",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#484645",
+                        "on-error": "#ffffff",
+                        "secondary": "#725b38",
+                        "on-secondary-fixed-variant": "#584323",
+                        "outline": "#747878",
+                        "inverse-primary": "#c8c6c5",
+                        "surface-container": "#efeeec",
+                        "inverse-surface": "#2f3130",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#e5e2e1",
+                        "secondary-fixed-dim": "#e0c298",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "surface-bright": "#faf9f7",
+                        "on-background": "#1a1c1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max-width": "1200px",
+                        "margin-mobile": "24px",
+                        "gutter": "32px",
+                        "section-gap": "128px",
+                        "unit": "4px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["EB Garamond"],
+                        "button": ["Outfit"],
+                        "body-lg": ["Outfit"],
+                        "body-md": ["Outfit"],
+                        "label-caps": ["Outfit"],
+                        "headline-sm": ["EB Garamond"],
+                        "display-lg-mobile": ["EB Garamond"],
+                        "display-lg": ["EB Garamond"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "button": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "300"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background selection:bg-secondary-container">
+<!-- Top Navigation -->
+<header class="w-full top-0 sticky bg-background border-b border-outline-variant z-50">
+<div class="flex justify-between items-center w-full px-margin-desktop py-6 max-w-container-max-width mx-auto">
+<div class="font-headline-md text-headline-md tracking-widest text-primary">STUDIO AURA</div>
+<nav class="hidden md:flex gap-8">
+<a class="font-label-caps text-label-caps text-primary border-b border-primary pb-1 transition-all duration-300 ease-in-out" href="#">PORTFOLIO</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant pb-1 hover:text-primary transition-colors duration-300" href="#">SERVICES</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant pb-1 hover:text-primary transition-colors duration-300" href="#">ABOUT</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant pb-1 hover:text-primary transition-colors duration-300" href="#">CONTACT</a>
+</nav>
+<button class="font-button text-button bg-primary text-on-primary px-6 py-3 uppercase tracking-widest hover:bg-on-surface-variant transition-colors">BOOK CONSULTATION</button>
+</div>
+</header>
+<main>
+<!-- Full-Bleed Hero -->
+<section class="w-full h-[921px] relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A cinematic, full-bleed shot of a minimalist dining room in The Monolith Residence. A sculptural charcoal oak table is centered under a single, oversized matte black pendant light. The walls are finished in smooth raw concrete, with large floor-to-ceiling windows revealing a soft Tribeca cityscape at dusk. The overall aesthetic is one of quiet luxury, with a strictly monochromatic palette and high-end editorial composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYrKOYzhtSGMBWaONBdzERTUhmiWFK87miHQ8w0HNp1IOnzX1SV-0miKwL76E_JxIdidKT3mDxEJ4pk1K85zvJ_9B3nikc5IgueiIeIxptzSB68eafknsKnJUFZe1blyzlc9QiJnYpwG1rHRIdg47nrgBi4GpEZKCtV4pzfHwoz7M6hzpA85tcYx-tHxKJH-PZgq1SsuXErJ0ricSrKRsJedklLf2qL2mDJDWaWNw9kej49IiIwxjsle9Lvc60EtKEwGGT8yQewHU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex flex-col justify-end px-margin-desktop pb-16">
+<div class="max-w-container-max-width mx-auto w-full">
+<span class="font-label-caps text-label-caps text-white/80 tracking-[0.3em] mb-4 block">RESIDENTIAL CASE STUDY</span>
+<h1 class="font-display-lg text-display-lg text-white max-w-4xl leading-tight">The Monolith Residence</h1>
+</div>
+</div>
+</section>
+<!-- Project Overview Stats -->
+<section class="py-margin-desktop max-w-container-max-width mx-auto px-margin-desktop reveal-on-scroll">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter border-y border-outline-variant py-12">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">LOCATION</span>
+<p class="font-body-lg text-body-lg text-primary">Tribeca, New York</p>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">AREA</span>
+<p class="font-body-lg text-body-lg text-primary">220m² Interior</p>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">DURATION</span>
+<p class="font-body-lg text-body-lg text-primary">7 Months</p>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">SCOPE</span>
+<p class="font-body-lg text-body-lg text-primary">Full Renovation</p>
+</div>
+</div>
+</section>
+<!-- Editorial Narrative -->
+<section class="mt-section-gap max-w-container-max-width mx-auto px-margin-desktop reveal-on-scroll">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
+<div class="md:col-span-4">
+<h2 class="font-headline-md text-headline-md italic mb-8 md:sticky md:top-32">Designing for silence in the heart of the city.</h2>
+</div>
+<div class="md:col-span-7 md:col-start-6 space-y-12">
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                        The Monolith Residence was born from a desire to create a sanctuary of brutalist elegance within the bustling energy of Tribeca. Our approach was reductive, stripping the space back to its architectural essentials. We replaced traditional partition walls with sculptural volumes that define function without closing off the expansive vistas of the Manhattan skyline.
+                    </p>
+<div class="flex flex-col md:flex-row gap-gutter">
+<div class="flex-1">
+<h3 class="font-label-caps text-label-caps mb-4 text-primary">RAW CONCRETE</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Hand-poured concrete panels provide a rhythmic backdrop throughout the main living areas, offering a tactile, matte texture that absorbs light rather than reflecting it.</p>
+</div>
+<div class="flex-1">
+<h3 class="font-label-caps text-label-caps mb-4 text-primary">SMOKED OAK</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Deeply stained smoked oak was utilized for all bespoke joinery, providing a warm, organic counterbalance to the industrial coolness of the masonry.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Asymmetrical Gallery Grid -->
+<section class="mt-section-gap px-margin-desktop max-w-container-max-width mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-8 reveal-on-scroll">
+<img class="w-full aspect-[4/5] object-cover" data-alt="A vertical, detailed shot of a custom-built smoked oak kitchen cabinet meeting a raw concrete floor. The joint is seamless, highlighting the precision of the craftsmanship. Soft morning light creates a subtle gradient on the wood grain, emphasizing its deep, dark tones and rich texture in a quiet luxury home." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMc4DPPy-xShVjoC5-IJvUlvxz2VQLoDvKn62tSbPFqDyEHMKLjdbTvyZM7ulLns4gjjoVaA7KRK8u3jDkyGv0qstH63I5CyNZUXFnUXpYlmiVnElZSlS6ngheD8WMco-5nCkvVHjMop-E21D06yfq_InmInm2CSH94ViClhkjWBA4boubOfsLhzdJRmSaEq4dHbw6DxtLtccsoCi4_MOYVTBQf6z-VtKKuqA0MjS9L4QBMIttncPs5s37JWhwYg_Sn9_dTqXa394"/>
+</div>
+<div class="md:col-span-4 flex flex-col gap-gutter mt-16 md:mt-32">
+<div class="reveal-on-scroll">
+<img class="w-full aspect-square object-cover" data-alt="An extreme close-up of a minimalist light switch integrated into a concrete wall at The Monolith Residence. The switch is a simple matte black toggle, showcasing the attention to detail and high-end industrial aesthetic. The focus is sharp on the metal texture, with the concrete background slightly blurred." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGBXLNMJA83H7oARErz-jVMbrJPYjcLH6Ii0GHD91Y-CPScCZC-pJnWfKDOIh5BDESDi_Z58-VtPmro541jGVlBHayBdPw0Mt2EwBURuCh_ikhxMGMKq7aVplWOXp0FTpuJg7XggVuLoV84BpYldfS-G9iAOhDEjVPo_Rg243a9SxKhm-6GQDcpZfZCl5EAMExcet7qwCPHuxtkmOCc-NWCBSd4SuvJihs_uSaxK2UgH3_6Vn5M9ZLvni8Pt-cMz3wbMJZZCE_Nig"/>
+</div>
+<div class="reveal-on-scroll" style="transition-delay: 200ms;">
+<img class="w-full aspect-[3/4] object-cover" data-alt="A view of a minimalist hallway where light from a hidden skylight washes down a textured concrete wall. The floor is polished concrete with a subtle sheen, reflecting the architectural light. The composition is clean and geometric, following an editorial photography style for a premium design studio." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo4kIqh9Cz3VzL2l30in-ylZEiVJTIiuoKcKnNvqhYFHON5TmZVFuFoPAtPhgNh7bO1bin4xdcz4jSSGPA8hwzsBvmfbQawXpqnmurxnsOTo-P2OURhcJoUAxuqGeZtt9eSNoDX2Vacj5E43lMnmViJPyZSoGTg2UJ2coh7YkRQ88aCA6xsD-QVNP9endlfs4viW_sq5PMIoJb5QKmT1y20heqMSSIGBnojYNS0HcDBEWDlmaBNGRdj0H0tjelOKs4y7XEkmPCiPU"/>
+</div>
+</div>
+<div class="md:col-span-12 mt-16 reveal-on-scroll">
+<img class="w-full aspect-[16/7] object-cover" data-alt="A wide panoramic shot of the open-plan master suite at The Monolith Residence. A low-profile platform bed in charcoal linen sits on a smoked oak dais. The space is uncluttered and serene, with minimalist styling and high-end materials. Large glass doors lead to a private balcony overlooking Tribeca." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHmMGlPbYm_5MyxhPG-5PztvbQRvkmSgLmVxcddlJGHGEWtKXeYiXqbABocDxlfrMc7_wWuJI23ZIIbvTHJkP3z9d4_zzhw_ONL4IGHf5PiF4BCrD23zuMTE4Dm5nTL6znkPLykItxdI6m_4Vf8V7rsGQyoaIC_tq381nXZl9Rgu022_eMNOW71ocXEs_kvOSoBgZ_US822QlizA7SAERNna0ylKtL1JMA1YlsZojzbr2wHOHbV92xTuuOobE1nNAKiAMP7v-lbFQ"/>
+</div>
+</div>
+</section>
+<!-- Before/After Comparison -->
+<section class="mt-section-gap bg-surface-container py-24 reveal-on-scroll">
+<div class="max-w-container-max-width mx-auto px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-baseline mb-12">
+<h2 class="font-headline-md text-headline-md text-primary">The Transformation</h2>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SLIDE TO COMPARE SPACES</span>
+</div>
+<div class="comparison-slider w-full aspect-[16/9] bg-surface-dim">
+<!-- Before Image (Base) -->
+<img class="absolute inset-0 w-full h-full object-cover grayscale brightness-50" data-alt="The 'Before' state of the Tribeca residence, showing a dated and cluttered apartment with yellowed lighting, worn carpets, and heavy, traditional partitions. The image is intentionally low-contrast and slightly desaturated to contrast with the modern renovation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-yrY9S1jwfqv6avUJVF1wvoTgByPaEH__-yXt_cuqjFuHdzbTMeyLamb0hDQv_rykoPA4NYliNflLJzSNXAMFs552nLhKGMehsRZnoAYXRfCiPGimZvGw7Z7nKyQwA0RIB-XwKkfaYvsscNsISNZ03787wE_dODh5ae2cK7PyGL6UXfPof8kJF9SxvyvTeCGL0mWo90Au3YWt4uN4rjc72bhEbOViWb7COT_6h3rAqddlNXs2edYmeR4MBlAF2BoWSmn3yPeQr7U"/>
+<!-- After Image (Overlay) -->
+<div class="comparison-overlay w-1/2">
+<img class="absolute inset-0 w-[200%] h-full object-cover" data-alt="The 'After' state of the same residence, featuring the finished Monolith design. Sharp lines, raw concrete walls, smoked oak flooring, and architectural lighting. The image is bright, crisp, and high-contrast, representing the quiet luxury aesthetic of Studio Aura." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgqT6AWSHx4XSyHTvuZTroeEmcyX9tWlahtFH6sx0hCr2UhkCak9AncF-ilxNumkYYruwKIZVynuUrIh5AngSjONT6CO4_3SskXs2KOh4m3PIt24vl1bL4ToKMcA7npXRKL0NOooIbOGWaOSr858hpW0MUA3LxbdWpMx5PaYBNbJeb15ceV55UgMHrzreAQ7teU1nJ5k2AjG6u-ySvAghgp5Vev4RK5CbTtdlf2fchafB16eyboMEV7EPHxpp4KGXxwjiMawljs70"/>
+</div>
+<div class="comparison-handle left-1/2"></div>
+</div>
+</div>
+</section>
+<!-- Testimonial Section -->
+<section class="mt-section-gap max-w-container-max-width mx-auto px-margin-desktop reveal-on-scroll">
+<div class="border-l border-primary pl-12 md:ml-32 py-8">
+<p class="font-headline-md text-headline-md italic text-primary leading-tight mb-8">
+                    "Studio Aura understood that we weren't just looking for a new home, but for a different way of living. They turned a fragmented space into a cohesive piece of art that somehow feels both grand and incredibly intimate."
+                </p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-[1px] bg-primary"></div>
+<span class="font-label-caps text-label-caps tracking-widest">DR. JULIAN VANCE, CLIENT</span>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="mt-section-gap mb-32 px-margin-desktop reveal-on-scroll">
+<div class="max-w-container-max-width mx-auto bg-primary py-32 flex flex-col items-center text-center">
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-white mb-12">Start Your Journey</h2>
+<button class="font-button text-button bg-white text-primary px-12 py-5 uppercase tracking-[0.2em] hover:bg-secondary-container transition-colors duration-500">
+                    INQUIRE ABOUT A SIMILAR PROJECT
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap border-t border-outline-variant bg-background">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop py-16 max-w-container-max-width mx-auto items-start">
+<div class="md:col-span-4">
+<div class="font-headline-sm text-headline-sm tracking-widest text-primary mb-6 uppercase">STUDIO AURA</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">An architectural practice dedicated to the art of minimalism and quiet luxury.</p>
+</div>
+<div class="md:col-span-2 md:col-start-7">
+<span class="font-label-caps text-label-caps text-primary mb-4 block">CONNECT</span>
+<ul class="space-y-3">
+<li><a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">INSTAGRAM</a></li>
+<li><a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">PINTEREST</a></li>
+</ul>
+</div>
+<div class="md:col-span-2">
+<span class="font-label-caps text-label-caps text-primary mb-4 block">COMPANY</span>
+<ul class="space-y-3">
+<li><a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">JOURNAL</a></li>
+<li><a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">CAREERS</a></li>
+<li><a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">PRIVACY</a></li>
+</ul>
+</div>
+<div class="md:col-span-2">
+<span class="font-label-caps text-label-caps text-primary mb-4 block">OFFICE</span>
+<p class="font-label-caps text-label-caps text-on-surface-variant">142 GREENE ST<br/>NEW YORK, NY 10012</p>
+</div>
+<div class="md:col-span-12 mt-16 pt-8 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="font-label-caps text-[10px] text-on-surface-variant tracking-widest uppercase">© 2024 STUDIO AURA. ALL RIGHTS RESERVED.</span>
+<div class="flex gap-4">
+<span class="font-label-caps text-[10px] text-on-surface-variant">T&amp;C</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">COOKIES</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Intersection Observer for Scroll Reveals
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+        // Comparison Slider Logic
+        const slider = document.querySelector('.comparison-slider');
+        const overlay = document.querySelector('.comparison-overlay');
+        const handle = document.querySelector('.comparison-handle');
+
+        if (slider && overlay && handle) {
+            let isDragging = false;
+
+            const move = (e) => {
+                if (!isDragging) return;
+                
+                const rect = slider.getBoundingClientRect();
+                const x = (e.pageX || e.touches[0].pageX) - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                
+                overlay.style.width = `${percentage}%`;
+                handle.style.left = `${percentage}%`;
+            };
+
+            slider.addEventListener('mousedown', () => isDragging = true);
+            slider.addEventListener('touchstart', () => isDragging = true);
+            window.addEventListener('mouseup', () => isDragging = false);
+            window.addEventListener('touchend', () => isDragging = false);
+            window.addEventListener('mousemove', move);
+            window.addEventListener('touchmove', move);
+        }
+    </script>
+</body></html>

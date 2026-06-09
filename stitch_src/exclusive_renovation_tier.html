@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&amp;family=Outfit:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .exclusive-glow {
+            box-shadow: 0 0 40px -10px rgba(114, 91, 56, 0.15);
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e6e1df",
+                        "tertiary-container": "#1d1b1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#474646",
+                        "surface-container-low": "#f4f3f1",
+                        "surface-container-high": "#e9e8e6",
+                        "on-secondary": "#ffffff",
+                        "primary": "#000000",
+                        "on-tertiary-container": "#868381",
+                        "surface-tint": "#5f5e5e",
+                        "surface-container-highest": "#e3e2e0",
+                        "on-secondary-container": "#78603e",
+                        "background": "#faf9f7",
+                        "on-surface": "#1a1c1b",
+                        "on-primary-container": "#858383",
+                        "tertiary-fixed-dim": "#cac6c3",
+                        "on-surface-variant": "#444748",
+                        "surface": "#faf9f7",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "outline-variant": "#c4c7c7",
+                        "secondary-container": "#fedeb2",
+                        "primary-container": "#1c1b1b",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#281800",
+                        "surface-variant": "#e3e2e0",
+                        "surface-dim": "#dadad8",
+                        "inverse-on-surface": "#f1f1ef",
+                        "secondary-fixed": "#fedeb2",
+                        "on-tertiary-fixed": "#1d1b1a",
+                        "on-primary-fixed": "#1c1b1b",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#484645",
+                        "on-error": "#ffffff",
+                        "secondary": "#725b38",
+                        "on-secondary-fixed-variant": "#584323",
+                        "outline": "#747878",
+                        "inverse-primary": "#c8c6c5",
+                        "surface-container": "#efeeec",
+                        "inverse-surface": "#2f3130",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#e5e2e1",
+                        "secondary-fixed-dim": "#e0c298",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "surface-bright": "#faf9f7",
+                        "on-background": "#1a1c1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max-width": "1200px",
+                        "margin-mobile": "24px",
+                        "gutter": "32px",
+                        "section-gap": "128px",
+                        "unit": "4px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["EB Garamond"],
+                        "button": ["Outfit"],
+                        "body-lg": ["Outfit"],
+                        "body-md": ["Outfit"],
+                        "label-caps": ["Outfit"],
+                        "headline-sm": ["EB Garamond"],
+                        "display-lg-mobile": ["EB Garamond"],
+                        "display-lg": ["EB Garamond"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "button": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "300"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-secondary selection:text-white">
+<!-- TopNavBar -->
+<nav class="w-full top-0 sticky bg-background border-b border-outline-variant z-50 transition-all duration-300 ease-in-out">
+<div class="flex justify-between items-center w-full px-margin-desktop py-6 max-w-container-max-width mx-auto">
+<a class="font-headline-md text-headline-md tracking-widest text-primary" href="#">STUDIO AURA</a>
+<div class="hidden md:flex gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant pb-1 hover:text-primary transition-colors duration-300" href="#">PORTFOLIO</a>
+<a class="font-label-caps text-label-caps text-primary border-b border-primary pb-1 hover:text-primary transition-colors duration-300" href="#">SERVICES</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant pb-1 hover:text-primary transition-colors duration-300" href="#">ABOUT</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant pb-1 hover:text-primary transition-colors duration-300" href="#">CONTACT</a>
+</div>
+<button class="px-6 py-3 bg-primary text-on-primary font-button text-button transition-all duration-300 hover:bg-secondary">BOOK CONSULTATION</button>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="max-w-container-max-width mx-auto px-margin-desktop pt-24 pb-section-gap flex flex-col md:flex-row items-end gap-gutter">
+<div class="w-full md:w-7/12">
+<span class="font-label-caps text-label-caps text-secondary mb-4 block tracking-[0.3em]">SERVICE DEEP DIVE</span>
+<h1 class="font-display-lg text-display-lg mb-8 leading-[1.05]">The Exclusive <br/>Renovation Experience</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">A full-spectrum architectural journey tailored for those who demand uncompromising quality, bespoke craftsmanship, and a seamless, high-touch management process.</p>
+</div>
+<div class="w-full md:w-5/12 aspect-[4/5] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A hyper-minimalist luxury interior featuring a sculptural travertine dining table and a single architectural chair. The room is flooded with soft, high-key natural light from floor-to-ceiling windows, highlighting clean lines and a monochrome palette of warm whites and deep charcoal. The atmosphere is one of quiet luxury, emphasizing negative space and sophisticated materiality characteristic of a premium boutique design studio." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNgQmMFheVi7y1pk5YRErMZxfM4yR92rK7dmh6Ke72fvAkQ0C8MulSKuCiZ5SHrG3CagdsJEq_UyKacnh5mSfxamMfmU7WQfv3D3UssOF9vWif0coH1ZFQQqs8AS5eqkPEOVJv8B95P0alxmzSJ8ZN0qpbTKLJc-izhKb5bzY42pQ_y6tmHCl99WDs_oHCak6_5vuYNmqFLhPqWU4m4iWRFyvZAexLerd6FW3yqPRr002rVMK1OH9M449k4XCCB9j2Kkd-4yWJp0M"/>
+</div>
+</section>
+<!-- Detailed Inclusions -->
+<section class="bg-surface-container-low py-section-gap">
+<div class="max-w-container-max-width mx-auto px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
+<div class="md:col-span-4 sticky top-32">
+<h2 class="font-headline-md text-headline-md mb-6">Comprehensive <br/>Deliverables</h2>
+<div class="h-px bg-outline-variant w-16 mb-6"></div>
+<p class="font-body-md text-body-md text-on-surface-variant">The Exclusive tier leaves no detail to chance. We provide a complete blueprint for living, from the initial architectural render to post-handover white-glove support.</p>
+</div>
+<div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-y-16 gap-x-gutter">
+<div class="border-l border-outline-variant pl-8">
+<span class="material-symbols-outlined text-secondary mb-4">view_in_ar</span>
+<h3 class="font-label-caps text-label-caps mb-3">01. PHOTOREALISTIC 3D RENDERS</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Immersion into your future space with high-fidelity visualization of every room, lighting scenario, and material finish.</p>
+</div>
+<div class="border-l border-outline-variant pl-8">
+<span class="material-symbols-outlined text-secondary mb-4">inventory_2</span>
+<h3 class="font-label-caps text-label-caps mb-3">02. FULL PROCUREMENT</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Sourcing and logistics management for all finishes, fixtures, and bespoke furniture from our global artisan network.</p>
+</div>
+<div class="border-l border-outline-variant pl-8">
+<span class="material-symbols-outlined text-secondary mb-4">visibility</span>
+<h3 class="font-label-caps text-label-caps mb-3">03. WEEKLY SITE VISITS</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Active project stewardship with scheduled on-site inspections and real-time reporting via our digital client portal.</p>
+</div>
+<div class="border-l border-outline-variant pl-8">
+<span class="material-symbols-outlined text-secondary mb-4">verified_user</span>
+<h3 class="font-label-caps text-label-caps mb-3">04. POST-HANDOVER CARE</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">A 12-month proactive maintenance window and seasonal check-ins to ensure your home performs flawlessly.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Process -->
+<section class="py-section-gap overflow-hidden">
+<div class="max-w-container-max-width mx-auto px-margin-desktop">
+<div class="mb-16 text-center md:text-left">
+<h2 class="font-headline-md text-headline-md">The 6-Step Journey</h2>
+</div>
+<div class="flex flex-nowrap md:grid md:grid-cols-6 gap-6 overflow-x-auto pb-8 scrollbar-hide">
+<!-- Step 1 -->
+<div class="min-w-[280px] group">
+<div class="h-1 bg-outline-variant w-full mb-8 relative">
+<div class="absolute left-0 top-0 h-full w-0 bg-primary group-hover:w-full transition-all duration-700 ease-out"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">PHASE 01</span>
+<h4 class="font-headline-sm text-headline-sm mb-4">Discovery</h4>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">Deep dive into your lifestyle, aesthetic values, and functional requirements.</p>
+</div>
+<!-- Step 2 -->
+<div class="min-w-[280px] group">
+<div class="h-1 bg-outline-variant w-full mb-8 relative">
+<div class="absolute left-0 top-0 h-full w-0 bg-primary group-hover:w-full transition-all duration-700 ease-out"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">PHASE 02</span>
+<h4 class="font-headline-sm text-headline-sm mb-4">Concept</h4>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">Curated moodboards and preliminary architectural layouts for alignment.</p>
+</div>
+<!-- Step 3 -->
+<div class="min-w-[280px] group">
+<div class="h-1 bg-outline-variant w-full mb-8 relative">
+<div class="absolute left-0 top-0 h-full w-0 bg-primary group-hover:w-full transition-all duration-700 ease-out"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">PHASE 03</span>
+<h4 class="font-headline-sm text-headline-sm mb-4">Refinement</h4>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">Bespoke technical drawings, 3D visualization, and final material selection.</p>
+</div>
+<!-- Step 4 -->
+<div class="min-w-[280px] group">
+<div class="h-1 bg-outline-variant w-full mb-8 relative">
+<div class="absolute left-0 top-0 h-full w-0 bg-primary group-hover:w-full transition-all duration-700 ease-out"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">PHASE 04</span>
+<h4 class="font-headline-sm text-headline-sm mb-4">Tendering</h4>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">Rigorous selection of premium contractors and artisan specialists.</p>
+</div>
+<!-- Step 5 -->
+<div class="min-w-[280px] group">
+<div class="h-1 bg-outline-variant w-full mb-8 relative">
+<div class="absolute left-0 top-0 h-full w-0 bg-primary group-hover:w-full transition-all duration-700 ease-out"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">PHASE 05</span>
+<h4 class="font-headline-sm text-headline-sm mb-4">Execution</h4>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">On-site construction managed by your dedicated Project Director.</p>
+</div>
+<!-- Step 6 -->
+<div class="min-w-[280px] group">
+<div class="h-1 bg-outline-variant w-full mb-8 relative">
+<div class="absolute left-0 top-0 h-full w-0 bg-primary group-hover:w-full transition-all duration-700 ease-out"></div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">PHASE 06</span>
+<h4 class="font-headline-sm text-headline-sm mb-4">Handover</h4>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">White-glove styling, final walkthrough, and lifetime support initiation.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Comparison Matrix -->
+<section class="bg-surface py-section-gap border-y border-outline-variant">
+<div class="max-w-container-max-width mx-auto px-margin-desktop">
+<div class="mb-16">
+<h2 class="font-headline-md text-headline-md text-center">Service Tier Comparison</h2>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline">
+<th class="py-8 font-label-caps text-label-caps text-on-surface-variant">FEATURES</th>
+<th class="py-8 font-label-caps text-label-caps text-on-surface-variant text-center">STANDARD</th>
+<th class="py-8 font-label-caps text-label-caps text-on-surface-variant text-center">BUSINESS</th>
+<th class="py-8 font-label-caps text-label-caps text-primary text-center bg-surface-container-low border-x border-t border-secondary/20">EXCLUSIVE</th>
+</tr>
+</thead>
+<tbody class="font-body-md">
+<tr class="border-b border-outline-variant">
+<td class="py-6">Design Documentation</td>
+<td class="py-6 text-center text-on-surface-variant">Essential Sets</td>
+<td class="py-6 text-center text-on-surface-variant">Detailed Plans</td>
+<td class="py-6 text-center font-medium bg-surface-container-low border-x border-secondary/20">Architectural Detailing</td>
+</tr>
+<tr class="border-b border-outline-variant">
+<td class="py-6">3D Visualizations</td>
+<td class="py-6 text-center text-on-surface-variant">1 Room</td>
+<td class="py-6 text-center text-on-surface-variant">3 Key Areas</td>
+<td class="py-6 text-center font-medium bg-surface-container-low border-x border-secondary/20">Full Property Walkthrough</td>
+</tr>
+<tr class="border-b border-outline-variant">
+<td class="py-6">Site Supervision</td>
+<td class="py-6 text-center text-on-surface-variant">Fortnightly</td>
+<td class="py-6 text-center text-on-surface-variant">Weekly</td>
+<td class="py-6 text-center font-medium bg-surface-container-low border-x border-secondary/20">Dedicated On-site Manager</td>
+</tr>
+<tr class="border-b border-outline-variant">
+<td class="py-6">Procurement Support</td>
+<td class="py-6 text-center"><span class="material-symbols-outlined text-outline-variant">close</span></td>
+<td class="py-6 text-center text-on-surface-variant">Curated List</td>
+<td class="py-6 text-center font-medium bg-surface-container-low border-x border-secondary/20">End-to-End Handling</td>
+</tr>
+<tr>
+<td class="py-6">Warranty &amp; Care</td>
+<td class="py-6 text-center text-on-surface-variant">Standard</td>
+<td class="py-6 text-center text-on-surface-variant">5-Year Extended</td>
+<td class="py-6 text-center font-medium bg-surface-container-low border-x border-b border-secondary/20">10-Year Prime Coverage</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Trust Factors -->
+<section class="py-section-gap">
+<div class="max-w-container-max-width mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="text-center p-12 bg-background border border-outline-variant hover:border-secondary transition-colors duration-500 group">
+<span class="material-symbols-outlined text-4xl text-secondary mb-6 block" data-weight="fill">verified</span>
+<h3 class="font-headline-sm text-headline-sm mb-4">10-Year Warranty</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Absolute peace of mind with our industry-leading structural and finishes guarantee.</p>
+</div>
+<div class="text-center p-12 bg-background border border-outline-variant hover:border-secondary transition-colors duration-500 group">
+<span class="material-symbols-outlined text-4xl text-secondary mb-6 block" data-weight="fill">account_circle</span>
+<h3 class="font-headline-sm text-headline-sm mb-4">Personal Project Director</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">A single point of contact for every query, ensuring complete narrative continuity.</p>
+</div>
+<div class="text-center p-12 bg-background border border-outline-variant hover:border-secondary transition-colors duration-500 group">
+<span class="material-symbols-outlined text-4xl text-secondary mb-6 block" data-weight="fill">calendar_today</span>
+<h3 class="font-headline-sm text-headline-sm mb-4">Priority Scheduling</h3>
+Exclusive tier clients receive priority slotting in our construction and artisan pipeline.
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="relative h-[614px] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A macro shot of architectural materials featuring a slab of premium Carrara marble resting against a dark, textured charcoal wall. The lighting is moody and dramatic, with a single sharp spotlight highlighting the marble's subtle gray veining. The scene represents sophisticated material selection and the tactile luxury of an exclusive renovation project." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2b46bVqTAti-YbXt2sfbewBa-WGsUu7VeQT9qtk-dAgojPm_vLdO5PwPyb7q-ba4PRA2Ze8uke_weg9mmkpLzAZ_dGecPzGu5_f3JJi-IfsDGjdSZooZ48go1h38Rvkgh83WgPp-mTPv5tXqmhIqgG8gEDMtW41i5pjdVGROSjg0Vwxa5p37XY5SeS-_02kNuJqm1y22u8BBrvCHzQ9DgdMUIXAfgeqNwRagaKUBAqFWGTwQiE9ON0yb2a4vYRZ3FONngd2atj9k"/>
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-sm"></div>
+</div>
+<div class="relative z-10 text-center max-w-2xl px-margin-mobile">
+<h2 class="font-display-lg text-display-lg text-white mb-8">Begin Your Transformation</h2>
+<p class="font-body-lg text-body-lg text-white/80 mb-10">Limited slots available for the current quarter to ensure high-touch service delivery.</p>
+<button class="px-10 py-5 bg-white text-primary font-button text-button transition-all duration-300 hover:bg-secondary hover:text-white tracking-widest">SCHEDULE A PRIVATE CONSULTATION</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap bg-background border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop py-16 max-w-container-max-width mx-auto">
+<div class="md:col-span-4">
+<span class="font-headline-sm text-headline-sm tracking-widest text-primary block mb-4">STUDIO AURA</span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">Curating spaces of quiet luxury and intentional design since 2014.</p>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-label-caps text-label-caps mb-6">FOLLOW</h4>
+<div class="flex flex-col gap-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">INSTAGRAM</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">PINTEREST</a>
+</div>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-label-caps text-label-caps mb-6">EXPLORE</h4>
+<div class="flex flex-col gap-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">JOURNAL</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">CAREERS</a>
+</div>
+</div>
+<div class="md:col-span-4 flex flex-col items-end">
+<div class="flex gap-8 mb-16">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">PRIVACY</a>
+</div>
+<p class="font-label-caps text-[10px] text-on-surface-variant/60">© 2024 STUDIO AURA. ALL RIGHTS RESERVED.</p>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and Scroll Reveal
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            reveals.forEach(section => {
+                section.classList.add('scroll-reveal');
+                observer.observe(section);
+            });
+
+            // Sticky nav background change on scroll
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('py-4', 'bg-white/90', 'backdrop-blur-md');
+                    nav.classList.remove('py-6');
+                } else {
+                    nav.classList.add('py-6');
+                    nav.classList.remove('py-4', 'bg-white/90', 'backdrop-blur-md');
+                }
+            });
+        });
+    </script>
+</body></html>
