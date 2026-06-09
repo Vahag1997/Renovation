@@ -71,7 +71,7 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
                   <Link
                     className={`font-sans text-[11px] lg:text-xs leading-none tracking-widest font-medium uppercase transition-colors duration-300 pb-1 hover:text-primary flex items-center gap-1.5 ${
                       isActive
-                        ? "text-primary border-b border-primary"
+                        ? "text-primary"
                         : "text-on-surface-variant"
                     }`}
                     href={route.href}
