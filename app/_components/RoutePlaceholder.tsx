@@ -16,6 +16,7 @@ type RoutePlaceholderProps = {
 };
 
 import { portfolioProjects } from "@/app/_data/projects";
+import { Calculator } from "@/app/_components/Calculator";
 
 export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
   const route = getRouteByHref(href) ?? homeRoute;
@@ -143,32 +144,69 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
     <main className="min-h-screen pt-12 overflow-x-hidden">
       {/* Hero section */}
       <section 
-        className="relative min-h-[60vh] bg-cover bg-center flex items-end py-20 px-margin-mobile md:px-margin-desktop border-b border-outline-variant"
+        className="relative min-h-[60vh] bg-cover bg-center flex items-center lg:items-end py-20 px-margin-mobile lg:px-margin-desktop border-b border-outline-variant"
         style={heroStyle}
       >
-        <div className="absolute inset-0 bg-black/40 z-0"></div>
+        <div className="absolute inset-0 bg-black/50 z-0"></div>
         <div className="relative z-10 max-w-container-max-width mx-auto w-full">
-          <div className="flex gap-2 text-white/80 font-label-caps text-[10px] mb-6 flex-wrap">
-            <Link className="hover:text-white" href="/">Главная</Link>
-            {parent ? (
-              <>
+          {isServiceSubroute ? (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+              {/* Left Column: Title and Details */}
+              <div className="lg:col-span-7 text-white">
+                <div className="flex gap-2 text-white/80 font-label-caps text-[10px] mb-6 flex-wrap">
+                  <Link className="hover:text-white" href="/">Главная</Link>
+                  {parent ? (
+                    <>
+                      <span>/</span>
+                      <Link className="hover:text-white" href={parent.href}>{parent.label}</Link>
+                    </>
+                  ) : null}
+                  <span>/</span>
+                  <span className="text-white">{route.label}</span>
+                </div>
+                <p className="font-label-caps text-label-caps text-secondary mb-4 tracking-[0.25em]">{route.eyebrow}</p>
+                <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg text-white mb-6 leading-tight max-w-4xl">{route.title}</h1>
+                <p className="font-body-lg text-body-lg text-white/85 max-w-2xl leading-relaxed">{route.description}</p>
+                <div className="flex gap-4 mt-6 flex-wrap">
+                  {route.bullets?.map((bullet) => (
+                    <span key={bullet} className="px-3 py-1 bg-white/10 border border-white/20 text-white font-label-caps text-[9px] tracking-wider">
+                      {bullet}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Right Column: Calculator */}
+              <div className="lg:col-span-5 w-full mt-8 lg:mt-0">
+                <Calculator isDark={true} />
+              </div>
+            </div>
+          ) : (
+            /* Standard Full-width layout for portfolio pages */
+            <div className="text-white">
+              <div className="flex gap-2 text-white/80 font-label-caps text-[10px] mb-6 flex-wrap">
+                <Link className="hover:text-white" href="/">Главная</Link>
+                {parent ? (
+                  <>
+                    <span>/</span>
+                    <Link className="hover:text-white" href={parent.href}>{parent.label}</Link>
+                  </>
+                ) : null}
                 <span>/</span>
-                <Link className="hover:text-white" href={parent.href}>{parent.label}</Link>
-              </>
-            ) : null}
-            <span>/</span>
-            <span className="text-white">{route.label}</span>
-          </div>
-          <p className="font-label-caps text-label-caps text-secondary mb-4 tracking-[0.25em]">{route.eyebrow}</p>
-          <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg text-white mb-6 leading-tight max-w-4xl">{route.title}</h1>
-          <p className="font-body-lg text-body-lg text-white/85 max-w-2xl leading-relaxed">{route.description}</p>
-          <div className="flex gap-4 mt-6 flex-wrap">
-            {route.bullets?.map((bullet) => (
-              <span key={bullet} className="px-3 py-1 bg-white/10 border border-white/20 text-white font-label-caps text-[9px] tracking-wider">
-                {bullet}
-              </span>
-            ))}
-          </div>
+                <span className="text-white">{route.label}</span>
+              </div>
+              <p className="font-label-caps text-label-caps text-secondary mb-4 tracking-[0.25em]">{route.eyebrow}</p>
+              <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg text-white mb-6 leading-tight max-w-4xl">{route.title}</h1>
+              <p className="font-body-lg text-body-lg text-white/85 max-w-2xl leading-relaxed">{route.description}</p>
+              <div className="flex gap-4 mt-6 flex-wrap">
+                {route.bullets?.map((bullet) => (
+                  <span key={bullet} className="px-3 py-1 bg-white/10 border border-white/20 text-white font-label-caps text-[9px] tracking-wider">
+                    {bullet}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

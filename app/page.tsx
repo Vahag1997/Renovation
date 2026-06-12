@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { portfolioProjects } from "@/app/_data/projects";
+import { Calculator } from "@/app/_components/Calculator";
 
 export default function Home() {
   const revealElements = useRef<HTMLElement[]>([]);
@@ -176,10 +177,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Calculator Section */}
+      <section ref={addToRefs} className="py-section-gap px-margin-mobile lg:px-margin-desktop bg-background border-t border-outline-variant/30">
+        <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+          {/* Left Column: Context / Value Prop */}
+          <div className="lg:col-span-5 space-y-6">
+            <span className="font-sans text-xs font-semibold tracking-[0.2em] uppercase text-secondary">
+              Сметный расчет
+            </span>
+            <h2 className="font-sans text-3xl sm:text-4xl md:text-[42px] font-black uppercase tracking-tight text-primary leading-[1.1]">
+              Узнайте бюджет <br />
+              вашего ремонта <br />
+              моментально
+            </h2>
+            <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+              STUDIO AURA ценит прозрачность и точность планирования. Наш интерактивный калькулятор использует актуальные тарифы 2026 года для предварительного сметного расчета.
+            </p>
+            <div className="space-y-3 pt-4 border-t border-outline-variant/50">
+              <div className="flex items-center gap-3 text-sm font-sans font-medium uppercase text-primary">
+                <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                Черновые и чистовые материалы
+              </div>
+              <div className="flex items-center gap-3 text-sm font-sans font-medium uppercase text-primary">
+                <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                Авторский надзор и контроль сметы
+              </div>
+              <div className="flex items-center gap-3 text-sm font-sans font-medium uppercase text-primary">
+                <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                Официальная гарантия по договору
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Calculator Component */}
+          <div className="lg:col-span-7 lg:col-start-6 w-full">
+            <Calculator isDark={false} />
+          </div>
+        </div>
+      </section>
+
       {/* Magazine Section */}
       <section
         ref={addToRefs}
-        className="py-section-gap bg-surface-container-low px-margin-mobile md:px-margin-desktop"
+        className="py-section-gap bg-surface-container-low px-margin-mobile lg:px-margin-desktop"
       >
         <div className="max-w-screen-xl mx-auto">
           <div className="flex justify-between items-end mb-16">
