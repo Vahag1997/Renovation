@@ -8,6 +8,7 @@ export interface Project {
   year: string;
   image: string;
   link: string;
+  description: string;
 }
 
 export const portfolioProjects: Project[] = [
@@ -21,6 +22,7 @@ export const portfolioProjects: Project[] = [
     year: "2024",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAYrKOYzhtSGMBWaONBdzERTUhmiWFK87miHQ8w0HNp1IOnzX1SV-0miKwL76E_JxIdidKT3mDxEJ4pk1K85zvJ_9B3nikc5IgueiIeIxptzSB68eafknsKnJUFZe1blyzlc9QiJnYpwG1rHRIdg47nrgBi4GpEZKCtV4pzfHwoz7M6hzpA85tcYx-tHxKJH-PZgq1SsuXErJ0ricSrKRsJedklLf2qL2mDJDWaWNw9kej49IiIwxjsle9Lvc60EtKEwGGT8yQewHU",
     link: "/portfolio",
+    description: "Архитектурное проектирование и премиум-ремонт просторной квартиры для ценителей минимализма в ЖК «Монолит»"
   },
   {
     id: "penthouse-ues",
@@ -32,6 +34,7 @@ export const portfolioProjects: Project[] = [
     year: "2023",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAA2F7ce4aBeLVBnXauMVP6fmKgatvsb_dN28dbRT78g6BMUg9s60nSKmzmvE431CQQaonVKyHycvhlz1-YukKRTuzv5IkpA1p5BOJbVQYc20ooNcDVGkp-AQNX5Xwcp2Q2Jkhq8FysxAxNl1hlFxMSFit8qJ7wAaMn13Hdkw_voNnWYAkoSJEOuw4mmaACQHIlD1Znqqm6PSa-JwTR0ttFLP4hWkuntHe7vHucSG5msTOLra0wuioGZmmrb4g3b_qI45gyBQIjhl4",
     link: "/portfolio",
+    description: "Дизайн интерьера и высококлассный ремонт двухуровневого пентхауса с панорамными окнами на Манхэттене"
   },
   {
     id: "loft-tribeca",
@@ -43,6 +46,7 @@ export const portfolioProjects: Project[] = [
     year: "2022",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBmapc2y84hjCDauUuvGPx9BIY7TH2xRuwh06o8tzMxU4_4LcpQxA1QYLk-VunwptVz7ffpJUckpmrheUutFr8J7sggqRyK49DnJdY40v4lXXlezjhDXWg8setqFP0Fow0c70__33MlB8PQYub2-jgIQrNDVejsZW6tPSte8wunMdXGxMBswjvIKgv5vBgeT_hCPFmjAG0YpYIF_REImg3DqyoEo5FJlAlKdZ89kgOcjXxCGNmnhSRdDsC-txoB1yxPnQoPzkqpZto",
     link: "/portfolio",
+    description: "Дизайн интерьера и ремонт квартиры в стиле индустриальный лофт для карьериста в историческом районе Трайбека"
   },
   {
     id: "lake-como",
@@ -54,6 +58,7 @@ export const portfolioProjects: Project[] = [
     year: "2024",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDqplEB02zapq9gVXMkZd_wXQkBh-v8RfIzkcCNYTnjTVAD-Huf9mN_-hKDpdynU_A0Zp54R2v4qpzhgh1X4-dO4HwEOFuxFMECweP6S-GGzaduF0V0kopHohqykuwLOPccW1RIDdfJ0rJfCLnYlYEy-tfuhR8oZ7tGlTGpJgru0CQLJ5THtbMZ98wjkXtoDZxWv7g9PxcznpMYiUKv4_Px3brl6BPOGqjVSl7Nhi4FGqlMHtWK0Tz-0JMWSvc3IHz3IcYZjdDsHUI",
     link: "/portfolio",
+    description: "Эксклюзивный ремонт и декорирование загородной виллы на побережье озера Комо с использованием натурального мрамора"
   },
   {
     id: "montauk-residence",
@@ -65,6 +70,7 @@ export const portfolioProjects: Project[] = [
     year: "2023",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEeWMEY79PjjagjRJj5F5Z4vqTaaNc1FUx8KxbYoR2VrOW3xSCCAMLjNoQpRJFhPQpVonZGmLGs4qxlIeXQ2Tza_R9gCtJHgKC9NUNiqpP90d6SIMYSxW5qb-BNKQXJZmzq0IPqnPcilH_ozfTAnHwkNTH7giCPs8Psv0QU5TDsXPyolEq3rXkydARa3S31cigWV1ZIAKCLeiBi07UvXOuXHPi1e7EWIqcxejiljOa_HJazTBCfN9pR73hx50uuBETlYRu3QH7NMA",
     link: "/portfolio",
+    description: "Архитектурный дизайн и отделка современной загородной резиденции на первой линии Атлантического океана"
   },
   {
     id: "milan-boutique",
@@ -76,6 +82,7 @@ export const portfolioProjects: Project[] = [
     year: "2023",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB3PLFXe659f5udN-A0YVCtbgXjsGTgvImTYQk5nZySxTK1HyteEdMAiz13AdDtVsirYooatuKIGir5ZL_Ik1M9og7piyYDuVFr2wMxP9sIztCBJYIkdLw7TTV0NlBLeMMU3-x5ji3D2NVhegs95jKgZvrN-NQsHTaBVjwJqT5TH-8001pJrBs3SP76mosX5XyDnB_mvAxobJEGwva1ZL0MdfXo6UudsHPueovQrP2m9LHJYQBSTNqZqbcSsQGFfVqKdPio4wnp7CE",
     link: "/portfolio",
+    description: "Проектирование и отделка коммерческого пространства премиум-класса для модного бутика в центре Милана"
   },
   {
     id: "zurich-office",
@@ -87,6 +94,7 @@ export const portfolioProjects: Project[] = [
     year: "2024",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAZy_m50VgWwIlrY70pFptqZ3O1VfaGFbDCvnFn2LugRf5ZvPetz7moQmTIDbEXHZCSo2xyefXzhIxKQOCMSSHb-wNYUmiG5GkeK8dbnVbRF8FpVQcoLN0sCYW0RAO1Xnkm64Ob5Q6VOhWGtfIi46xWEitbdZFVaCyuosIAIHbjQrCxf4TEaGjah5p_yS7uZs3xKbLskKQYWCLJYt__q1UsFMo5zACHAHEsSHeNatYLImR2QDFkZ2sBQCwtrQCszBk3eQY0CwdFTos",
     link: "/portfolio",
+    description: "Комплексный ремонт и инженерное оснащение представительского офиса класса А в деловом центре Цюриха"
   },
   {
     id: "florence-garden",
@@ -98,6 +106,7 @@ export const portfolioProjects: Project[] = [
     year: "2023",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAZy_m50VgWwIlrY70pFptqZ3O1VfaGFbDCvnFn2LugRf5ZvPetz7moQmTIDbEXHZCSo2xyefXzhIxKQOCMSSHb-wNYUmiG5GkeK8dbnVbRF8FpVQcoLN0sCYW0RAO1Xnkm64Ob5Q6VOhWGtfIi46xWEitbdZFVaCyuosIAIHbjQrCxf4TEaGjah5p_yS7uZs3xKbLskKQYWCLJYt__q1UsFMo5zACHAHEsSHeNatYLImR2QDFkZ2sBQCwtrQCszBk3eQY0CwdFTos",
     link: "/portfolio",
+    description: "Ландшафтный дизайн и благоустройство частного парка загородной усадьбы во Флоренции"
   },
   {
     id: "nice-terrace",
@@ -109,6 +118,7 @@ export const portfolioProjects: Project[] = [
     year: "2024",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBP9gqGZBlsdHkjnQYSYqlvM0uNpymH7uu9hDhU-vu681VcUkeDShuhZyEr5dQ1m4rCTl_0PZwF09H8FZ3GuzYhzLjaxbzBgeJ2hZdI48Q_ItsBVnO9jw2aRWwKKFfddYU_FruV_6cqPzxgCMxnIgYSZWC69ikmrdjyupDbIXGX_DCIxods2dfLf3lUJFvxB7KEAlYili2WfeW3qkShohvHiASAiscXrZog7CfZo1z-mWByFwjSdZIJ3sWf-00L8uybrhsM6wytw6E",
     link: "/portfolio",
+    description: "Озеленение и обустройство эксплуатируемой террасы пентхауса с видом на Лазурный Берег"
   },
   {
     id: "concept-blueprints",
@@ -120,5 +130,6 @@ export const portfolioProjects: Project[] = [
     year: "2023",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBXg_eyMN76Havk-_5L0J8oNAXCX5v53YEPtnAm3sWPBFBckuaOArssbNASJmMNvlcoqtnOUHCFf9EEdXLCMMZbQ-jBMAEzu-hMmsg8hUNOa8pH0IIf3-SmQAmkrC-PJn1apBzZq_bmcUdYMxjd3_Z5f5fyoIhLO72spbBe39xVXIdyG56rOU7AxqR6-E2aCTOxe1ZzhvJCBEq8Mb23iiaWhPI-S-djjIF2dA7_u1Z-xslbEDBzj4NU6A-Ld-4Z32o71M9a12srOH0",
     link: "/portfolio",
+    description: "Разработка концептуальных архитектурных планов и трехмерных схем зонирования жилого пространства"
   }
 ];

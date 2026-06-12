@@ -7,9 +7,7 @@ import { portfolioProjects } from "@/app/_data/projects";
 export default function Home() {
   const revealElements = useRef<HTMLElement[]>([]);
 
-  const project1 = portfolioProjects.find((p) => p.id === "monolith") || portfolioProjects[0];
-  const project2 = portfolioProjects.find((p) => p.id === "penthouse-ues") || portfolioProjects[1];
-  const project3 = portfolioProjects.find((p) => p.id === "lake-como") || portfolioProjects[3];
+  const showcaseProjects = portfolioProjects.slice(0, 6);
 
   useEffect(() => {
     const observerOptions = {
@@ -128,65 +126,62 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Editorial Bento Feature */}
-      <section ref={addToRefs} className="pb-section-gap px-margin-mobile md:px-margin-desktop">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter h-auto md:h-[800px]">
-          {/* Main Case Study Link */}
-          <Link
-            href={`${project1.link}/${project1.category}`}
-            className="md:col-span-7 h-[500px] md:h-full relative overflow-hidden group block"
+      {/* Editorial Bento Feature - Portfolio Showcase */}
+      <section ref={addToRefs} className="pb-section-gap px-margin-mobile lg:px-margin-desktop">
+        {/* Hollow Title Section */}
+        <div className="relative py-12 overflow-hidden flex flex-col justify-center min-h-[220px] mb-12">
+          {/* Hollow Background Text */}
+          <div 
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center font-sans font-black select-none pointer-events-none opacity-5 uppercase tracking-[0.2em] text-[10vw] md:text-[8vw] leading-none"
+            style={{
+              color: 'transparent',
+              WebkitTextStroke: '1px var(--color-outline)',
+            }}
           >
-            <img
-              className="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-[1500ms] ease-out"
-              alt={project1.title}
-              src={project1.image}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"></div>
-            <div className="absolute bottom-10 left-10 text-white z-10">
-              <p className="font-sans text-[10px] leading-none tracking-widest font-semibold uppercase mb-2 text-white/70">Проект 01</p>
-              <h3 className="font-serif text-2xl md:text-3xl italic mb-2">{project1.title}</h3>
-              <p className="font-sans text-xs tracking-wider text-white/85">{project1.location} • {project1.area}</p>
-            </div>
-          </Link>
-
-          {/* Right Bento Cards */}
-          <div className="md:col-span-5 flex flex-col gap-gutter">
-            {/* Project 2 */}
-            <Link
-              href={`${project2.link}/${project2.category}`}
-              className="flex-1 relative overflow-hidden group block min-h-[280px]"
-            >
-              <img
-                className="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-[1500ms] ease-out"
-                alt={project2.title}
-                src={project2.image}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"></div>
-              <div className="absolute bottom-8 left-8 text-white z-10">
-                <p className="font-sans text-[10px] leading-none tracking-widest font-semibold uppercase mb-2 text-white/70">Проект 02</p>
-                <h4 className="font-serif text-xl italic mb-1">{project2.title}</h4>
-                <p className="font-sans text-[11px] tracking-wider text-white/85">{project2.location} • {project2.area}</p>
-              </div>
-            </Link>
-
-            {/* Project 3 */}
-            <Link
-              href={`${project3.link}/${project3.category}`}
-              className="flex-1 relative overflow-hidden group block min-h-[280px]"
-            >
-              <img
-                className="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-[1500ms] ease-out"
-                alt={project3.title}
-                src={project3.image}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"></div>
-              <div className="absolute bottom-8 left-8 text-white z-10">
-                <p className="font-sans text-[10px] leading-none tracking-widest font-semibold uppercase mb-2 text-white/70">Проект 03</p>
-                <h4 className="font-serif text-xl italic mb-1">{project3.title}</h4>
-                <p className="font-sans text-[11px] tracking-wider text-white/85">{project3.location} • {project3.area}</p>
-              </div>
-            </Link>
+            БОЛЕЕ 120
           </div>
+          {/* Foreground Heading */}
+          <div className="relative z-10 max-w-screen-xl w-full mx-auto">
+            <h2 className="font-sans text-[28px] sm:text-[36px] md:text-[44px] font-black uppercase tracking-tight text-primary leading-[1.1] max-w-3xl">
+              <span className="text-secondary mr-3 font-light">120+</span>
+              эксклюзивных <br />
+              дизайн-проектов <br />
+              реализовано
+            </h2>
+          </div>
+        </div>
+
+        {/* Project Grid */}
+        <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {showcaseProjects.map((project, index) => (
+            <Link
+              key={project.id}
+              href={`${project.link}/${project.category}`}
+              className="relative aspect-[3/4] overflow-hidden group block bg-surface-container border border-outline-variant/30"
+            >
+              {/* Image */}
+              <img
+                className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1200ms] ease-out"
+                alt={project.title}
+                src={project.image}
+              />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+              {/* Text info */}
+              <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end z-20 translate-y-6 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                <p className="text-white font-sans text-sm md:text-base font-normal leading-relaxed mb-1.5">
+                  {project.description}
+                </p>
+                <span className="text-white/80 font-sans text-xs tracking-wider mb-6 block">
+                  {project.area}
+                </span>
+                {/* Button */}
+                <div className="flex items-center gap-2 text-[#eadbc5] font-sans text-xs tracking-[0.2em] font-black uppercase">
+                  <span>― подробнее</span>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
