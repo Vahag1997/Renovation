@@ -7,33 +7,14 @@ interface CalculatorProps {
   isCompact?: boolean;
 }
 
-const RATES: Record<string, number> = {
-  minimalism: 750,
-  classic: 950,
-  "art-deco": 850,
-  bespoke: 1100,
-};
-
-const MULTIPLIERS: Record<string, number> = {
-  apartment: 1.0,
-  "new-building": 1.05,
-  house: 1.15,
-  townhouse: 1.10,
-};
-
 export function Calculator({ isDark = false, isCompact = false }: CalculatorProps) {
   const [premisesType, setPremisesType] = useState("apartment");
   const [styleType, setStyleType] = useState("minimalism");
   const [area, setArea] = useState<number>(80);
+  const [complexName, setComplexName] = useState("");
   const [phone, setPhone] = useState("");
-  const [name, setName] = useState("");
   const [isAgreed, setIsAgreed] = useState(true);
   const [submitted, setSubmitted] = useState(false);
-
-  // Live calculation
-  const baseRate = RATES[styleType] || 750;
-  const multiplier = MULTIPLIERS[premisesType] || 1.0;
-  const totalCost = area * baseRate * multiplier;
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let input = e.target.value.replace(/\D/g, "");
@@ -84,10 +65,9 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="font-serif text-xl italic mb-2">Расчет Зафиксирован</h3>
-        <p className="font-sans text-[10px] tracking-wider uppercase text-secondary mb-4">Предварительная смета: €{Math.round(totalCost).toLocaleString("ru-RU")}</p>
+        <h3 className="font-serif text-xl italic mb-3">Заявка отправлена</h3>
         <p className="font-sans text-[11px] opacity-80 max-w-sm leading-relaxed">
-          Наш ведущий технолог свяжется с вами по номеру <strong className="font-medium">{phone}</strong> в течение 15 минут для согласования деталей.
+          Спасибо за обращение. Мы рассчитаем точную смету вашего ремонта ({area} м²) и наш технолог свяжется с вами по номеру <strong className="font-medium">{phone}</strong> в течение 15 минут.
         </p>
       </div>
     );
@@ -124,7 +104,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
             </select>
           </div>
           <div>
-            <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Стиль ремонта</label>
+            <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Выберите стиль</label>
             <select
               value={styleType}
               onChange={(e) => setStyleType(e.target.value)}
@@ -171,63 +151,33 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
           </div>
         </div>
 
-        {/* Real-time Calculation Panel */}
-        {isCompact ? (
-          <div className="flex justify-between items-center py-2.5 border-t border-b border-white/10 my-1">
-            <span className="font-sans text-[9px] tracking-widest uppercase text-white/50">Ориентировочная смета</span>
-            <span className="font-serif text-xl text-secondary">€{Math.round(totalCost).toLocaleString("ru-RU")}</span>
+        {/* Row 3: Complex Name & Phone (Condensed side-by-side Layout) */}
+        <div className={isCompact ? "grid grid-cols-2 gap-3" : "grid grid-cols-1 sm:grid-cols-2 gap-4"}>
+          <div>
+            <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Название ЖК (при наличии)</label>
+            <input
+              type="text"
+              value={complexName}
+              onChange={(e) => setComplexName(e.target.value)}
+              className={`w-full px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
+              placeholder="ЖК Савеловский"
+            />
           </div>
-        ) : (
-          <div className={`p-4 border flex flex-col justify-center items-center text-center ${isDark ? "bg-white/5 border-white/10" : "bg-background border-outline-variant/50"}`}>
-            <span className={`font-sans text-[9px] tracking-widest uppercase ${labelColor} mb-1`}>Ориентировочная стоимость</span>
-            <div className="font-serif text-2xl font-light text-secondary">
-              €{Math.round(totalCost).toLocaleString("ru-RU")}
-            </div>
-            <span className="font-sans text-[9px] opacity-60 mt-1">Включает работы и материалы</span>
+          <div>
+            <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Телефон</label>
+            <input
+              required
+              type="tel"
+              value={phone}
+              onChange={handlePhoneChange}
+              className={`w-full px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
+              placeholder="+7 (999) 000-00-00"
+            />
           </div>
-        )}
+        </div>
 
-        {/* Lead Capture */}
+        {/* Action button & agreement checkbox */}
         <div className="space-y-3">
-          {isCompact ? (
-            <div>
-              <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1 ${labelColor}`}>Телефон для сметы</label>
-              <input
-                required
-                type="tel"
-                value={phone}
-                onChange={handlePhoneChange}
-                className={`w-full px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
-                placeholder="+7 (999) 000-00-00"
-              />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1 ${labelColor}`}>Ваше имя</label>
-                <input
-                  required
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={`w-full px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
-                  placeholder="Константин"
-                />
-              </div>
-              <div>
-                <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1 ${labelColor}`}>Телефон</label>
-                <input
-                  required
-                  type="tel"
-                  value={phone}
-                  onChange={handlePhoneChange}
-                  className={`w-full px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
-                  placeholder="+7 (999) 000-00-00"
-                />
-              </div>
-            </div>
-          )}
-
           <button
             type="submit"
             disabled={!isAgreed}
@@ -237,7 +187,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
                 : "bg-primary text-on-primary hover:bg-secondary"
             }`}
           >
-            Зафиксировать стоимость
+            Рассчитать стоимость ремонта
           </button>
 
           <label className="flex items-start gap-2.5 cursor-pointer select-none">
