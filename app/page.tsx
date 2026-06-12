@@ -2,9 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { portfolioProjects } from "@/app/_data/projects";
 
 export default function Home() {
   const revealElements = useRef<HTMLElement[]>([]);
+
+  const project1 = portfolioProjects.find((p) => p.id === "monolith") || portfolioProjects[0];
+  const project2 = portfolioProjects.find((p) => p.id === "penthouse-ues") || portfolioProjects[1];
+  const project3 = portfolioProjects.find((p) => p.id === "lake-como") || portfolioProjects[3];
 
   useEffect(() => {
     const observerOptions = {
@@ -128,45 +133,59 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter h-auto md:h-[800px]">
           {/* Main Case Study Link */}
           <Link
-            href="/portfolio/kvartiry"
+            href={`${project1.link}/${project1.category}`}
             className="md:col-span-7 h-[500px] md:h-full relative overflow-hidden group block"
           >
             <img
               className="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-[1500ms] ease-out"
-              alt="The Monolith Residence - гостиная зона в стиле минимализм"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV6x-lBNI0nALZKrOGljE9avpWEXidrN_rjI9RXx6ln8shuvYS4_-0YFtQKG8vKp9DobBMYQ7IyZdw3_QieH3EvFoRkcW0wv7Z8cYWK-twRd2RDe_nkfLELBj2x-vIYVUoUe_yjcFE8Rdl5AoaDxaRN2872EOQet8CaBl1tov1G_uTrYC8WVoy4kSPELWELWyzVmdHdmeLNiPvou9uU7Rj5opLljUgER8v0ivh-4vhruhRA5rCnrGXharKJWFKdeS4X-vYK3G59UA"
+              alt={project1.title}
+              src={project1.image}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
-            <div className="absolute bottom-10 left-10 text-white">
-              <p className="font-label-caps text-label-caps mb-2 text-white/80">Проект 01</p>
-              <p className="font-headline-sm text-headline-sm italic">The Monolith Residence</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"></div>
+            <div className="absolute bottom-10 left-10 text-white z-10">
+              <p className="font-sans text-[10px] leading-none tracking-widest font-semibold uppercase mb-2 text-white/70">Проект 01</p>
+              <h3 className="font-serif text-2xl md:text-3xl italic mb-2">{project1.title}</h3>
+              <p className="font-sans text-xs tracking-wider text-white/85">{project1.location} • {project1.area}</p>
             </div>
           </Link>
 
           {/* Right Bento Cards */}
           <div className="md:col-span-5 flex flex-col gap-gutter">
-            {/* Visual Detail */}
-            <div className="flex-1 relative overflow-hidden min-h-[250px]">
+            {/* Project 2 */}
+            <Link
+              href={`${project2.link}/${project2.category}`}
+              className="flex-1 relative overflow-hidden group block min-h-[280px]"
+            >
               <img
-                className="w-full h-full object-cover grayscale-[20%] hover:scale-105 transition-all duration-[1200ms]"
-                alt="Минималистичная ванная комната из мрамора"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcorA0A0kxeUgDUgoseeYgagftFj6F48hDo5wxFdI6mJPm_67Imn3fAavksY6PkvAE79K8ClxrAcvF6Zij5yRwqB29q9ZK2D45M9bIoDgGVHqAn1zC3ULc-eWLHQQsufSIWZwrODRzfCLhuJ-j_Tygb5ctdas70wIhi1R42Bl0Gpn875kVfRAn4YJAH2H5S-kjmJT28HUlwzYZoNLrlqNUB1qwQ5JuqXmKFUyQNdSR6bK91CROLFcNH-fSHatsgQ_5iP38cIHFrYM"
+                className="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-[1500ms] ease-out"
+                alt={project2.title}
+                src={project2.image}
               />
-            </div>
-            {/* Value Card */}
-            <div className="flex-1 bg-surface-container flex flex-col justify-center p-12 border border-outline-variant">
-              <span className="material-symbols-outlined text-4xl mb-6 text-secondary">
-                architecture
-              </span>
-              <h4 className="font-headline-sm text-headline-sm mb-4 text-primary">
-                Безупречное Ремесло
-              </h4>
-              <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-                Каждая деталь имеет значение — от текстуры благородного дуба до цветовой
-                температуры скрытого освещения. Мы работаем с ведущими ремесленниками
-                и поставщиками Европы.
-              </p>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"></div>
+              <div className="absolute bottom-8 left-8 text-white z-10">
+                <p className="font-sans text-[10px] leading-none tracking-widest font-semibold uppercase mb-2 text-white/70">Проект 02</p>
+                <h4 className="font-serif text-xl italic mb-1">{project2.title}</h4>
+                <p className="font-sans text-[11px] tracking-wider text-white/85">{project2.location} • {project2.area}</p>
+              </div>
+            </Link>
+
+            {/* Project 3 */}
+            <Link
+              href={`${project3.link}/${project3.category}`}
+              className="flex-1 relative overflow-hidden group block min-h-[280px]"
+            >
+              <img
+                className="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-[1500ms] ease-out"
+                alt={project3.title}
+                src={project3.image}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"></div>
+              <div className="absolute bottom-8 left-8 text-white z-10">
+                <p className="font-sans text-[10px] leading-none tracking-widest font-semibold uppercase mb-2 text-white/70">Проект 03</p>
+                <h4 className="font-serif text-xl italic mb-1">{project3.title}</h4>
+                <p className="font-sans text-[11px] tracking-wider text-white/85">{project3.location} • {project3.area}</p>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
