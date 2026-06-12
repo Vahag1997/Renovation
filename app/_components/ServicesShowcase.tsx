@@ -78,134 +78,168 @@ export function ServicesShowcase() {
   const values: ValueBadge[] = [
     {
       icon: (
-        <svg className="w-8 h-8 text-secondary" fill="none" stroke="currentColor" strokeWidth={1.2} viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-[#6b5849]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
       ),
-      text: "Более 12 лет опыта и премиальный поэтапный подход к реализации"
+      text: "Более 12 лет опыта и премиальный поэтапный подход"
     },
     {
       icon: (
-        <svg className="w-8 h-8 text-secondary" fill="none" stroke="currentColor" strokeWidth={1.2} viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-[#6b5849]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
         </svg>
       ),
-      text: "Полный цикл работ от эскизных планов до финального декорирования"
+      text: "Полный цикл от планирования до декорирования"
     },
     {
       icon: (
-        <svg className="w-8 h-8 text-secondary" fill="none" stroke="currentColor" strokeWidth={1.2} viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-[#6b5849]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
       ),
-      text: "Регулярный доступ на строящиеся объекты и контроль качества"
+      text: "Посещение строящихся объектов и жесткий контроль"
     },
     {
       icon: (
-        <svg className="w-8 h-8 text-secondary" fill="none" stroke="currentColor" strokeWidth={1.2} viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-[#6b5849]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
         </svg>
       ),
-      text: "Прямые контракты с фабриками и прецизионный авторский отбор"
+      text: "Прямые контракты с фабриками и прецизионный отбор"
     },
     {
       icon: (
-        <svg className="w-8 h-8 text-secondary" fill="none" stroke="currentColor" strokeWidth={1.2} viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-[#6b5849]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       ),
-      text: "Безупречное соблюдение сроков, зафиксированных в договоре"
+      text: "Соблюдение сроков, зафиксированных в договоре"
     }
   ];
 
   return (
-    <section className="py-section-gap px-margin-mobile lg:px-margin-desktop bg-background border-t border-outline-variant/30 overflow-hidden font-sans">
+    <section className="py-24 md:py-32 px-margin-mobile lg:px-margin-desktop bg-background border-t border-outline-variant/30 overflow-hidden font-sans">
       <div className="max-w-screen-xl mx-auto">
         
         {/* Title */}
-        <div className="max-w-3xl mb-16 space-y-3">
-          <span className="font-sans text-xs font-semibold tracking-[0.25em] uppercase text-secondary block">
+        <div className="max-w-3xl mb-16 md:mb-24 space-y-3">
+          <span className="font-sans text-xs font-semibold tracking-[0.25em] uppercase text-[#6b5849] block">
             Направления работы
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light leading-none tracking-tight text-primary">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-none tracking-tight text-primary">
             Наши услуги
           </h2>
         </div>
 
-        {/* Brand values / Badges row */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 border-b border-outline-variant/30 pb-16 mb-16">
-          {values.map((val, idx) => (
-            <div key={idx} className="space-y-4 flex flex-col items-center md:items-start text-center md:text-left group">
-              <div className="w-12 h-12 rounded-full bg-secondary/5 flex items-center justify-center group-hover:bg-secondary/10 transition-colors duration-500">
-                {val.icon}
-              </div>
-              <p className="font-sans text-[11px] leading-relaxed text-on-surface-variant font-medium tracking-wide max-w-[200px]">
-                {val.text}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Custom Tab Navigation Bar */}
-        <div className="flex overflow-x-auto scrollbar-hide border border-outline-variant/40 bg-surface-container-low p-1.5 gap-1.5 select-none mb-12">
-          {TABS_DATA.map((tab, idx) => {
-            const isActive = activeTabIdx === idx;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => handleTabChange(idx)}
-                className={`flex-1 min-w-[150px] text-center py-4 px-3 font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-300 border focus:outline-none cursor-pointer ${
-                  isActive
-                    ? "bg-secondary text-on-secondary border-secondary shadow-sm"
-                    : "bg-transparent text-on-surface-variant/80 border-transparent hover:text-primary hover:border-outline-variant/30"
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Tab Content Panel */}
-        <div className={`grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-gutter items-center transition-all duration-300 ${
-          isAnimating ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
-        }`}>
-          {/* Left Column: Description & Actions */}
-          <div className="lg:col-span-5 space-y-6">
-            <span className="font-sans text-[10px] tracking-widest text-secondary font-bold uppercase block">
-              Услуга • 0{activeTabIdx + 1}
-            </span>
-            <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-primary leading-tight">
-              {activeTab.title}
-            </h3>
-            <div className="w-12 h-[2px] bg-secondary" />
-            <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-              {activeTab.description}
-            </p>
-            <div className="pt-4">
-              <Link
-                href={activeTab.link}
-                className="group inline-flex items-center gap-4 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-primary border-b border-primary pb-2 hover:text-secondary hover:border-secondary transition-all duration-300"
-              >
-                Подробнее об услуге
-                <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </Link>
-            </div>
+        {/* Interactive Layout: Sticky List Left & Visual Panel Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-gutter items-start">
+          
+          {/* Left Column: Vertical Catalog Selector */}
+          <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-36">
+            {TABS_DATA.map((tab, idx) => {
+              const isActive = activeTabIdx === idx;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(idx)}
+                  className="w-full text-left py-5 border-b border-outline-variant/30 flex items-baseline gap-6 group transition-all duration-300 relative focus:outline-none cursor-pointer"
+                >
+                  <span className={`font-serif text-xl sm:text-2xl transition-all duration-500 ${
+                    isActive ? "text-[#c5a880] font-bold scale-110" : "text-neutral-300 group-hover:text-primary"
+                  }`}>
+                    0{idx + 1}
+                  </span>
+                  <div className="flex-grow">
+                    <span className={`font-sans text-xs sm:text-sm tracking-widest uppercase font-semibold transition-all duration-300 ${
+                      isActive ? "text-[#6b5849] pl-2 font-bold" : "text-neutral-500 group-hover:text-primary"
+                    }`}>
+                      {tab.label}
+                    </span>
+                  </div>
+                  <svg 
+                    className={`w-4 h-4 transition-all duration-300 ${
+                      isActive 
+                        ? "text-[#c5a880] opacity-100 translate-x-0" 
+                        : "opacity-0 -translate-x-2 group-hover:opacity-50 group-hover:translate-x-0"
+                    }`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth={2} 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Right Column: Visual Frame */}
-          <div className="lg:col-span-7">
-            <div className="relative aspect-[16/10] overflow-hidden border border-outline-variant/40 shadow-md group">
+          {/* Right Column: Visual Frame with Glassmorphic Overlay Panel */}
+          <div className="lg:col-span-8 relative aspect-[16/10] sm:aspect-[16/9.5] overflow-hidden border border-outline-variant/40 shadow-xl group">
+            {/* Active Image */}
+            <div className="absolute inset-0 w-full h-full">
               <img
                 src={activeTab.image}
                 alt={activeTab.title}
-                className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 group-hover:scale-103 transition-all duration-[1200ms] ease-out"
+                className={`w-full h-full object-cover transition-all duration-[1200ms] ${
+                  isAnimating ? "scale-105 opacity-50 blur-[2px]" : "scale-100 opacity-100 blur-0"
+                }`}
               />
-              <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent z-10" />
+            </div>
+
+            {/* Floating Dark Glassmorphic Details Card */}
+            <div className={`absolute bottom-5 left-5 right-5 md:bottom-8 md:left-8 md:right-8 bg-[#121110]/92 backdrop-blur-md border border-white/10 p-6 md:p-8 text-white z-20 transition-all duration-500 flex flex-col justify-between min-h-[220px] ${
+              isAnimating ? "translate-y-4 opacity-0" : "translate-y-0 opacity-100"
+            }`}>
+              <div className="space-y-3">
+                <span className="font-sans text-[9px] tracking-widest text-[#c5a880] font-bold uppercase block">
+                  Направление работы
+                </span>
+                <h4 className="font-serif text-xl sm:text-2xl font-light tracking-wide text-white leading-tight">
+                  {activeTab.title}
+                </h4>
+                <div className="w-8 h-[1px] bg-[#c5a880]/50" />
+                <p className="font-body-sm text-body-sm text-white/70 leading-relaxed max-w-xl">
+                  {activeTab.description}
+                </p>
+              </div>
+
+              <div className="pt-6 border-t border-white/10 mt-6 flex justify-between items-center">
+                <Link
+                  href={activeTab.link}
+                  className="group/btn inline-flex items-center gap-3 font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-[#c5a880] hover:text-white transition-colors duration-300"
+                >
+                  Подробнее о направлении
+                  <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </Link>
+                <span className="font-serif text-[11px] italic text-white/40">0{activeTabIdx + 1} / 05</span>
+              </div>
             </div>
           </div>
+
+        </div>
+
+        {/* Brand values / Badges strip */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 border-t border-b border-outline-variant/30 py-10 mt-24 gap-8">
+          {values.map((val, idx) => (
+            <div key={idx} className="flex gap-4 items-start group">
+              <div className="w-8 h-8 rounded-full bg-[#6b5849]/5 flex items-center justify-center flex-shrink-0 group-hover:bg-[#6b5849]/10 transition-colors duration-500">
+                {val.icon}
+              </div>
+              <div className="space-y-1">
+                <span className="font-sans text-[8px] tracking-[0.2em] text-[#c5a880] font-bold uppercase block">
+                  Преимущество 0{idx + 1}
+                </span>
+                <p className="font-sans text-[10px] leading-relaxed text-on-surface-variant font-medium tracking-wide">
+                  {val.text}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
 
       </div>
