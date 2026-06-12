@@ -128,23 +128,14 @@ export default function Home() {
 
       {/* Editorial Bento Feature - Portfolio Showcase */}
       <section ref={addToRefs} className="pb-section-gap px-margin-mobile lg:px-margin-desktop">
-        {/* Hollow Title Section */}
-        <div className="relative py-12 overflow-hidden flex flex-col justify-center min-h-[220px] mb-12">
-          {/* Hollow Background Text */}
-          <div 
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center font-sans font-black select-none pointer-events-none opacity-5 uppercase tracking-[0.2em] text-[10vw] md:text-[8vw] leading-none"
-            style={{
-              color: 'transparent',
-              WebkitTextStroke: '1px var(--color-outline)',
-            }}
-          >
-            БОЛЕЕ 120
-          </div>
-          {/* Foreground Heading */}
-          <div className="relative z-10 max-w-screen-xl w-full mx-auto">
-            <h2 className="font-sans text-[28px] sm:text-[36px] md:text-[44px] font-black uppercase tracking-tight text-primary leading-[1.1] max-w-3xl">
-              <span className="text-secondary mr-3 font-light">120+</span>
-              эксклюзивных <br />
+        {/* Title Section */}
+        <div className="max-w-screen-xl mx-auto w-full mb-16">
+          <div className="flex flex-col gap-2.5">
+            <span className="font-sans text-xs font-semibold tracking-[0.2em] uppercase text-secondary">
+              Портфолио Студии
+            </span>
+            <h2 className="font-sans text-3xl sm:text-4xl md:text-[52px] font-black uppercase tracking-tighter text-primary leading-[1.05] max-w-3xl">
+              <span className="text-secondary font-light">120+</span> эксклюзивных <br />
               дизайн-проектов <br />
               реализовано
             </h2>
