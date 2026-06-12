@@ -178,7 +178,7 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
               
               {/* Right Column: Calculator */}
               <div className="lg:col-span-5 w-full mt-8 lg:mt-0">
-                <Calculator isDark={true} />
+                <Calculator isDark={true} isCompact={true} />
               </div>
             </div>
           ) : (
