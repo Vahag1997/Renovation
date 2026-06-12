@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { portfolioProjects } from "@/app/_data/projects";
 import { Calculator } from "@/app/_components/Calculator";
+import { Workflow } from "@/app/_components/Workflow";
+import { ServicesShowcase } from "@/app/_components/ServicesShowcase";
 
 export default function Home() {
   const revealElements = useRef<HTMLElement[]>([]);
@@ -215,6 +217,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <ServicesShowcase />
+
+      <Workflow />
 
       {/* Magazine Section */}
       <section

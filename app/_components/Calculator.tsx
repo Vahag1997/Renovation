@@ -82,13 +82,13 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
       
       <form onSubmit={handleSubmit} className={`${gapClass} ${isCompact ? "mt-4" : "mt-0"}`}>
         {/* Row 1: Dropdowns */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Тип помещения</label>
             <select
               value={premisesType}
               onChange={(e) => setPremisesType(e.target.value)}
-              className={`w-full px-3 py-2 border font-sans text-[10px] uppercase tracking-wider focus:outline-none appearance-none ${inputBg}`}
+              className={`w-full min-w-0 px-3 py-2 border font-sans text-[10px] uppercase tracking-wider focus:outline-none appearance-none ${inputBg}`}
               style={{
                 backgroundImage: selectIcon,
                 backgroundPosition: "right 8px center",
@@ -108,7 +108,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
             <select
               value={styleType}
               onChange={(e) => setStyleType(e.target.value)}
-              className={`w-full px-3 py-2 border font-sans text-[10px] uppercase tracking-wider focus:outline-none appearance-none ${inputBg}`}
+              className={`w-full min-w-0 px-3 py-2 border font-sans text-[10px] uppercase tracking-wider focus:outline-none appearance-none ${inputBg}`}
               style={{
                 backgroundImage: selectIcon,
                 backgroundPosition: "right 8px center",
@@ -152,14 +152,14 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
         </div>
 
         {/* Row 3: Complex Name & Phone (Condensed side-by-side Layout) */}
-        <div className={isCompact ? "grid grid-cols-2 gap-3" : "grid grid-cols-1 sm:grid-cols-2 gap-4"}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Название ЖК (при наличии)</label>
             <input
               type="text"
               value={complexName}
               onChange={(e) => setComplexName(e.target.value)}
-              className={`w-full px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
+              className={`w-full min-w-0 px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
               placeholder="ЖК Савеловский"
             />
           </div>
@@ -170,7 +170,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
               type="tel"
               value={phone}
               onChange={handlePhoneChange}
-              className={`w-full px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
+              className={`w-full min-w-0 px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
               placeholder="+7 (999) 000-00-00"
             />
           </div>

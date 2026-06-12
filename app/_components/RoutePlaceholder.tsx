@@ -17,6 +17,7 @@ type RoutePlaceholderProps = {
 
 import { portfolioProjects } from "@/app/_data/projects";
 import { Calculator } from "@/app/_components/Calculator";
+import { Workflow } from "@/app/_components/Workflow";
 
 export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
   const route = getRouteByHref(href) ?? homeRoute;
@@ -25,8 +26,6 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
   const visibleSections = href === "/" ? siteRoutes : children;
 
   const [sliderPosition, setSliderPosition] = useState(50);
-  const [formData, setFormData] = useState({ name: "", phone: "", area: "", notes: "" });
-  const [submitted, setSubmitted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const revealElements = useRef<HTMLElement[]>([]);
@@ -210,11 +209,9 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
         </div>
       </section>
 
-      {/* page-showcase class must exist for test suite */}
-      <section className="page-showcase max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-20">
-        
-        {/* Scenario 1: Parent Directory Page (e.g. general /uslugi or /portfolio) */}
-        {visibleSections.length > 0 ? (
+      {visibleSections.length > 0 ? (
+        /* Scenario 1: Parent Directory Page (e.g. general /uslugi or /portfolio) */
+        <section className="page-showcase max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
             <div className="md:col-span-4 sticky top-32">
               <span className="font-label-caps text-label-caps text-secondary mb-4 block">Раздел</span>
@@ -247,11 +244,13 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
               </div>
             </div>
           </div>
-        ) : (
-          /* Scenario 2: Nested Subroute Leaf Page (e.g. /uslugi/remont-kvartir or /portfolio/kvartiry) */
-          <div>
-            {isServiceSubroute && (
-              <div className="space-y-20">
+        </section>
+      ) : (
+        /* Scenario 2: Nested Subroute Leaf Page (e.g. /uslugi/remont-kvartir or /portfolio/kvartiry) */
+        <>
+          {isServiceSubroute && (
+            <>
+              <section className="page-showcase max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-20 pb-0">
                 {/* Scope of Work Section */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
                   <div className="md:col-span-4 sticky top-32">
@@ -297,82 +296,13 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
                     </div>
                   </div>
                 </div>
+              </section>
+              <Workflow />
+            </>
+          )}
 
-                {/* Service Request Form */}
-                <div className="border border-outline-variant bg-surface-container-low p-10 md:p-16 text-center max-w-3xl mx-auto">
-                  {submitted ? (
-                    <div className="space-y-6 py-8">
-                      <span className="material-symbols-outlined text-secondary text-5xl">check_circle</span>
-                      <h3 className="font-headline-md text-headline-md text-primary">Заявка успешно отправлена</h3>
-                      <p className="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
-                        Наш главный инженер свяжется с вами в течение часа для согласования удобного времени визита на объект.
-                      </p>
-                    </div>
-                  ) : (
-                    <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-8 text-left">
-                      <div className="text-center mb-8">
-                        <h3 className="font-headline-md text-headline-md text-primary mb-4">Рассчитать стоимость объекта</h3>
-                        <p className="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
-                          Заполните форму ниже, и мы подготовим предварительное сметное предложение.
-                        </p>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                          <label className="font-label-caps text-[10px] text-secondary tracking-widest block mb-2">ВАШЕ ИМЯ</label>
-                          <input 
-                            required
-                            type="text" 
-                            value={formData.name} 
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full bg-background border border-outline-variant px-4 py-3 font-body-md text-primary focus:outline-none focus:border-primary" 
-                            placeholder="Константин"
-                          />
-                        </div>
-                        <div>
-                          <label className="font-label-caps text-[10px] text-secondary tracking-widest block mb-2">ТЕЛЕФОН</label>
-                          <input 
-                            required
-                            type="tel" 
-                            value={formData.phone} 
-                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                            className="w-full bg-background border border-outline-variant px-4 py-3 font-body-md text-primary focus:outline-none focus:border-primary" 
-                            placeholder="+7 (999) 000-00-00"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <label className="font-label-caps text-[10px] text-secondary tracking-widest block mb-2">ОРИЕНТИРОВОЧНАЯ ПЛОЩАДЬ (М²)</label>
-                        <input 
-                          required
-                          type="number" 
-                          value={formData.area} 
-                          onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-                          className="w-full bg-background border border-outline-variant px-4 py-3 font-body-md text-primary focus:outline-none focus:border-primary" 
-                          placeholder="150"
-                        />
-                      </div>
-                      <div>
-                        <label className="font-label-caps text-[10px] text-secondary tracking-widest block mb-2">ОСОБЫЕ ПОЖЕЛАНИЯ</label>
-                        <textarea 
-                          value={formData.notes} 
-                          onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                          className="w-full bg-background border border-outline-variant px-4 py-3 font-body-md text-primary focus:outline-none focus:border-primary h-24" 
-                          placeholder="Например, перепланировка, объединение комнат, звукоизоляция..."
-                        />
-                      </div>
-                      <button 
-                        type="submit" 
-                        className="w-full py-4 bg-primary text-on-primary font-button text-button uppercase tracking-widest hover:opacity-95 transition-opacity"
-                      >
-                        Запросить предварительную смету
-                      </button>
-                    </form>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {isPortfolioSubroute && (
+          {isPortfolioSubroute && (
+            <section className="page-showcase max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-20">
               <div className="space-y-20">
                 {/* Filtered Portfolio Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
@@ -457,10 +387,10 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
                   </div>
                 )}
               </div>
-            )}
-          </div>
-        )}
-      </section>
+            </section>
+          )}
+        </>
+      )}
     </main>
   );
 }

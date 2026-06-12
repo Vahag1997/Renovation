@@ -34,7 +34,7 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
+    <div className="relative w-full max-w-full overflow-x-hidden flex flex-col min-h-screen bg-background text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
       {/* Header Container */}
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-outline-variant ${
@@ -42,7 +42,7 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
         }`}
       >
         {/* Utility Bar */}
-        <div className="utility-bar w-full bg-primary text-on-primary py-2 px-margin-mobile lg:px-margin-desktop flex justify-between items-center text-[10px] font-sans font-medium uppercase tracking-widest">
+        <div className="utility-bar w-full bg-primary text-on-primary py-2.5 px-margin-mobile lg:px-margin-desktop flex flex-col md:flex-row md:justify-between items-center text-[10px] font-sans font-medium uppercase tracking-widest text-center gap-1.5">
           <span>Премиум ремонт и архитектурное проектирование</span>
           <span>Yerevan / Moscow / Milan</span>
         </div>
