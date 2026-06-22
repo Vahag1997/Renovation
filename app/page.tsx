@@ -222,6 +222,7 @@ export default function Home() {
 
       <Workflow />
 
+
       {/* Magazine Section */}
       <section
         ref={addToRefs}
