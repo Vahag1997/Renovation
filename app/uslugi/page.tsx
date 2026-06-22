@@ -1,47 +1,21 @@
-"use client";
-
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+
+import { Reveal } from "@/app/_components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Услуги",
+  description:
+    "Ремонт под ключ, дизайн-проекты и архитектурное проектирование. Тарифы Studio Aura: Стандарт, Бизнес и Эксклюзив с фиксированными сроками по договору.",
+  alternates: { canonical: "/uslugi" },
+};
 
 export default function Services() {
-  const revealElements = useRef<HTMLElement[]>([]);
-
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    revealElements.current.forEach((el) => {
-      if (el) {
-        el.classList.add("scroll-reveal");
-        observer.observe(el);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  const addToRefs = (el: HTMLElement | null) => {
-    if (el && !revealElements.current.includes(el)) {
-      revealElements.current.push(el);
-    }
-  };
-
   return (
     <main className="overflow-x-hidden pt-12">
       {/* Hero Header */}
-      <header ref={addToRefs} className="pt-24 pb-16 px-margin-mobile md:px-margin-desktop">
+      <Reveal as="header" className="pt-24 pb-16 px-margin-mobile md:px-margin-desktop">
         <div className="max-w-[1200px] mx-auto">
           <span className="font-label-caps text-label-caps text-secondary mb-6 block">
             Наши Направления
@@ -56,10 +30,10 @@ export default function Services() {
             создаем пространства, которые становятся тихой гаванью современной эстетики.
           </p>
         </div>
-      </header>
+      </Reveal>
 
       {/* Main Content Grid */}
-      <main className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+      <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
         {/* Renovation Tiers Header */}
         <div className="mb-12">
           <h2 className="font-label-caps text-label-caps tracking-widest text-on-surface">
@@ -69,8 +43,8 @@ export default function Services() {
         </div>
 
         {/* 3-Column Renovation Grid */}
-        <section
-          ref={addToRefs}
+        <Reveal
+          as="section"
           className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-outline-variant divide-y md:divide-y-0 md:divide-x divide-outline-variant"
         >
           {/* Standard Tier */}
@@ -182,18 +156,20 @@ export default function Services() {
               Подробнее о тарифе
             </Link>
           </div>
-        </section>
+        </Reveal>
 
         {/* Decorative Philosophy Section */}
-        <section
-          ref={addToRefs}
+        <Reveal
+          as="section"
           className="mt-section-gap grid grid-cols-1 md:grid-cols-12 gap-gutter items-center"
         >
-          <div className="md:col-span-7">
-            <img
+          <div className="md:col-span-7 relative w-full h-[500px] md:h-[600px]">
+            <Image
               alt="Минималистичный дизайн каминной зоны в светлых тонах"
-              className="w-full h-[500px] md:h-[600px] object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-out"
+              className="object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-out"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP9gqGZBlsdHkjnQYSYqlvM0uNpymH7uu9hDhU-vu681VcUkeDShuhZyEr5dQ1m4rCTl_0PZwF09H8FZ3GuzYhzLjaxbzBgeJ2hZdI48Q_ItsBVnO9jw2aRWwKKFfddYU_FruV_6cqPzxgCMxnIgYSZWC69ikmrdjyupDbIXGX_DCIxods2dfLf3lUJFvxB7KEAlYili2WfeW3qkShohvHiASAiscXrZog7CfZo1z-mWByFwjSdZIJ3sWf-00L8uybrhsM6wytw6E"
+              fill
+              sizes="(max-width: 768px) 100vw, 58vw"
             />
           </div>
           <div className="md:col-span-5 md:pl-12">
@@ -209,10 +185,10 @@ export default function Services() {
               обнажая природную красоту конструкций и чистоту материалов.
             </p>
           </div>
-        </section>
+        </Reveal>
 
         {/* Design Services Header */}
-        <div ref={addToRefs} className="mt-section-gap mb-12">
+        <div className="mt-section-gap mb-12">
           <h2 className="font-label-caps text-label-caps tracking-widest text-on-surface">
             Проектирование и Планирование
           </h2>
@@ -220,18 +196,20 @@ export default function Services() {
         </div>
 
         {/* 2-Column Design Section */}
-        <section
-          ref={addToRefs}
+        <Reveal
+          as="section"
           className="grid grid-cols-1 md:grid-cols-2 border border-outline-variant divide-y md:divide-y-0 md:divide-x divide-outline-variant"
         >
           {/* Interior Design */}
           <div className="p-12 flex flex-col justify-between group bg-background">
             <div>
-              <div className="mb-10 overflow-hidden bg-surface-container">
-                <img
+              <div className="relative h-80 mb-10 overflow-hidden bg-surface-container">
+                <Image
                   alt="Процесс проектирования и подбор материалов"
-                  className="w-full h-80 object-cover grayscale group-hover:scale-105 group-hover:grayscale-0 transition-transform duration-1000"
+                  className="object-cover grayscale group-hover:scale-105 group-hover:grayscale-0 transition-transform duration-1000"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXg_eyMN76Havk-_5L0J8oNAXCX5v53YEPtnAm3sWPBFBckuaOArssbNASJmMNvlcoqtnOUHCFf9EEdXLCMMZbQ-jBMAEzu-hMmsg8hUNOa8pH0IIf3-SmQAmkrC-PJn1apBzZq_bmcUdYMxjd3_Z5f5fyoIhLO72spbBe39xVXIdyG56rOU7AxqR6-E2aCTOxe1ZzhvJCBEq8Mb23iiaWhPI-S-djjIF2dA7_u1Z-xslbEDBzj4NU6A-Ld-4Z32o71M9a12srOH0"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <h3 className="font-headline-sm text-headline-sm mb-6 text-primary">
@@ -257,11 +235,13 @@ export default function Services() {
           {/* Architectural Planning */}
           <div className="p-12 flex flex-col justify-between group bg-background">
             <div>
-              <div className="mb-10 overflow-hidden bg-surface-container">
-                <img
+              <div className="relative h-80 mb-10 overflow-hidden bg-surface-container">
+                <Image
                   alt="Строительные чертежи и планирование"
-                  className="w-full h-80 object-cover grayscale group-hover:scale-105 group-hover:grayscale-0 transition-transform duration-1000"
+                  className="object-cover grayscale group-hover:scale-105 group-hover:grayscale-0 transition-transform duration-1000"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZy_m50VgWwIlrY70pFptqZ3O1VfaGFbDCvnFn2LugRf5ZvPetz7moQmTIDbEXHZCSo2xyefXzhIxKQOCMSSHb-wNYUmiG5GkeK8dbnVbRF8FpVQcoLN0sCYW0RAO1Xnkm64Ob5Q6VOhWGtfIi46xWEitbdZFVaCyuosIAIHbjQrCxf4TEaGjah5p_yS7uZs3xKbLskKQYWCLJYt__q1UsFMo5zACHAHEsSHeNatYLImR2QDFkZ2sBQCwtrQCszBk3eQY0CwdFTos"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <h3 className="font-headline-sm text-headline-sm mb-6 text-primary">
@@ -283,11 +263,11 @@ export default function Services() {
               </span>
             </div>
           </div>
-        </section>
+        </Reveal>
 
         {/* Final CTA */}
-        <section
-          ref={addToRefs}
+        <Reveal
+          as="section"
           className="mt-section-gap py-16 md:py-24 bg-surface-container flex flex-col items-center text-center px-6 border border-outline-variant"
         >
           <h2 className="font-headline-md text-display-lg-mobile md:text-headline-md mb-8 text-primary">
@@ -303,8 +283,8 @@ export default function Services() {
           >
             Записаться На Консультацию
           </Link>
-        </section>
-      </main>
+        </Reveal>
+      </div>
     </main>
   );
 }

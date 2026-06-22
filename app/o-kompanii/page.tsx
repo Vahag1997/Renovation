@@ -1,64 +1,29 @@
-"use client";
-
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+
+import { GlowCTA } from "@/app/_components/GlowCTA";
+import { Reveal } from "@/app/_components/Reveal";
+
+export const metadata: Metadata = {
+  title: "О компании",
+  description:
+    "Studio Aura — архитектурное бюро тихой роскоши: философия, команда архитекторов и дизайнеров, 12 лет практики и более 85 сданных объектов.",
+  alternates: { canonical: "/o-kompanii" },
+};
 
 export default function About() {
-  const revealElements = useRef<HTMLElement[]>([]);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const [glowStyle, setGlowStyle] = useState({ "--x": "0px", "--y": "0px" } as React.CSSProperties);
-
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    revealElements.current.forEach((el) => {
-      if (el) {
-        el.classList.add("scroll-reveal");
-        observer.observe(el);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  const addToRefs = (el: HTMLElement | null) => {
-    if (el && !revealElements.current.includes(el)) {
-      revealElements.current.push(el);
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ctaRef.current) return;
-    const rect = ctaRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setGlowStyle({
-      "--x": `${x}px`,
-      "--y": `${y}px`,
-    } as React.CSSProperties);
-  };
-
   return (
     <main className="overflow-x-hidden pt-12">
       {/* Hero Section */}
       <section className="w-full h-[75vh] overflow-hidden relative flex items-end">
-        <img
+        <Image
           alt="Пространство дизайн-студии Studio Aura"
-          className="absolute inset-0 w-full h-full object-cover grayscale brightness-90 transition-transform duration-[3000ms] hover:scale-105"
+          className="object-cover grayscale brightness-90 transition-transform duration-[3000ms] hover:scale-105"
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq5ysJTrrWTlYgp5_6zd762ppWrQmqo2bvxX6RomSYe_hFmglFTf5yLNklXuFvyUgZBq5LVoEmaVvcwZ_Lwdi_s2bay_Bg3SA58USgB2jaIAiStb8kUusyg6l9w9oTWlM0o-2UPo1-LBPe2KYXn3YVs9ylFstHy4mvQDFNFEghDSAglGjvuwiC1bKwXMOcGb15Yy4hN7OgsrR5_lESPK9AudJSlxL_odcUt-LTQRbjADDrO5OUF2KqSBZ8QUxHSYz9cgQKRIha9A8"
+          fill
+          sizes="100vw"
+          priority
         />
         <div className="absolute inset-0 bg-black/15"></div>
         <div className="relative z-10 w-full px-margin-mobile md:px-margin-desktop pb-16 max-w-container-max-width mx-auto">
@@ -69,8 +34,8 @@ export default function About() {
       </section>
 
       {/* Philosophy Section */}
-      <section
-        ref={addToRefs}
+      <Reveal
+        as="section"
         className="max-w-container-max-width mx-auto px-6 md:px-margin-desktop mt-section-gap"
       >
         <div className="editorial-grid">
@@ -98,11 +63,11 @@ export default function About() {
             <div className="pt-8 border-t border-outline-variant w-24"></div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* Team Section */}
-      <section
-        ref={addToRefs}
+      <Reveal
+        as="section"
         className="max-w-container-max-width mx-auto px-6 md:px-margin-desktop mt-section-gap"
       >
         <span className="font-label-caps text-label-caps text-secondary mb-12 block text-center tracking-widest">
@@ -111,11 +76,13 @@ export default function About() {
         <div className="editorial-grid">
           {/* Team Member 1 */}
           <div className="col-span-12 md:col-span-4 mb-12 md:mb-0 group cursor-pointer">
-            <div className="aspect-[3/4] overflow-hidden mb-6 bg-surface-container">
-              <img
+            <div className="relative aspect-[3/4] overflow-hidden mb-6 bg-surface-container">
+              <Image
                 alt="Елена Вэнс — Главный Архитектор"
-                className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0UHkG1W0nX-M5PrfTXPa3l7-5HXhRH-YRcDcuwMP_MmiqZJMRZTgYxYZBSjq2fktvz9DQvgPvecpDz_hmDcVb10s-dFFv-pqA_KOPMQO_Hkikaq8OFXnywJ_bwyOtXoMcNTQ0hcGTTsX_jLjo4axdaOae1WLnGSeMedNibyRtBF-9EWgo07D_1JajaltGPRRnEQGlID1A2VAm7LtJFGqE7pcVjZfjKVm8iMPb1TLELZ_xQxIy4sBVh3NFmM4BwYZslDr2iID40ng"
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
               />
             </div>
             <div className="border-l border-primary pl-4">
@@ -128,11 +95,13 @@ export default function About() {
 
           {/* Team Member 2 */}
           <div className="col-span-12 md:col-span-4 mb-12 md:mb-0 group cursor-pointer">
-            <div className="aspect-[3/4] overflow-hidden mb-6 bg-surface-container">
-              <img
+            <div className="relative aspect-[3/4] overflow-hidden mb-6 bg-surface-container">
+              <Image
                 alt="Джулиан Торн — Ведущий Дизайнер"
-                className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA-N5liX_Yb5yU7XjrqCX7PKUFDK0JVCLV-p69QO2daNLmmjYxqEUvPTpwUzPufhf8Eq8SnxlRIszwuq3a6KURESY4MIDXDLHjpQ6DnSJjazjivRCAMdslqRS02LOJ-lasIcdcdh-8mVqNlrDB6RqlaV3b_qc6NbytvnyQ6Pxi8ElDTY6HcOWQ3muZXAdD6tLYLRiHQM50y7CYDotfhdq4uCWJByZH9dRPxtSoVmQWRcswYpb9_uQnpPBEIHtUxTMcKf16PPyoCd4"
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
               />
             </div>
             <div className="border-l border-primary pl-4">
@@ -145,11 +114,13 @@ export default function About() {
 
           {/* Team Member 3 */}
           <div className="col-span-12 md:col-span-4 group cursor-pointer">
-            <div className="aspect-[3/4] overflow-hidden mb-6 bg-surface-container">
-              <img
+            <div className="relative aspect-[3/4] overflow-hidden mb-6 bg-surface-container">
+              <Image
                 alt="Сана Ахмед — Руководитель Проектов"
-                className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFpXPwJjL9odGGPS0ec8ctZYX6VXwMWCcXC-3Mcl-db41nn5Lh8M9bIoZGRXJKO1o0rvhmBbqkIwfIsViRc7FcNkMJ2WyWjvuS49e3xE0eN45UXH-DY0Kmq1tofgHAR3zQHuTXbKKEzy0mJdoiRC1uAY-pGs1U7eBzO28nz6jEMP2RRtUYmJ5QkLlpdVQkZ07_E7Tvvrgsz-z80gL6hRvCloHJ3mK6BXqfqzWv-0qnzqpB_JRHoKGH740uPyshB5tt7FB3ukTfKx8"
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
               />
             </div>
             <div className="border-l border-primary pl-4">
@@ -160,11 +131,11 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* Stats Section */}
-      <section
-        ref={addToRefs}
+      <Reveal
+        as="section"
         className="bg-surface-container-low py-20 mt-section-gap border-y border-outline-variant"
       >
         <div className="max-w-container-max-width mx-auto px-6 md:px-margin-desktop">
@@ -195,11 +166,11 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* Partners Overview Section */}
-      <section
-        ref={addToRefs}
+      <Reveal
+        as="section"
         className="max-w-container-max-width mx-auto px-6 md:px-margin-desktop mt-section-gap"
       >
         <div className="flex flex-col md:flex-row justify-between items-start mb-16">
@@ -255,32 +226,10 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* Final CTA Section */}
-      <section
-        ref={ctaRef}
-        onMouseMove={handleMouseMove}
-        className="w-full bg-primary text-on-primary py-section-gap mt-section-gap overflow-hidden relative"
-      >
-        <div className="max-w-container-max-width mx-auto px-6 md:px-margin-desktop text-center relative z-10">
-          <span className="font-label-caps text-label-caps tracking-[0.3em] mb-8 block opacity-60">
-            НАЧНИТЕ ДИАЛОГ
-          </span>
-          <h2 className="font-display-lg text-display-lg text-white mb-12">Сотрудничайте с Нами</h2>
-          <Link
-            className="inline-block border border-on-primary px-12 py-5 font-button text-button transition-all duration-500 hover:bg-on-primary hover:text-primary tracking-widest uppercase"
-            href="/kontakty"
-          >
-            Записаться на консультацию
-          </Link>
-        </div>
-        {/* Glow effect overlay */}
-        <div
-          style={glowStyle}
-          className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none bg-[radial-gradient(circle_at_var(--x)_var(--y),_#ffffff33_0%,_transparent_50%)]"
-        ></div>
-      </section>
+      <GlowCTA />
     </main>
   );
 }

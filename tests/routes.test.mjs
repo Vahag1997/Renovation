@@ -22,6 +22,10 @@ const expectedRoutes = [
     "app/portfolio/kommercheskie-pomescheniya/page.tsx",
   ],
   ["/portfolio/landshaft", "app/portfolio/landshaft/page.tsx"],
+  [
+    "/portfolio/:category/:project",
+    "app/portfolio/[category]/[project]/page.tsx",
+  ],
   ["/kontakty", "app/kontakty/page.tsx"],
   ["/o-kompanii", "app/o-kompanii/page.tsx"],
   ["/partnery", "app/partnery/page.tsx"],
@@ -36,10 +40,13 @@ const routeData = readFileSync(routeDataPath, "utf8");
 const shell = readFileSync(join(root, "app", "_components", "SiteShell.tsx"), "utf8");
 const placeholder = readFileSync(join(root, "app", "_components", "RoutePlaceholder.tsx"), "utf8");
 const styles = readFileSync(join(root, "app", "globals.css"), "utf8");
+const projectData = readFileSync(join(root, "app", "_data", "projects.ts"), "utf8");
 
 for (const [href, pagePath] of expectedRoutes) {
   assert.ok(existsSync(join(root, pagePath)), `${href} should have ${pagePath}`);
-  assert.match(routeData, new RegExp(`href:\\s*"${href.replaceAll("/", "\\/")}"`), `${href} should be in route data`);
+  if (!href.includes(":")) {
+    assert.match(routeData, new RegExp(`href:\\s*"${href.replaceAll("/", "\\/")}"`), `${href} should be in route data`);
+  }
 }
 
 assert.match(routeData, /heroImage:/, "routes should include visual hero images");
@@ -50,3 +57,54 @@ assert.match(shell, /utility-bar/, "site shell should include a polished utility
 assert.match(placeholder, /home-hero-shell/, "home hero should have a composed content shell");
 assert.match(placeholder, /route-preview-strip/, "home page should include a route preview strip");
 assert.match(styles, /\.feature-card:nth-child/, "feature cards should have an art-directed layout");
+assert.match(projectData, /getProjectHref/, "project data should expose detail route hrefs");
+assert.match(projectData, /heroVideo:/, "portfolio projects should support hero video media");
+assert.match(projectData, /\/media\/project-hero\.mp4/, "project hero video should use a local public asset");
+assert.match(projectData, /gallery:/, "portfolio projects should include gallery images");
+assert.match(projectData, /tasks:/, "portfolio projects should include project task lists");
+assert.match(projectData, /storySections:/, "portfolio projects should include editorial story sections");
+assert.ok(
+  existsSync(join(root, "app", "_components", "ProjectDetailPage.tsx")),
+  "portfolio project details should have a reusable detail component",
+);
+const detailPage = readFileSync(join(root, "app", "_components", "ProjectDetailPage.tsx"), "utf8");
+assert.ok(
+  existsSync(join(root, "app", "_components", "ProjectGallery.tsx")),
+  "project gallery should have an interactive gallery component",
+);
+assert.ok(
+  existsSync(join(root, "app", "_components", "BeforeAfterSlider.tsx")),
+  "project detail should use the existing before/after slider pattern",
+);
+const projectGallery = readFileSync(join(root, "app", "_components", "ProjectGallery.tsx"), "utf8");
+const beforeAfter = readFileSync(join(root, "app", "_components", "BeforeAfterSlider.tsx"), "utf8");
+assert.match(detailPage, /project-detail-hero/, "project detail should include a media hero");
+assert.match(detailPage, /project-hero-video/, "project detail video should have a dedicated animated hero class");
+assert.match(detailPage, /<video/, "project detail hero should render an actual video element");
+assert.ok(
+  existsSync(join(root, "public", "media", "project-hero.mp4")),
+  "local project hero video should exist in public/media",
+);
+assert.match(detailPage, /ProjectGallery/, "project detail should render the interactive gallery component");
+assert.match(detailPage, /BeforeAfterSlider/, "project detail should render the before/after comparison component");
+assert.match(placeholder, /BeforeAfterSlider/, "portfolio category pages should reuse the before/after slider");
+assert.doesNotMatch(detailPage, /ProjectBeforeAfter/, "project detail should not use the discarded ProjectBeforeAfter component");
+assert.ok(
+  !existsSync(join(root, "app", "_components", "ProjectBeforeAfter.tsx")),
+  "discarded ProjectBeforeAfter component should not exist",
+);
+assert.match(beforeAfter, /before-after-slider/, "before/after component should expose the slider surface");
+assert.match(beforeAfter, /setSliderPosition/, "before/after component should support drag updates");
+assert.match(
+  beforeAfter,
+  /containerRef\.current\?\.getBoundingClientRect\(\)\.width/,
+  "before/after slider should preserve the original after-image width behavior",
+);
+assert.match(projectGallery, /project-gallery-grid/, "project gallery should include a photo grid");
+assert.match(projectGallery, /project-gallery-tile/, "project gallery should include animated gallery tiles");
+assert.match(projectGallery, /gallery-slider/, "project gallery should open a slider modal");
+assert.match(projectGallery, /role="dialog"/, "gallery slider should be exposed as a dialog");
+assert.match(projectGallery, /gallery-slider-close/, "gallery slider should expose a stable close control");
+assert.match(projectGallery, /ArrowRight/, "gallery slider should support keyboard next navigation");
+assert.match(styles, /projectGalleryTileIn/, "gallery tiles should have stronger entry animation");
+assert.match(detailPage, /more-projects/, "project detail should include related projects");

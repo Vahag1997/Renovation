@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface TabItem {
@@ -179,10 +180,12 @@ export function ServicesShowcase() {
           <div className="lg:col-span-8 relative aspect-[16/10] sm:aspect-[16/9.5] overflow-hidden border border-outline-variant/40 shadow-xl group">
             {/* Active Image */}
             <div className="absolute inset-0 w-full h-full">
-              <img
+              <Image
                 src={activeTab.image}
                 alt={activeTab.title}
-                className={`w-full h-full object-cover transition-all duration-[1200ms] ${
+                fill
+                sizes="(max-width: 1024px) 100vw, 66vw"
+                className={`object-cover transition-all duration-[1200ms] ${
                   isAnimating ? "scale-105 opacity-50 blur-[2px]" : "scale-100 opacity-100 blur-0"
                 }`}
               />

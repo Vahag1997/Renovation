@@ -1,7 +1,15 @@
-"use client";
-
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+
+import { Reveal } from "@/app/_components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Партнеры",
+  description:
+    "Партнёры и поставщики Studio Aura: натуральный камень, дизайнерская мебель, архитектурный свет и премиальный текстиль от ведущих мировых брендов.",
+  alternates: { canonical: "/partnery" },
+};
 
 const partnersList = [
   {
@@ -39,44 +47,10 @@ const partnersList = [
 ];
 
 export default function Partners() {
-  const revealElements = useRef<HTMLElement[]>([]);
-
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    revealElements.current.forEach((el) => {
-      if (el) {
-        el.classList.add("scroll-reveal");
-        observer.observe(el);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  const addToRefs = (el: HTMLElement | null) => {
-    if (el && !revealElements.current.includes(el)) {
-      revealElements.current.push(el);
-    }
-  };
-
   return (
     <main className="overflow-x-hidden pt-12">
       {/* Hero Header */}
-      <header ref={addToRefs} className="pt-24 pb-16 px-margin-mobile md:px-margin-desktop">
+      <Reveal as="header" className="pt-24 pb-16 px-margin-mobile md:px-margin-desktop">
         <div className="max-w-[1200px] mx-auto">
           <span className="font-label-caps text-label-caps text-secondary mb-6 block">
             Качество и Материалы
@@ -91,21 +65,23 @@ export default function Partners() {
             эстетической безупречности.
           </p>
         </div>
-      </header>
+      </Reveal>
 
       {/* Partners List Grid */}
-      <section
-        ref={addToRefs}
+      <Reveal
+        as="section"
         className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-gutter gap-y-16 border-t border-outline-variant pt-16">
           {partnersList.map((partner, index) => (
             <div key={partner.name} className="flex flex-col group">
-              <div className="aspect-[16/10] overflow-hidden bg-surface-container mb-6 border border-outline-variant">
-                <img
+              <div className="relative aspect-[16/10] overflow-hidden bg-surface-container mb-6 border border-outline-variant">
+                <Image
                   alt={partner.title}
-                  className="w-full h-full object-cover grayscale group-hover:scale-103 group-hover:grayscale-0 transition-all duration-[1200ms]"
+                  className="object-cover grayscale group-hover:scale-103 group-hover:grayscale-0 transition-all duration-[1200ms]"
                   src={partner.image}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <div className="flex justify-between items-baseline mb-3">
@@ -125,11 +101,11 @@ export default function Partners() {
             </div>
           ))}
         </div>
-      </section>
+      </Reveal>
 
       {/* CTA Section */}
-      <section
-        ref={addToRefs}
+      <Reveal
+        as="section"
         className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop mb-24 text-center"
       >
         <div className="bg-surface-container py-16 px-6 border border-outline-variant">
@@ -148,7 +124,7 @@ export default function Partners() {
             Связаться с нами
           </Link>
         </div>
-      </section>
+      </Reveal>
     </main>
   );
 }

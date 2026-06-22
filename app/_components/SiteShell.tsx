@@ -24,13 +24,12 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu when pathname changes
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -154,6 +153,7 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
                       isActive ? "text-primary font-semibold" : "text-on-surface-variant"
                     }`}
                     href={route.href}
+                    onClick={closeMobileMenu}
                   >
                     {route.label}
                   </Link>
@@ -168,6 +168,7 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
                               isChildActive ? "text-primary font-semibold" : "text-on-surface-variant/70"
                             }`}
                             href={child.href}
+                            onClick={closeMobileMenu}
                           >
                             {child.label}
                           </Link>
@@ -181,6 +182,7 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
             <Link
               className="w-full text-center font-sans text-xs leading-none tracking-widest font-medium uppercase bg-primary text-on-primary py-4 hover:bg-secondary transition-all duration-300 mt-2"
               href="/kontakty"
+              onClick={closeMobileMenu}
             >
               Обсудить проект
             </Link>

@@ -1,7 +1,5 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
 import type { CSSProperties } from "react";
 import {
   getChildRoutes,
@@ -15,7 +13,8 @@ type RoutePlaceholderProps = {
   href: string;
 };
 
-import { portfolioProjects } from "@/app/_data/projects";
+import { getProjectHref, portfolioProjects } from "@/app/_data/projects";
+import { BeforeAfterSlider } from "@/app/_components/BeforeAfterSlider";
 import { Calculator } from "@/app/_components/Calculator";
 import { Workflow } from "@/app/_components/Workflow";
 
@@ -24,56 +23,6 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
   const parent = getParentRoute(href);
   const children = getChildRoutes(href);
   const visibleSections = href === "/" ? siteRoutes : children;
-
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-  const revealElements = useRef<HTMLElement[]>([]);
-
-  useEffect(() => {
-    const observerOptions = { threshold: 0.1 };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    revealElements.current.forEach((el) => {
-      if (el) {
-        el.classList.add("scroll-reveal");
-        observer.observe(el);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, [href]);
-
-  const addToRefs = (el: HTMLElement | null) => {
-    if (el && !revealElements.current.includes(el)) {
-      revealElements.current.push(el);
-    }
-  };
-
-  const handleMove = (clientX: number) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(percentage);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    handleMove(e.touches[0].clientX);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isDragging.current) {
-      handleMove(e.clientX);
-    }
-  };
 
   const heroStyle = {
     backgroundImage: `url(${route.heroImage})`,
@@ -315,12 +264,18 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
                       if (index % 3 === 2) gridClass = "col-span-12 md:col-span-8 md:col-start-3 mt-12";
                       
                       return (
-                        <div key={project.id} className={`${gridClass} group cursor-pointer overflow-hidden`}>
-                          <div className="aspect-[4/3] md:aspect-[16/10] bg-surface-container mb-6 overflow-hidden border border-outline-variant/30">
-                            <img 
-                              alt={project.title} 
-                              className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-103 transition-all duration-1000 ease-in-out"
+                        <Link
+                          key={project.id}
+                          className={`${gridClass} group cursor-pointer overflow-hidden block`}
+                          href={getProjectHref(project)}
+                        >
+                          <div className="relative aspect-[4/3] md:aspect-[16/10] bg-surface-container mb-6 overflow-hidden border border-outline-variant/30">
+                            <Image
+                              alt={project.title}
+                              className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-103 transition-all duration-1000 ease-in-out"
                               src={project.image}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 58vw"
                             />
                           </div>
                           <div className="flex justify-between items-baseline border-b border-outline-variant pb-4">
@@ -330,61 +285,20 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
                             </div>
                             <span className="font-label-caps text-label-caps text-on-surface-variant">{project.year}</span>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                 </div>
 
                 {/* Embed Before/After slider inside Apartments category */}
                 {categorySlug === "kvartiry" && (
-                  <div className="border-t border-outline-variant pt-20">
-                    <div className="flex flex-col sm:flex-row justify-between items-baseline mb-8">
-                      <h3 className="font-headline-md text-headline-md text-primary">
-                        Трансформация пространства: Трайбека
-                      </h3>
-                      <span className="font-label-caps text-label-caps text-on-surface-variant tracking-wider mt-2 sm:mt-0">
-                        ДВИГАЙТЕ ПОЛЗУНОК ДЛЯ СРАВНЕНИЯ (ДО / ПОСЛЕ)
-                      </span>
-                    </div>
-
-                    <div
-                      ref={containerRef}
-                      onMouseMove={handleMouseMove}
-                      onTouchMove={handleTouchMove}
-                      onMouseDown={() => (isDragging.current = true)}
-                      onMouseUp={() => (isDragging.current = false)}
-                      onMouseLeave={() => (isDragging.current = false)}
-                      className="relative w-full aspect-[16/9] cursor-ew-resize bg-surface-dim select-none border border-outline-variant overflow-hidden"
-                    >
-                      {/* Before Image */}
-                      <img
-                        className="absolute inset-0 w-full h-full object-cover grayscale brightness-[35%] pointer-events-none"
-                        alt="До ремонта: бетонный каркас"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-yrY9S1jwfqv6avUJVF1wvoTgByPaEH__-yXt_cuqjFuHdzbTMeyLamb0hDQv_rykoPA4NYliNflLJzSNXAMFs552nLhKGMehsRZnoAYXRfCiPGimZvGw7Z7nKyQwA0RIB-XwKkfaYvsscNsISNZ03787wE_dODh5ae2cK7PyGL6UXfPof8kJF9SxvyvTeCGL0mWo90Au3YWt4uN4rjc72bhEbOViWb7COT_6h3rAqddlNXs2edYmeR4MBlAF2BoWSmn3yPeQr7U"
-                      />
-                      {/* After Image */}
-                      <div
-                        style={{ width: `${sliderPosition}%` }}
-                        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
-                      >
-                        <img
-                          style={{ width: containerRef.current?.getBoundingClientRect().width ?? "100%" }}
-                          className="absolute inset-0 max-w-none h-full object-cover pointer-events-none"
-                          alt="После ремонта: готовый интерьер"
-                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgqT6AWSHx4XSyHTvuZTroeEmcyX9tWlahtFH6sx0hCr2UhkCak9AncF-ilxNumkYYruwKIZVynuUrIh5AngSjONT6CO4_3SskXs2KOh4m3PIt24vl1bL4ToKMcA7npXRKL0NOooIbOGWaOSr858hpW0MUA3LxbdWpMx5PaYBNbJeb15ceV55UgMHrzreAQ7teU1nJ5k2AjG6u-ySvAghgp5Vev4RK5CbTtdlf2fchafB16eyboMEV7EPHxpp4KGXxwjiMawljs70"
-                        />
-                      </div>
-                      {/* Handle */}
-                      <div
-                        style={{ left: `${sliderPosition}%` }}
-                        className="absolute top-0 bottom-0 w-[2px] bg-white pointer-events-none"
-                      >
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-white bg-black/60 flex items-center justify-center">
-                          <span className="material-symbols-outlined text-white text-xs select-none">unfold_more</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <BeforeAfterSlider
+                    afterImage="https://lh3.googleusercontent.com/aida-public/AB6AXuBgqT6AWSHx4XSyHTvuZTroeEmcyX9tWlahtFH6sx0hCr2UhkCak9AncF-ilxNumkYYruwKIZVynuUrIh5AngSjONT6CO4_3SskXs2KOh4m3PIt24vl1bL4ToKMcA7npXRKL0NOooIbOGWaOSr858hpW0MUA3LxbdWpMx5PaYBNbJeb15ceV55UgMHrzreAQ7teU1nJ5k2AjG6u-ySvAghgp5Vev4RK5CbTtdlf2fchafB16eyboMEV7EPHxpp4KGXxwjiMawljs70"
+                    beforeImage="https://lh3.googleusercontent.com/aida-public/AB6AXuD-yrY9S1jwfqv6avUJVF1wvoTgByPaEH__-yXt_cuqjFuHdzbTMeyLamb0hDQv_rykoPA4NYliNflLJzSNXAMFs552nLhKGMehsRZnoAYXRfCiPGimZvGw7Z7nKyQwA0RIB-XwKkfaYvsscNsISNZ03787wE_dODh5ae2cK7PyGL6UXfPof8kJF9SxvyvTeCGL0mWo90Au3YWt4uN4rjc72bhEbOViWb7COT_6h3rAqddlNXs2edYmeR4MBlAF2BoWSmn3yPeQr7U"
+                    className="border-t border-outline-variant pt-20"
+                    contentClassName=""
+                    title="Трайбека"
+                  />
                 )}
               </div>
             </section>
