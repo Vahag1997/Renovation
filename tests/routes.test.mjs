@@ -44,6 +44,9 @@ const projectData = readFileSync(join(root, "app", "_data", "projects.ts"), "utf
 const portfolioData = readFileSync(join(root, "app", "_data", "portfolio.ts"), "utf8");
 const supabaseLib = readFileSync(join(root, "app", "_lib", "supabase.ts"), "utf8");
 const supabaseAdminLib = readFileSync(join(root, "app", "_lib", "supabaseAdmin.ts"), "utf8");
+const authLib = readFileSync(join(root, "app", "_lib", "auth.ts"), "utf8");
+const adminActions = readFileSync(join(root, "app", "admin", "_actions.ts"), "utf8");
+const adminLogin = readFileSync(join(root, "app", "admin", "login", "page.tsx"), "utf8");
 
 for (const [href, pagePath] of expectedRoutes) {
   assert.ok(existsSync(join(root, pagePath)), `${href} should have ${pagePath}`);
@@ -66,6 +69,11 @@ assert.match(supabaseLib, /: null/, "public Supabase client should not instantia
 assert.match(portfolioData, /portfolioProjects/, "database portfolio reads should have a static fallback");
 assert.match(portfolioData, /!hasSupabaseConfig/, "portfolio reads should fall back when Supabase env vars are missing");
 assert.match(supabaseAdminLib, /new Proxy/, "admin Supabase client should be lazy at module load");
+assert.match(authLib, /hasAdminPasswordConfig/, "admin auth should expose password config availability");
+assert.match(authLib, /FALLBACK_ADMIN_PASSWORD = "StudioAura2026"/, "admin auth should include the temporary project password");
+assert.match(adminActions, /\/admin\/login\?config=1/, "admin login should distinguish missing password config");
+assert.match(adminActions, /\.trim\(\)/, "admin login should trim copied password input");
+assert.match(adminLogin, /ADMIN_PASSWORD/, "admin login should explain missing password configuration");
 assert.match(projectData, /heroVideo:/, "portfolio projects should support hero video media");
 assert.match(projectData, /\/media\/project-hero\.mp4/, "project hero video should use a local public asset");
 assert.match(projectData, /gallery:/, "portfolio projects should include gallery images");

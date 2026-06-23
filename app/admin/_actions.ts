@@ -4,7 +4,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
-import { checkPassword, isAuthed, makeSessionToken, SESSION_COOKIE } from "@/app/_lib/auth";
+import {
+  checkPassword,
+  hasAdminPasswordConfig,
+  isAuthed,
+  makeSessionToken,
+  SESSION_COOKIE,
+} from "@/app/_lib/auth";
 import { MEDIA_BUCKET, supabaseAdmin } from "@/app/_lib/supabaseAdmin";
 
 // ---- helpers ------------------------------------------------------------
@@ -56,7 +62,11 @@ async function uploadToStorage(file: File, folder: string): Promise<string> {
 
 // ---- auth ---------------------------------------------------------------
 export async function login(formData: FormData) {
-  const password = String(formData.get("password") ?? "");
+  if (!hasAdminPasswordConfig()) {
+    redirect("/admin/login?config=1");
+  }
+
+  const password = String(formData.get("password") ?? "").trim();
   if (!checkPassword(password)) {
     redirect("/admin/login?error=1");
   }

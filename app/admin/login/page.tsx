@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 export default async function AdminLoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ config?: string; error?: string }>;
 }) {
   if (await isAuthed()) redirect("/admin");
-  const { error } = await searchParams;
+  const { config, error } = await searchParams;
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-neutral-100 px-6">
@@ -23,7 +23,11 @@ export default async function AdminLoginPage({
         <h1 className="text-xl font-medium text-neutral-900 mb-1">STUDIO AURA</h1>
         <p className="text-sm text-neutral-500 mb-6">Панель управления контентом</p>
 
-        {error ? (
+        {config ? (
+          <p className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+            ADMIN_PASSWORD is not configured on the server.
+          </p>
+        ) : error ? (
           <p className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
             Неверный пароль. Попробуйте ещё раз.
           </p>

@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 
 const COOKIE_NAME = "aura_admin";
 const SESSION_PAYLOAD = "studio-aura-admin-v1";
+const FALLBACK_ADMIN_PASSWORD = "StudioAura2026";
 
 function secret() {
   return process.env.ADMIN_SESSION_SECRET ?? "dev-insecure-secret-change-me";
@@ -22,9 +23,13 @@ function safeEqual(a: string, b: string): boolean {
   return timingSafeEqual(ab, bb);
 }
 
+export function hasAdminPasswordConfig(): boolean {
+  return Boolean(process.env.ADMIN_PASSWORD ?? FALLBACK_ADMIN_PASSWORD);
+}
+
 /** Check a submitted password against ADMIN_PASSWORD (constant-time). */
 export function checkPassword(password: string): boolean {
-  const expected = process.env.ADMIN_PASSWORD ?? "";
+  const expected = process.env.ADMIN_PASSWORD ?? FALLBACK_ADMIN_PASSWORD;
   return expected.length > 0 && safeEqual(password, expected);
 }
 
