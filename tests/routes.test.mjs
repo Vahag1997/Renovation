@@ -69,11 +69,11 @@ assert.match(supabaseLib, /: null/, "public Supabase client should not instantia
 assert.match(portfolioData, /portfolioProjects/, "database portfolio reads should have a static fallback");
 assert.match(portfolioData, /!hasSupabaseConfig/, "portfolio reads should fall back when Supabase env vars are missing");
 assert.match(supabaseAdminLib, /new Proxy/, "admin Supabase client should be lazy at module load");
-assert.match(authLib, /hasAdminPasswordConfig/, "admin auth should expose password config availability");
-assert.match(authLib, /FALLBACK_ADMIN_PASSWORD = "StudioAura2026"/, "admin auth should include the temporary project password");
-assert.match(adminActions, /\/admin\/login\?config=1/, "admin login should distinguish missing password config");
-assert.match(adminActions, /\.trim\(\)/, "admin login should trim copied password input");
-assert.match(adminLogin, /ADMIN_PASSWORD/, "admin login should explain missing password configuration");
+assert.match(authLib, /return true;/, "admin auth should be temporarily disabled");
+assert.doesNotMatch(authLib, /FALLBACK_ADMIN_PASSWORD/, "admin auth should not keep a temporary password");
+assert.doesNotMatch(adminActions, /checkPassword/, "admin login action should not check a password");
+assert.match(adminLogin, /redirect\("\/admin"\)/, "admin login page should redirect to admin");
+assert.doesNotMatch(adminLogin, /password/i, "admin login page should not render a password form");
 assert.match(projectData, /heroVideo:/, "portfolio projects should support hero video media");
 assert.match(projectData, /\/media\/project-hero\.mp4/, "project hero video should use a local public asset");
 assert.match(projectData, /gallery:/, "portfolio projects should include gallery images");
