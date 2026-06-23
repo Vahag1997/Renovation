@@ -34,6 +34,10 @@ type SupabaseAdminFacade = {
  */
 let supabaseAdminClient: SupabaseAdminClient | null = null;
 
+export function hasSupabaseAdminConfig() {
+  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
 function getSupabaseAdmin() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;

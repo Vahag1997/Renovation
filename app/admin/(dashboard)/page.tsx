@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { supabaseAdmin } from "@/app/_lib/supabaseAdmin";
+import { hasSupabaseAdminConfig, supabaseAdmin } from "@/app/_lib/supabaseAdmin";
+import { AdminConfigNotice } from "@/app/admin/_components/AdminConfigNotice";
 import { deleteProject } from "@/app/admin/_actions";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +15,10 @@ type Row = {
 };
 
 export default async function AdminProjectsPage() {
+  if (!hasSupabaseAdminConfig()) {
+    return <AdminConfigNotice />;
+  }
+
   const { data } = await supabaseAdmin
     .from("projects")
     .select("id,title,slug,published, category:categories(name)")

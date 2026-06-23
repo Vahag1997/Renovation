@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { supabaseAdmin } from "@/app/_lib/supabaseAdmin";
+import { hasSupabaseAdminConfig, supabaseAdmin } from "@/app/_lib/supabaseAdmin";
+import { AdminConfigNotice } from "@/app/admin/_components/AdminConfigNotice";
 import { createProject } from "@/app/admin/_actions";
 
 export const dynamic = "force-dynamic";
@@ -11,6 +12,10 @@ type CategoryRow = {
 };
 
 export default async function NewProjectPage() {
+  if (!hasSupabaseAdminConfig()) {
+    return <AdminConfigNotice />;
+  }
+
   const { data: categories } = await supabaseAdmin
     .from("categories")
     .select("id,name")

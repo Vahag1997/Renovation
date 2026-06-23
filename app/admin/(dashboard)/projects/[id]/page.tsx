@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { supabaseAdmin } from "@/app/_lib/supabaseAdmin";
+import { hasSupabaseAdminConfig, supabaseAdmin } from "@/app/_lib/supabaseAdmin";
+import { AdminConfigNotice } from "@/app/admin/_components/AdminConfigNotice";
 import {
   addImage,
   addSection,
@@ -61,6 +62,10 @@ export default async function EditProjectPage({
 }) {
   const { id } = await params;
   const { saved } = await searchParams;
+
+  if (!hasSupabaseAdminConfig()) {
+    return <AdminConfigNotice />;
+  }
 
   const [{ data: projectData }, { data: cats }] = await Promise.all([
     supabaseAdmin

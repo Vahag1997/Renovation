@@ -47,6 +47,9 @@ const supabaseAdminLib = readFileSync(join(root, "app", "_lib", "supabaseAdmin.t
 const authLib = readFileSync(join(root, "app", "_lib", "auth.ts"), "utf8");
 const adminActions = readFileSync(join(root, "app", "admin", "_actions.ts"), "utf8");
 const adminLogin = readFileSync(join(root, "app", "admin", "login", "page.tsx"), "utf8");
+const adminDashboard = readFileSync(join(root, "app", "admin", "(dashboard)", "page.tsx"), "utf8");
+const adminNewProject = readFileSync(join(root, "app", "admin", "(dashboard)", "projects", "new", "page.tsx"), "utf8");
+const adminEditProject = readFileSync(join(root, "app", "admin", "(dashboard)", "projects", "[id]", "page.tsx"), "utf8");
 
 for (const [href, pagePath] of expectedRoutes) {
   assert.ok(existsSync(join(root, pagePath)), `${href} should have ${pagePath}`);
@@ -69,6 +72,10 @@ assert.match(supabaseLib, /: null/, "public Supabase client should not instantia
 assert.match(portfolioData, /portfolioProjects/, "database portfolio reads should have a static fallback");
 assert.match(portfolioData, /!hasSupabaseConfig/, "portfolio reads should fall back when Supabase env vars are missing");
 assert.match(supabaseAdminLib, /new Proxy/, "admin Supabase client should be lazy at module load");
+assert.match(supabaseAdminLib, /hasSupabaseAdminConfig/, "admin Supabase config should be checkable before queries");
+assert.match(adminDashboard, /AdminConfigNotice/, "admin dashboard should not crash when Supabase env is missing");
+assert.match(adminNewProject, /AdminConfigNotice/, "new project page should not crash when Supabase env is missing");
+assert.match(adminEditProject, /AdminConfigNotice/, "edit project page should not crash when Supabase env is missing");
 assert.match(authLib, /return true;/, "admin auth should be temporarily disabled");
 assert.doesNotMatch(authLib, /FALLBACK_ADMIN_PASSWORD/, "admin auth should not keep a temporary password");
 assert.doesNotMatch(adminActions, /checkPassword/, "admin login action should not check a password");
