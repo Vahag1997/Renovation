@@ -222,6 +222,7 @@ export default async function Home() {
               className="hidden md:block font-label-caps text-label-caps border border-primary px-8 py-4 hover:bg-primary hover:text-on-primary transition-all duration-300"
             >
               Читать Все Статьи
+              
             </Link>
           </div>
 
