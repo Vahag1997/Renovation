@@ -17,6 +17,7 @@ export const dynamic = "force-dynamic";
 
 type ImageRow = { id: string; url: string; kind: string; sort_order: number };
 type SectionRow = { id: string; title: string; body: string; sort_order: number };
+type CategoryRow = { id: string; name: string };
 type ProjectRow = {
   id: string;
   slug: string;
@@ -74,7 +75,7 @@ export default async function EditProjectPage({
 
   if (!projectData) notFound();
   const project = projectData as unknown as ProjectRow;
-  const categories = cats ?? [];
+  const categories = (cats ?? []) as CategoryRow[];
 
   const images = [...(project.project_images ?? [])].sort((a, b) => a.sort_order - b.sort_order);
   const gallery = images.filter((i) => i.kind === "gallery");

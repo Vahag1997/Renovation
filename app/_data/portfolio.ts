@@ -1,7 +1,7 @@
 import { cache } from "react";
 
-import { supabase } from "@/app/_lib/supabase";
-import type { Project } from "@/app/_data/projects";
+import { hasSupabaseConfig, supabase } from "@/app/_lib/supabase";
+import { portfolioProjects, type Project } from "@/app/_data/projects";
 
 /** Local fallback hero video used when a project has no video set. */
 const LOCAL_HERO_VIDEO = "/media/project-hero.mp4";
@@ -81,6 +81,10 @@ function mapProject(row: ProjectRow): Project {
 
 /** All published projects, ordered. Cached per-request to avoid duplicate queries. */
 export const getAllProjects = cache(async (): Promise<Project[]> => {
+  if (!hasSupabaseConfig || !supabase) {
+    return portfolioProjects;
+  }
+
   const { data, error } = await supabase
     .from("projects")
     .select(PROJECT_SELECT)

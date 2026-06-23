@@ -41,6 +41,9 @@ const shell = readFileSync(join(root, "app", "_components", "SiteShell.tsx"), "u
 const placeholder = readFileSync(join(root, "app", "_components", "RoutePlaceholder.tsx"), "utf8");
 const styles = readFileSync(join(root, "app", "globals.css"), "utf8");
 const projectData = readFileSync(join(root, "app", "_data", "projects.ts"), "utf8");
+const portfolioData = readFileSync(join(root, "app", "_data", "portfolio.ts"), "utf8");
+const supabaseLib = readFileSync(join(root, "app", "_lib", "supabase.ts"), "utf8");
+const supabaseAdminLib = readFileSync(join(root, "app", "_lib", "supabaseAdmin.ts"), "utf8");
 
 for (const [href, pagePath] of expectedRoutes) {
   assert.ok(existsSync(join(root, pagePath)), `${href} should have ${pagePath}`);
@@ -58,6 +61,11 @@ assert.match(placeholder, /home-hero-shell/, "home hero should have a composed c
 assert.match(placeholder, /route-preview-strip/, "home page should include a route preview strip");
 assert.match(styles, /\.feature-card:nth-child/, "feature cards should have an art-directed layout");
 assert.match(projectData, /getProjectHref/, "project data should expose detail route hrefs");
+assert.match(supabaseLib, /hasSupabaseConfig/, "public Supabase client should expose config availability");
+assert.match(supabaseLib, /: null/, "public Supabase client should not instantiate without env vars");
+assert.match(portfolioData, /portfolioProjects/, "database portfolio reads should have a static fallback");
+assert.match(portfolioData, /!hasSupabaseConfig/, "portfolio reads should fall back when Supabase env vars are missing");
+assert.match(supabaseAdminLib, /new Proxy/, "admin Supabase client should be lazy at module load");
 assert.match(projectData, /heroVideo:/, "portfolio projects should support hero video media");
 assert.match(projectData, /\/media\/project-hero\.mp4/, "project hero video should use a local public asset");
 assert.match(projectData, /gallery:/, "portfolio projects should include gallery images");

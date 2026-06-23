@@ -5,6 +5,11 @@ import { createProject } from "@/app/admin/_actions";
 
 export const dynamic = "force-dynamic";
 
+type CategoryRow = {
+  id: string;
+  name: string;
+};
+
 export default async function NewProjectPage() {
   const { data: categories } = await supabaseAdmin
     .from("categories")
@@ -52,7 +57,7 @@ export default async function NewProjectPage() {
             <option value="" disabled>
               Выберите категорию
             </option>
-            {(categories ?? []).map((c) => (
+            {((categories ?? []) as CategoryRow[]).map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
               </option>
