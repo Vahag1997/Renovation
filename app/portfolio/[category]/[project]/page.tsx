@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ProjectDetailPage } from "@/app/_components/ProjectDetailPage";
-import {
-  getProjectByCategoryAndSlug,
-  getProjectHref,
-  portfolioProjects,
-} from "@/app/_data/projects";
+import { getProjectByCategoryAndSlug, getAllProjects } from "@/app/_data/portfolio";
+import { getProjectHref } from "@/app/_data/projects";
 
 type ProjectPageProps = {
   params: Promise<{
@@ -15,10 +12,13 @@ type ProjectPageProps = {
   }>;
 };
 
-export const dynamicParams = false;
+// Re-check the database every 60s, and render projects added after build on demand.
+export const revalidate = 60;
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return portfolioProjects.map((project) => ({
+export async function generateStaticParams() {
+  const projects = await getAllProjects();
+  return projects.map((project) => ({
     category: project.category,
     project: project.id,
   }));
@@ -26,7 +26,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { category, project } = await params;
-  const item = getProjectByCategoryAndSlug(category, project);
+  const item = await getProjectByCategoryAndSlug(category, project);
 
   if (!item) {
     return {
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 
 export default async function PortfolioProjectPage({ params }: ProjectPageProps) {
   const { category, project } = await params;
-  const item = getProjectByCategoryAndSlug(category, project);
+  const item = await getProjectByCategoryAndSlug(category, project);
 
   if (!item) {
     notFound();

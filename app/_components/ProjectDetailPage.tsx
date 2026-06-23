@@ -4,14 +4,15 @@ import Link from "next/link";
 import { BeforeAfterSlider } from "@/app/_components/BeforeAfterSlider";
 import { ProjectGallery } from "@/app/_components/ProjectGallery";
 import type { Project } from "@/app/_data/projects";
-import { getProjectHref, getRelatedProjects } from "@/app/_data/projects";
+import { getProjectHref } from "@/app/_data/projects";
+import { getRelatedProjects } from "@/app/_data/portfolio";
 
 type ProjectDetailPageProps = {
   project: Project;
 };
 
-export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
-  const relatedProjects = getRelatedProjects(project);
+export async function ProjectDetailPage({ project }: ProjectDetailPageProps) {
+  const relatedProjects = await getRelatedProjects(project);
 
   return (
     <main className="overflow-x-hidden bg-background text-on-background">
@@ -106,9 +107,9 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
       <section className="px-margin-mobile lg:px-margin-desktop pb-section-gap">
         <BeforeAfterSlider
           afterAlt={`${project.title}: после`}
-          afterImage={project.gallery[0]}
+          afterImage={project.afterImage ?? project.gallery[0]}
           beforeAlt={`${project.title}: до`}
-          beforeImage={project.gallery[1]}
+          beforeImage={project.beforeImage ?? project.gallery[1] ?? project.gallery[0]}
           contentClassName="max-w-container-max-width mx-auto"
           title={project.title}
         />

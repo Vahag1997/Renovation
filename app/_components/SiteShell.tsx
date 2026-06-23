@@ -32,6 +32,11 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
     setIsMobileMenuOpen(false);
   };
 
+  // The admin panel has its own chrome — render it without the public header/footer.
+  if (pathname.startsWith("/admin")) {
+    return <>{children}</>;
+  }
+
   return (
     <div className="relative w-full max-w-full overflow-x-hidden flex flex-col min-h-screen bg-background text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
       {/* Header Container */}

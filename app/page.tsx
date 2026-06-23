@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getProjectHref, portfolioProjects } from "@/app/_data/projects";
+import { getAllProjects } from "@/app/_data/portfolio";
+import { getProjectHref } from "@/app/_data/projects";
 import { Calculator } from "@/app/_components/Calculator";
 import { Reveal } from "@/app/_components/Reveal";
 import { Workflow } from "@/app/_components/Workflow";
@@ -13,8 +14,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-export default function Home() {
-  const showcaseProjects = portfolioProjects.slice(0, 6);
+export const revalidate = 60;
+
+export default async function Home() {
+  const showcaseProjects = (await getAllProjects()).slice(0, 6);
 
   return (
     <main className="overflow-x-hidden">

@@ -25,6 +25,8 @@ export interface Project {
   storySections: ProjectStorySection[];
   link: string;
   description: string;
+  beforeImage?: string;
+  afterImage?: string;
 }
 
 const interiorImages = [

@@ -13,12 +13,13 @@ type RoutePlaceholderProps = {
   href: string;
 };
 
-import { getProjectHref, portfolioProjects } from "@/app/_data/projects";
+import { getProjectHref } from "@/app/_data/projects";
+import { getProjectsByCategory } from "@/app/_data/portfolio";
 import { BeforeAfterSlider } from "@/app/_components/BeforeAfterSlider";
 import { Calculator } from "@/app/_components/Calculator";
 import { Workflow } from "@/app/_components/Workflow";
 
-export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
+export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
   const route = getRouteByHref(href) ?? homeRoute;
   const parent = getParentRoute(href);
   const children = getChildRoutes(href);
@@ -86,6 +87,9 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
   const isServiceSubroute = href.startsWith("/uslugi/");
   const isPortfolioSubroute = href.startsWith("/portfolio/");
   const categorySlug = href.split("/").pop() ?? "";
+  const categoryProjects = isPortfolioSubroute
+    ? await getProjectsByCategory(categorySlug)
+    : [];
 
   // Render Inner Route Layout with Stitch Design
   return (
@@ -255,8 +259,7 @@ export function RoutePlaceholder({ href }: RoutePlaceholderProps) {
               <div className="space-y-20">
                 {/* Filtered Portfolio Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-                  {portfolioProjects
-                    .filter((project) => project.category === categorySlug)
+                  {categoryProjects
                     .map((project, index) => {
                       // Alternate grid layouts to create an asymmetrical gallery effect
                       let gridClass = "col-span-12 md:col-span-7";

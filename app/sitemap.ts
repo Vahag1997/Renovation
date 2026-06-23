@@ -1,11 +1,13 @@
 import type { MetadataRoute } from "next";
 
 import { flatRoutes } from "@/app/_data/routes";
-import { getProjectHref, portfolioProjects } from "@/app/_data/projects";
+import { getProjectHref } from "@/app/_data/projects";
+import { getAllProjects } from "@/app/_data/portfolio";
 import { siteConfig } from "@/app/_data/site";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
+  const projects = await getAllProjects();
 
   const staticRoutes: MetadataRoute.Sitemap = flatRoutes.map((route) => ({
     url: new URL(route.href, siteConfig.url).toString(),
@@ -22,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const projectRoutes: MetadataRoute.Sitemap = portfolioProjects.map((project) => ({
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
     url: new URL(getProjectHref(project), siteConfig.url).toString(),
     lastModified,
     changeFrequency: "monthly",
