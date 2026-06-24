@@ -44,6 +44,9 @@ const projectData = readFileSync(join(root, "app", "_data", "projects.ts"), "utf
 const portfolioData = readFileSync(join(root, "app", "_data", "portfolio.ts"), "utf8");
 const supabaseLib = readFileSync(join(root, "app", "_lib", "supabase.ts"), "utf8");
 const supabaseAdminLib = readFileSync(join(root, "app", "_lib", "supabaseAdmin.ts"), "utf8");
+const homePage = readFileSync(join(root, "app", "page.tsx"), "utf8");
+const portfolioPage = readFileSync(join(root, "app", "portfolio", "page.tsx"), "utf8");
+const portfolioDetailPage = readFileSync(join(root, "app", "portfolio", "[category]", "[project]", "page.tsx"), "utf8");
 const authLib = readFileSync(join(root, "app", "_lib", "auth.ts"), "utf8");
 const adminActions = readFileSync(join(root, "app", "admin", "_actions.ts"), "utf8");
 const adminLogin = readFileSync(join(root, "app", "admin", "login", "page.tsx"), "utf8");
@@ -68,9 +71,14 @@ assert.match(placeholder, /route-preview-strip/, "home page should include a rou
 assert.match(styles, /\.feature-card:nth-child/, "feature cards should have an art-directed layout");
 assert.match(projectData, /getProjectHref/, "project data should expose detail route hrefs");
 assert.match(supabaseLib, /hasSupabaseConfig/, "public Supabase client should expose config availability");
+assert.match(supabaseLib, /server-only/, "public Supabase reads should stay server-only");
+assert.match(supabaseLib, /SUPABASE_SERVICE_ROLE_KEY/, "public server reads should work when anon key is missing");
 assert.match(supabaseLib, /: null/, "public Supabase client should not instantiate without env vars");
 assert.match(portfolioData, /portfolioProjects/, "database portfolio reads should have a static fallback");
 assert.match(portfolioData, /!hasSupabaseConfig/, "portfolio reads should fall back when Supabase env vars are missing");
+assert.match(homePage, /dynamic = "force-dynamic"/, "home project data should not be hidden by ISR cache");
+assert.match(portfolioPage, /dynamic = "force-dynamic"/, "portfolio data should not be hidden by ISR cache");
+assert.match(portfolioDetailPage, /dynamic = "force-dynamic"/, "portfolio detail data should not be hidden by ISR cache");
 assert.match(supabaseAdminLib, /new Proxy/, "admin Supabase client should be lazy at module load");
 assert.match(supabaseAdminLib, /hasSupabaseAdminConfig/, "admin Supabase config should be checkable before queries");
 assert.match(adminDashboard, /AdminConfigNotice/, "admin dashboard should not crash when Supabase env is missing");

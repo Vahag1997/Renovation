@@ -1,9 +1,11 @@
+import "server-only";
+
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseReadKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-export const hasSupabaseConfig = Boolean(supabaseUrl && supabaseAnonKey);
+export const hasSupabaseConfig = Boolean(supabaseUrl && supabaseReadKey);
 
 /**
  * Public Supabase client used on the server to READ published content.
@@ -11,5 +13,5 @@ export const hasSupabaseConfig = Boolean(supabaseUrl && supabaseAnonKey);
  * only allows SELECT on content tables.
  */
 export const supabase = hasSupabaseConfig
-  ? createClient(supabaseUrl!, supabaseAnonKey!, { auth: { persistSession: false } })
+  ? createClient(supabaseUrl!, supabaseReadKey!, { auth: { persistSession: false } })
   : null;

@@ -13,7 +13,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/portfolio" },
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function Portfolio() {
   const projects = await getAllProjects();

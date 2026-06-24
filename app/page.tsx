@@ -14,7 +14,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function Home() {
   const showcaseProjects = (await getAllProjects()).slice(0, 6);
@@ -221,8 +222,7 @@ export default async function Home() {
               href="/aura-journal"
               className="hidden md:block font-label-caps text-label-caps border border-primary px-8 py-4 hover:bg-primary hover:text-on-primary transition-all duration-300"
             >
-              Читать Все Статьи
-              
+              Читать Все Статьи            
             </Link>
           </div>
 
