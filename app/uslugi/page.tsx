@@ -7,7 +7,7 @@ import { Reveal } from "@/app/_components/Reveal";
 export const metadata: Metadata = {
   title: "Услуги",
   description:
-    "Ремонт под ключ, дизайн-проекты и архитектурное проектирование. Тарифы Studio Aura: Стандарт, Бизнес и Эксклюзив с фиксированными сроками по договору.",
+    "Ремонт под ключ, дизайн-проекты и архитектурное проектирование интерьеров премиум-класса. Полный цикл — от планировки до реализации.",
   alternates: { canonical: "/uslugi" },
 };
 
@@ -34,134 +34,10 @@ export default function Services() {
 
       {/* Main Content Grid */}
       <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
-        {/* Renovation Tiers Header */}
-        <div className="mb-12">
-          <h2 className="font-label-caps text-label-caps tracking-widest text-on-surface">
-            Тарифы на ремонтные работы
-          </h2>
-          <div className="w-full h-px bg-outline-variant mt-4"></div>
-        </div>
-
-        {/* 3-Column Renovation Grid */}
-        <Reveal
-          as="section"
-          className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-outline-variant divide-y md:divide-y-0 md:divide-x divide-outline-variant"
-        >
-          {/* Standard Tier */}
-          <div className="p-10 flex flex-col h-full bg-background group">
-            <div className="mb-12">
-              <h3 className="font-label-caps text-label-caps text-on-surface-variant mb-2">
-                ТАРИФ I
-              </h3>
-              <h4 className="font-headline-sm text-headline-sm mb-4 text-primary">Стандарт</h4>
-              <div className="flex items-baseline gap-1">
-                <span className="font-headline-md text-headline-md gold-accent">€750</span>
-                <span className="font-label-caps text-label-caps text-on-surface-variant">
-                  / м²
-                </span>
-              </div>
-            </div>
-            <ul className="space-y-6 flex-grow">
-              <li className="font-body-md text-body-md gold-dash">Базовая штукатурка и окраска</li>
-              <li className="font-body-md text-body-md gold-dash">
-                Премиальная инженерная доска (дуб)
-              </li>
-              <li className="font-body-md text-body-md gold-dash">
-                Комплексная замена базовой электрики
-              </li>
-              <li className="font-body-md text-body-md gold-dash">Установка дверей скрытого монтажа</li>
-              <li className="font-body-md text-body-md gold-dash">Базовый сценарий освещения</li>
-            </ul>
-            <Link
-              href="/kontakty"
-              className="mt-16 w-full py-4 text-center border border-primary font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-all duration-300 block"
-            >
-              Запросить смету
-            </Link>
-          </div>
-
-          {/* Business Tier */}
-          <div className="p-10 flex flex-col h-full bg-surface-container-low relative">
-            <div className="absolute top-0 right-0 p-4">
-              <span className="font-label-caps text-[10px] bg-primary text-on-primary px-3 py-1 tracking-wider">
-                ПОПУЛЯРНЫЙ ВЫБОР
-              </span>
-            </div>
-            <div className="mb-12">
-              <h3 className="font-label-caps text-label-caps text-on-surface-variant mb-2">
-                ТАРИФ II
-              </h3>
-              <h4 className="font-headline-sm text-headline-sm mb-4 text-primary">Бизнес</h4>
-              <div className="flex items-baseline gap-1">
-                <span className="font-headline-md text-headline-md gold-accent">€1,200</span>
-                <span className="font-label-caps text-label-caps text-on-surface-variant">
-                  / м²
-                </span>
-              </div>
-            </div>
-            <ul className="space-y-6 flex-grow">
-              <li className="font-body-md text-body-md gold-dash">Все работы пакета «Стандарт»</li>
-              <li className="font-body-md text-body-md gold-dash">
-                Встроенная корпусная мебель на заказ
-              </li>
-              <li className="font-body-md text-body-md gold-dash">Интеграция систем Умного Дома</li>
-              <li className="font-body-md text-body-md gold-dash">Художественная штукатурка стен</li>
-              <li className="font-body-md text-body-md gold-dash">Сантехника ведущих брендов</li>
-              <li className="font-body-md text-body-md gold-dash">
-                Оптимизация приточно-вытяжной вентиляции
-              </li>
-            </ul>
-            <Link
-              href="/kontakty"
-              className="mt-16 w-full py-4 text-center bg-primary text-on-primary font-label-caps text-label-caps hover:opacity-85 transition-opacity block"
-            >
-              Выбрать Бизнес
-            </Link>
-          </div>
-
-          {/* Exclusive Tier */}
-          <div className="p-10 flex flex-col h-full bg-background">
-            <div className="mb-12">
-              <h3 className="font-label-caps text-label-caps text-on-surface-variant mb-2">
-                ТАРИФ III
-              </h3>
-              <h4 className="font-headline-sm text-headline-sm mb-4 text-primary">Эксклюзив</h4>
-              <div className="flex items-baseline gap-1">
-                <span className="font-headline-md text-headline-md gold-accent">€1,850</span>
-                <span className="font-label-caps text-label-caps text-on-surface-variant">
-                  / м²
-                </span>
-              </div>
-            </div>
-            <ul className="space-y-6 flex-grow">
-              <li className="font-body-md text-body-md gold-dash">Полная перепланировка объемов</li>
-              <li className="font-body-md text-body-md gold-dash">
-                Облицовка натуральным камнем и мрамором
-              </li>
-              <li className="font-body-md text-body-md gold-dash">
-                Дизайнерское многоуровневое освещение
-              </li>
-              <li className="font-body-md text-body-md gold-dash">
-                Акустическое проектирование и звукоизоляция
-              </li>
-              <li className="font-body-md text-body-md gold-dash">
-                Управление проектом (авторский надзор 24/7)
-              </li>
-              <li className="font-body-md text-body-md gold-dash">Bespoke ремесленные финиши</li>
-            </ul>
-            <Link
-              href="/uslugi/remont-kvartir"
-              className="mt-16 w-full py-4 text-center border border-primary font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-all duration-300 block"
-            >
-              Подробнее о тарифе
-            </Link>
-          </div>
-        </Reveal>
-
         {/* Decorative Philosophy Section */}
         <Reveal
           as="section"
-          className="mt-section-gap grid grid-cols-1 md:grid-cols-12 gap-gutter items-center"
+          className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center"
         >
           <div className="md:col-span-7 relative w-full h-[500px] md:h-[600px]">
             <Image

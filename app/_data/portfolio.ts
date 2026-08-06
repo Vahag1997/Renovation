@@ -91,7 +91,12 @@ export const getAllProjects = cache(async (): Promise<Project[]> => {
     .eq("published", true)
     .order("sort_order");
 
-  if (error) throw new Error(`Supabase getAllProjects: ${error.message}`);
+  if (error) {
+    // Log the real cause server-side; the thrown error reaches the client as an
+    // opaque digest, so this is the only place the detail survives.
+    console.error("[portfolio] getAllProjects failed:", error.message, error);
+    throw new Error(`Supabase getAllProjects: ${error.message}`);
+  }
   return (data as unknown as ProjectRow[]).map(mapProject);
 });
 

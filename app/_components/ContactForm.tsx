@@ -2,13 +2,21 @@
 
 import { useState } from "react";
 
-/**
- * Lead-capture form with a live preliminary budget estimate.
- *
- * NOTE: submission is currently a local simulation. When the backend lands,
- * replace `handleSubmit` with a Server Action / route handler call that
- * validates input and persists the lead (DB / CRM).
- */
+import { submitLead } from "@/app/_actions/leads";
+
+const SERVICE_LABELS: Record<string, string> = {
+  full: "Эксклюзивный ремонт под ключ",
+  interior: "Дизайн-проект и снабжение",
+  consultancy: "Архитектурный надзор и консультации",
+};
+
+const TIMELINE_LABELS: Record<string, string> = {
+  immediate: "Срочно (1–3 месяца)",
+  near: "Планирование (4–8 месяцев)",
+  future: "В перспективе (более года)",
+};
+
+/** Lead-capture form with a live preliminary budget estimate. */
 export function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -18,6 +26,7 @@ export function ContactForm() {
   });
   const [status, setStatus] = useState<"idle" | "sending" | "success">("idle");
   const [estimate, setEstimate] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -51,22 +60,47 @@ export function ContactForm() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status === "sending") return;
+
     if (!formData.name || !formData.size || !formData.service) {
-      alert("Пожалуйста, заполните основные поля.");
+      setError("Пожалуйста, заполните имя, площадь и тип услуги.");
       return;
     }
 
     setStatus("sending");
+    setError(null);
+
+    let res;
+    try {
+      res = await submitLead({
+        source: "contact",
+        name: formData.name,
+        area: `${formData.size} м²`,
+        serviceType: SERVICE_LABELS[formData.service] ?? formData.service,
+        timeline: TIMELINE_LABELS[formData.timeline] ?? formData.timeline,
+        estimatedBudget: estimate ?? undefined,
+      });
+    } catch {
+      // Network drop or a server action that never came back.
+      setStatus("idle");
+      setError("Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.");
+      return;
+    }
+
+    if (!res.ok) {
+      setStatus("idle");
+      setError(res.error);
+      return;
+    }
+
+    setStatus("success");
     setTimeout(() => {
-      setStatus("success");
-      setTimeout(() => {
-        setStatus("idle");
-        setFormData({ name: "", size: "", service: "", timeline: "" });
-        setEstimate(null);
-      }, 4000);
-    }, 1500);
+      setStatus("idle");
+      setFormData({ name: "", size: "", service: "", timeline: "" });
+      setEstimate(null);
+    }, 4000);
   };
 
   return (
@@ -160,16 +194,27 @@ export function ContactForm() {
       )}
 
       {/* Submit Button */}
-      <div className="pt-8">
+      <div className="pt-8 space-y-4">
+        {error && (
+          <p
+            role="alert"
+            className="animate-fade-up font-sans text-[13px] leading-relaxed text-error bg-error-container/60 border border-error/20 px-5 py-4"
+          >
+            {error}
+          </p>
+        )}
+
         <button
           type="submit"
           disabled={status !== "idle"}
-          className={`w-full py-6 px-12 font-label-caps text-button uppercase tracking-widest transition-all duration-300 ${
+          aria-busy={status === "sending"}
+          className={`w-full py-6 px-12 font-label-caps text-button uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 disabled:cursor-not-allowed ${
             status === "success"
               ? "bg-secondary text-white"
               : "bg-primary text-on-primary hover:opacity-90"
           }`}
         >
+          {status === "sending" && <span aria-hidden className="btn-spinner" />}
           {status === "idle" && "ЗАПРОСИТЬ КОНСУЛЬТАЦИЮ"}
           {status === "sending" && "РАСЧЕТ И ОТПРАВКА..."}
           {status === "success" && "СПАСИБО! ЗАЯВКА УСПЕШНО ОТПРАВЛЕНА"}

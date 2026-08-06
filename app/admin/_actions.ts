@@ -205,3 +205,23 @@ export async function deleteSection(formData: FormData) {
   refresh();
   redirect(`/admin/projects/${projectId}?saved=1`);
 }
+
+// ---- leads (заявки с форм) ---------------------------------------------
+export async function updateLeadStatus(formData: FormData) {
+  await assertAuthed();
+  const id = String(formData.get("id"));
+  const status = String(formData.get("status"));
+  const { error } = await supabaseAdmin.from("leads").update({ status }).eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/leads");
+  redirect("/admin/leads");
+}
+
+export async function deleteLead(formData: FormData) {
+  await assertAuthed();
+  const id = String(formData.get("id"));
+  const { error } = await supabaseAdmin.from("leads").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/leads");
+  redirect("/admin/leads");
+}

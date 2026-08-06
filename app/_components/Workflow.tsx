@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 interface Stage {
   id: number;
@@ -117,48 +117,69 @@ const COOPERATION_STEPS: Step[] = [
   {
     id: 1,
     numberStr: "01",
-    title: "Знакомство с проектом",
-    description: "Проверяем технические ошибки в дизайне ремонта квартиры, запрашиваем расчет и подробное техническое задание, изучаем степень и качество проработки проекта. Решения основываются на специфике каждой жилой зоны."
+    title: "Знакомство с заказчиком",
+    description: "Изучаем индивидуальный стиль жизни, эстетические предпочтения и функциональные ожидания от будущих апартаментов. Мы определяем приоритеты в зонировании, материалах и технологиях, а также фиксируем ключевые требования к бюджету и срокам реализации. Решения основываются на персональном подходе и формировании философии вашего идеального пространства."
   },
   {
     id: 2,
     numberStr: "02",
     title: "Выезд на объект",
-    description: "Выезжаем на объект для точных обмеров, лазерного 3D-сканирования, фото- и видеофиксации. Инженер оценивает состояние несущих конструкций, стяжки и вводных коммуникационных узлов."
+    description: "Выезжаем на объект для точных обмеров, фото- и видеофиксации. Инженер оценивает состояние объекта и документирует все технические особенности."
   },
   {
     id: 3,
     numberStr: "03",
-    title: "Детальный расчет",
-    description: "Формируем прозрачную сметную документацию в течение 1–5 рабочих дней с детализацией по каждому проекту с разделением на работы, черновые и чистовые материалы для исключения непредвиденных расходов."
+    title: "Архитектура и дизайн",
+    description: "Формируем исчерпывающую проектную документацию с детальной проработкой каждого решения, включая фотореалистичные 3D-визуализации, подробные строительные чертежи, схемы инженерных узлов и спецификации материалов для исключения ошибок при реализации."
   },
   {
     id: 4,
     numberStr: "04",
-    title: "Подписание договора",
-    description: "Заключаем официальный договор, фиксируем итоговую стоимость, подробные графики платежей и производства работ со строгой финансовой ответственностью за соблюдение сроков."
+    title: "Детальный расчет",
+    description: "Составляем прозрачную сметную документацию с детализацией по каждому проекту с разделением на работы, черновые и чистовые материалы для исключения непредвиденных расходов."
   },
   {
     id: 5,
     numberStr: "05",
-    title: "Инженерный этап",
-    description: "Выполняем демонтаж, возведение перегородок и монтаж всех внутренних систем: электрики, водоснабжения, канализации, вентиляции и мультизонального кондиционирования по стандартам технадзора."
+    title: "Подписание договора",
+    description: "Заключаем официальный договор, фиксируем итоговую стоимость, подробные графики платежей и производства работ со строгой финансовой ответственностью за соблюдение сроков."
   },
   {
     id: 6,
     numberStr: "06",
+    title: "Инженерный этап",
+    description: "Выполняем демонтаж, возведение перегородок и монтаж всех внутренних систем: электрики, водоснабжения, канализации, вентиляции и мультизонального кондиционирования по стандартам технадзора."
+  },
+  {
+    id: 7,
+    numberStr: "07",
     title: "Чистовая отделка & Сдача",
     description: "Реализуем финишные покрытия, монтируем световые сценарии и сантехнику, расставляем дизайнерскую мебель. Проводим генеральный клининг и сдаем объект с передачей исполнительных схем."
   }
 ];
+
 
 export function Workflow() {
   const [activeStageId, setActiveStageId] = useState(1);
   const [slideDirection, setSlideDirection] = useState<"left" | "right">("right");
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const stageButtonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  const [indicator, setIndicator] = useState({ top: 8, height: 36 });
 
   const activeStage = STAGES.find(s => s.id === activeStageId) || STAGES[0];
+
+  // Track the active item's real position — the labels can wrap, so a fixed
+  // per-item step would drift further out of alignment with every stage.
+  useLayoutEffect(() => {
+    const sync = () => {
+      const el = stageButtonRefs.current[activeStageId];
+      if (el) setIndicator({ top: el.offsetTop, height: el.offsetHeight });
+    };
+    sync();
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
+  }, [activeStageId]);
 
   const handleStageChange = (nextId: number) => {
     if (nextId === activeStageId) return;
@@ -208,23 +229,18 @@ export function Workflow() {
               Схема взаимодействия
             </h2>
             <p className="font-body-lg text-body-lg text-white/60 leading-relaxed pt-2">
-              Мы одинаково сильны в проектировании интерьеров и реализации дизайна. Если ремонт проводится по готовому дизайн-проекту, порядок взаимодействия строится следующим образом:
+              Мы одинаково сильны в проектировании интерьеров и реализации дизайна. Ремонт проводится исключительно по дизайн-проекту, порядок взаимодействия строится следующим образом:
             </p>
           </div>
 
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 border-t border-white/10">
-            {COOPERATION_STEPS.map((step, idx) => {
-              const borderClasses = `
-                border-white/10
-                border-b
-                ${idx < 3 ? 'md:border-b' : 'md:border-b-0'}
-                ${idx % 3 !== 2 ? 'md:border-r' : 'md:border-r-0'}
-                last:border-b-0
-              `.trim().replace(/\s+/g, ' ');
-
+          {/* Cards Grid. Every card carries the same right/bottom rule and the
+              wrapper clips the outermost ones, so the grid lines stay correct at
+              any column count without per-index maths. */}
+          <div className="border-t border-white/10 overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 -mr-px -mb-px">
+            {COOPERATION_STEPS.map((step) => {
               return (
-                <div key={step.id} className={`group relative p-8 md:p-12 flex flex-col justify-between min-h-[380px] hover:bg-white/[0.01] transition-all duration-500 ease-out ${borderClasses}`}>
+                <div key={step.id} className="group relative p-8 lg:p-12 flex flex-col justify-between min-h-[340px] md:min-h-[380px] hover:bg-white/[0.01] transition-all duration-500 ease-out border-b border-r border-white/10 last:border-r-0">
                   <div>
                     <span className="font-serif text-6xl md:text-7xl font-extralight text-[#c5a880]/30 group-hover:text-[#c5a880] transition-colors duration-500 block mb-8">
                       {step.numberStr}
@@ -240,6 +256,7 @@ export function Workflow() {
                 </div>
               );
             })}
+            </div>
           </div>
         </div>
       </section>
@@ -262,20 +279,18 @@ export function Workflow() {
             {/* Left Column: Vertical Index Menu */}
             <div className="lg:col-span-5 space-y-2.5 relative border-l border-neutral-200 pl-6 py-2">
               {/* Vertical line indicator */}
-              <div 
-                className="absolute left-[-1px] w-[2px] bg-[#6b5849] transition-all duration-500 ease-out-quint"
-                style={{
-                  top: `${Math.max(0, activeStageId - 1) * 58 + 8}px`,
-                  height: "36px"
-                }}
+              <div
+                className="absolute left-[-1px] w-[2px] bg-[#6b5849] transition-all duration-500 ease-out"
+                style={{ top: `${indicator.top}px`, height: `${indicator.height}px` }}
               />
               {STAGES.map((stage) => {
                 const isActive = activeStageId === stage.id;
                 return (
                   <button
                     key={stage.id}
+                    ref={(el) => { stageButtonRefs.current[stage.id] = el; }}
                     onClick={() => handleStageChange(stage.id)}
-                    className="w-full text-left flex items-center gap-6 py-2 group focus:outline-none"
+                    className="w-full text-left flex items-center gap-6 py-2 group focus:outline-none cursor-pointer"
                   >
                     <span className={`font-serif text-sm transition-all duration-300 ${isActive ? "text-[#6b5849] font-medium" : "text-neutral-400 group-hover:text-primary"}`}>
                       {stage.numberStr}

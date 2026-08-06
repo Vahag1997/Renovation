@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getAllProjects } from "@/app/_data/portfolio";
 import { getProjectHref } from "@/app/_data/projects";
 import { Calculator } from "@/app/_components/Calculator";
 import { Reveal } from "@/app/_components/Reveal";
 import { Workflow } from "@/app/_components/Workflow";
 import { ServicesShowcase } from "@/app/_components/ServicesShowcase";
+import { SkeletonProjectCard } from "@/app/_components/Skeleton";
 
 export const metadata: Metadata = {
   description:
@@ -17,9 +19,72 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function Home() {
+/**
+ * Only this part of the home page needs the database. Isolating it behind its
+ * own Suspense boundary lets the hero and everything else paint immediately
+ * instead of the whole page waiting on Supabase.
+ *
+ * Note: the boundary lives here rather than in a root `loading.tsx` on purpose —
+ * a root-level loading file wraps every nested `error.tsx` in a Suspense, which
+ * stops those boundaries from ever receiving an error (the visitor is left on a
+ * skeleton forever). Keep page-level fallbacks page-level.
+ */
+async function ShowcaseGrid() {
   const showcaseProjects = (await getAllProjects()).slice(0, 6);
 
+  return (
+    <Reveal
+      staggerMs={90}
+      className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+    >
+      {showcaseProjects.map((project) => (
+        <Link
+          key={project.id}
+          href={getProjectHref(project)}
+          className="relative aspect-[3/4] overflow-hidden group block bg-surface-container border border-outline-variant/30"
+        >
+          <Image
+            className="object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1200ms] ease-out"
+            alt={project.title}
+            src={project.image}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+          <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end z-20 translate-y-6 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+            <p className="text-white font-sans text-sm md:text-base font-normal leading-relaxed mb-1.5">
+              {project.description}
+            </p>
+            <span className="text-white/80 font-sans text-xs tracking-wider mb-6 block">
+              {project.area}
+            </span>
+            <div className="flex items-center gap-2 text-[#eadbc5] font-sans text-xs tracking-[0.2em] font-black uppercase">
+              <span>― подробнее</span>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </Reveal>
+  );
+}
+
+function ShowcaseGridSkeleton() {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+      className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+    >
+      <span className="sr-only">Загружаем проекты</span>
+      {Array.from({ length: 6 }).map((_, i) => (
+        <SkeletonProjectCard key={i} delayMs={i * 110} />
+      ))}
+    </div>
+  );
+}
+
+export default async function Home() {
   return (
     <main className="overflow-x-hidden">
       {/* Full-Bleed Hero Section */}
@@ -37,13 +102,9 @@ export default async function Home() {
         </div>
         <div className="relative z-10 w-full px-margin-mobile md:px-margin-desktop pb-20 md:pb-0">
           <div className="max-w-4xl">
-            <p className="font-label-caps text-label-caps text-white mb-6 flex items-center gap-4 drop-shadow-sm">
-              <span className="w-12 h-[1px] bg-white"></span>
-              Создано в 2014 г. — Милан & Париж
-            </p>
             <h1 className="font-display-lg-mobile md:text-display-lg md:font-display-lg text-white leading-tight mb-10 drop-shadow-md">
               Проектирование и <br />
-              Высококлассный Ремонт
+              Фундаментальный Ремонт
             </h1>
             <div className="flex flex-col md:flex-row gap-8 items-start">
               <Link
@@ -54,7 +115,7 @@ export default async function Home() {
               </Link>
               <p className="max-w-xs font-body-md text-body-md text-white/90 drop-shadow-sm leading-relaxed pt-2">
                 Создаем интерьеры, балансирующие между современным минимализмом и
-                историческим характером.
+                историческим фундаментализмом.
               </p>
             </div>
           </div>
@@ -123,40 +184,11 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Project Grid */}
-        <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {showcaseProjects.map((project) => (
-            <Link
-              key={project.id}
-              href={getProjectHref(project)}
-              className="relative aspect-[3/4] overflow-hidden group block bg-surface-container border border-outline-variant/30"
-            >
-              {/* Image */}
-              <Image
-                className="object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1200ms] ease-out"
-                alt={project.title}
-                src={project.image}
-                fill
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-              {/* Text info */}
-              <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end z-20 translate-y-6 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
-                <p className="text-white font-sans text-sm md:text-base font-normal leading-relaxed mb-1.5">
-                  {project.description}
-                </p>
-                <span className="text-white/80 font-sans text-xs tracking-wider mb-6 block">
-                  {project.area}
-                </span>
-                {/* Button */}
-                <div className="flex items-center gap-2 text-[#eadbc5] font-sans text-xs tracking-[0.2em] font-black uppercase">
-                  <span>― подробнее</span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {/* Project grid streams in behind its own skeleton; the rest of the page
+            does not wait on the database. Cards cascade rather than popping in. */}
+        <Suspense fallback={<ShowcaseGridSkeleton />}>
+          <ShowcaseGrid />
+        </Suspense>
       </Reveal>
 
       {/* Calculator Section */}
@@ -173,7 +205,7 @@ export default async function Home() {
               моментально
             </h2>
             <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-              STUDIO AURA ценит прозрачность и точность планирования. Наш интерактивный калькулятор использует актуальные тарифы 2026 года для предварительного сметного расчета.
+              STUDIO AURA ценит прозрачность и точность планирования. Мы стараемся находить консенсус в живой беседе в реалиях самого заказчика и текущей обстановки в мире.
             </p>
             <div className="space-y-3 pt-4 border-t border-outline-variant/50">
               <div className="flex items-center gap-3 text-sm font-sans font-medium uppercase text-primary">

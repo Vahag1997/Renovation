@@ -24,7 +24,7 @@ const TABS_DATA: TabItem[] = [
   },
   {
     id: "houses",
-    label: "Дизайн домов",
+    label: "Архитектура домов",
     title: "Архитектурный дизайн резиденций",
     description: "Проектирование частных домов, загородных вилл и коттеджей. Мы создаем архитектурные концепции, гармонично вписанные в окружающий ландшафт. Комплексный подход включает в себя разработку фасадных решений, планов остекления, генерального плана участка и дизайн-проектов всех внутренних помещений.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDqplEB02zapq9gVXMkZd_wXQkBh-v8RfIzkcCNYTnjTVAD-Huf9mN_-hKDpdynU_A0Zp54R2v4qpzhgh1X4-dO4HwEOFuxFMECweP6S-GGzaduF0V0kopHohqykuwLOPccW1RIDdfJ0rJfCLnYlYEy-tfuhR8oZ7tGlTGpJgru0CQLJ5THtbMZ98wjkXtoDZxWv7g9PxcznpMYiUKv4_Px3brl6BPOGqjVSl7Nhi4FGqlMHtWK0Tz-0JMWSvc3IHz3IcYZjdDsHUI",
@@ -53,6 +53,14 @@ const TABS_DATA: TabItem[] = [
     description: "Регулярные выезды автора проекта на объект для контроля точного соответствия выполняемых строительно-монтажных работ утвержденным чертежам и спецификациям. Мы оперативно вносим необходимые корректировки, консультируем строителей и решаем сложные технические вопросы в процессе реализации.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDvSxJGM209LGVLwKI6YA3nq77vgz0fA4Ro5qmrS4--YC_5Q2wVwAd2jgiLlGlpOHvaVELQY_H7WFKMzSBM9vVUxpUqOcrOalQRmnbY2ZcjUaIjdoZ5Y2lVAFRmJM4ZdjQwAl03y3-dHI4UcttlPsb2swZMueWCRFtHvH6iUNv9uk56lRi9_PgZGRtu3agmNSPFeBZ2tiXlSQsH4MhyDf614od5jNXu5J8oDABCKT79EzAjPD479DSfit2ekH3BIFZHeYUgj9G_ekA",
     link: "/uslugi/landshaftnyy-dizayn"
+  },
+  {
+    id: "construction",
+    label: "Строительные работы",
+    title: "Строительно-монтажные и отделочные работы",
+    description: "Премиальное строительство городских апартаментов и загородных резиденций. Мы воплощаем в жизнь сложные архитектурные и дизайнерские проекты, объединяя бескомпромиссное качество исполнения, передовые инженерные технологии и ювелирную точность деталей. Каждая стадия строительно-монтажных и отделочных работ — от возведения конструкций до финальной инсталляции оборудования — реализуется в строгом соответствии с премиальными стандартами и стилем жизни заказчика.",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDu77dm4QaRE2JSdD1fypOekeiFQTujjii_BoYkr0YdDsbEA-ShgpTKjHYRSQJez6qionDxnQ-yZrUNTJhKhRp-BAIAAncCkx3S60P2_txWTgq0sQgszDuHBXb8OG_F8t0Ddam5qmc0ZN-RGi6GskeXkmWobaG_OFPMf_ck6qQtX-ahYEWOWLluOaVCUkwNnhMF6SswuFatE95oWrZiMHxH7bxRVraVk3lMvOoVmckr1zB3olNe0lo4_YiPFBunxdhlpxhbXRK1v5Q",
+    link: "/uslugi"
   }
 ];
 
@@ -212,14 +220,16 @@ export function ServicesShowcase() {
               <div className="pt-6 border-t border-white/10 mt-6 flex justify-between items-center">
                 <Link
                   href={activeTab.link}
-                  className="group/btn inline-flex items-center gap-3 font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-[#c5a880] hover:text-white transition-colors duration-300"
+                  className="group/btn inline-flex items-center gap-3 py-1.5 font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-[#c5a880] hover:text-white transition-colors duration-300"
                 >
                   Подробнее о направлении
                   <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 </Link>
-                <span className="font-serif text-[11px] italic text-white/40">0{activeTabIdx + 1} / 05</span>
+                <span className="font-serif text-[11px] italic text-white/40">
+                  0{activeTabIdx + 1} / {TABS_DATA.length.toString().padStart(2, "0")}
+                </span>
               </div>
             </div>
           </div>
@@ -234,10 +244,10 @@ export function ServicesShowcase() {
                 {val.icon}
               </div>
               <div className="space-y-1">
-                <span className="font-sans text-[8px] tracking-[0.2em] text-[#c5a880] font-bold uppercase block">
+                <span className="font-sans text-[10px] tracking-[0.2em] text-[#c5a880] font-bold uppercase block">
                   Преимущество 0{idx + 1}
                 </span>
-                <p className="font-sans text-[10px] leading-relaxed text-on-surface-variant font-medium tracking-wide">
+                <p className="font-sans text-[11px] leading-relaxed text-on-surface-variant font-medium tracking-wide">
                   {val.text}
                 </p>
               </div>

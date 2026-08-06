@@ -106,11 +106,11 @@ export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
               {/* Left Column: Title and Details */}
               <div className="lg:col-span-7 text-white">
                 <div className="flex gap-2 text-white/80 font-label-caps text-[10px] mb-6 flex-wrap">
-                  <Link className="hover:text-white" href="/">Главная</Link>
+                  <Link className="hover:text-white py-1.5" href="/">Главная</Link>
                   {parent ? (
                     <>
                       <span>/</span>
-                      <Link className="hover:text-white" href={parent.href}>{parent.label}</Link>
+                      <Link className="hover:text-white py-1.5" href={parent.href}>{parent.label}</Link>
                     </>
                   ) : null}
                   <span>/</span>
@@ -137,11 +137,11 @@ export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
             /* Standard Full-width layout for portfolio pages */
             <div className="text-white">
               <div className="flex gap-2 text-white/80 font-label-caps text-[10px] mb-6 flex-wrap">
-                <Link className="hover:text-white" href="/">Главная</Link>
+                <Link className="hover:text-white py-1.5" href="/">Главная</Link>
                 {parent ? (
                   <>
                     <span>/</span>
-                    <Link className="hover:text-white" href={parent.href}>{parent.label}</Link>
+                    <Link className="hover:text-white py-1.5" href={parent.href}>{parent.label}</Link>
                   </>
                 ) : null}
                 <span>/</span>

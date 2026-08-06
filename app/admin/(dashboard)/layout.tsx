@@ -24,6 +24,9 @@ export default async function DashboardLayout({
             <Link href="/admin" className="text-sm text-neutral-500 hover:text-neutral-900">
               Проекты
             </Link>
+            <Link href="/admin/leads" className="text-sm text-neutral-500 hover:text-neutral-900">
+              Заявки
+            </Link>
             <Link
               href="/"
               target="_blank"

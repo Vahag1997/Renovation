@@ -2,10 +2,25 @@
 
 import { useState } from "react";
 
+import { submitLead } from "@/app/_actions/leads";
+
 interface CalculatorProps {
   isDark?: boolean;
   isCompact?: boolean;
 }
+
+const PREMISES_LABELS: Record<string, string> = {
+  apartment: "Квартира",
+  house: "Дом",
+  townhouse: "Таунхаус",
+};
+
+const STYLE_LABELS: Record<string, string> = {
+  minimalism: "Минимализм",
+  classic: "Классика",
+  "art-deco": "Ар-деко",
+  bespoke: "Дизайн-проект",
+};
 
 export function Calculator({ isDark = false, isCompact = false }: CalculatorProps) {
   const [premisesType, setPremisesType] = useState("apartment");
@@ -15,6 +30,8 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
   const [phone, setPhone] = useState("");
   const [isAgreed, setIsAgreed] = useState(true);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let input = e.target.value.replace(/\D/g, "");
@@ -43,10 +60,35 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isAgreed || !phone) return;
-    setSubmitted(true);
+    if (!isAgreed || !phone || sending) return;
+    setSending(true);
+    setError(null);
+
+    let res;
+    try {
+      res = await submitLead({
+        source: "calculator",
+        phone,
+        area: `${area} м²`,
+        premisesType: PREMISES_LABELS[premisesType] ?? premisesType,
+        style: STYLE_LABELS[styleType] ?? styleType,
+        complexName,
+      });
+    } catch {
+      // Network drop or a server action that never came back.
+      setSending(false);
+      setError("Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.");
+      return;
+    }
+
+    setSending(false);
+    if (res.ok) {
+      setSubmitted(true);
+    } else {
+      setError(res.error);
+    }
   };
 
   const inputBg = isDark ? "bg-black/40 text-white border-white/20 focus:border-white" : "bg-background text-primary border-outline-variant focus:border-primary";
@@ -75,7 +117,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
 
   return (
     <div className={`${paddingClass} shadow-lg flex flex-col ${cardBg}`}>
-      <h3 className="font-serif text-xl md:text-2xl italic text-center lg:text-left">Стоимость ремонта</h3>
+      <h3 className="font-serif text-xl md:text-2xl italic text-center lg:text-left">Форма обратной связи</h3>
       {!isCompact && (
         <p className="font-sans text-[10px] tracking-widest uppercase text-secondary mb-6 text-center lg:text-left">Интерактивный расчет в реальном времени</p>
       )}
@@ -84,7 +126,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
         {/* Row 1: Dropdowns */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Тип помещения</label>
+            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Тип помещения</label>
             <select
               value={premisesType}
               onChange={(e) => setPremisesType(e.target.value)}
@@ -98,13 +140,12 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
               }}
             >
               <option value="apartment">Квартира</option>
-              <option value="new-building">Новостройка</option>
               <option value="house">Дом</option>
               <option value="townhouse">Таунхаус</option>
             </select>
           </div>
           <div>
-            <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Выберите стиль</label>
+            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Выберите стиль</label>
             <select
               value={styleType}
               onChange={(e) => setStyleType(e.target.value)}
@@ -128,7 +169,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
         {/* Row 2: Area Slider & Input */}
         <div>
           <div className="flex justify-between items-center mb-1.5">
-            <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold ${labelColor}`}>Площадь объекта</label>
+            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold ${labelColor}`}>Площадь объекта</label>
             <span className="font-serif text-base italic text-secondary">{area} м²</span>
           </div>
           <div className="flex items-center gap-3">
@@ -138,7 +179,8 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
               max="500"
               value={area}
               onChange={(e) => setArea(Number(e.target.value))}
-              className="flex-grow accent-[#725b38] h-0.5 bg-outline-variant/30 rounded-lg appearance-none cursor-pointer"
+              aria-label="Площадь объекта в квадратных метрах"
+              className="range-slim flex-grow min-w-0"
             />
             <input
               type="number"
@@ -146,7 +188,8 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
               max="500"
               value={area}
               onChange={(e) => setArea(Math.max(30, Math.min(500, Number(e.target.value))))}
-              className={`w-16 px-2 py-1 border font-sans text-[11px] text-center focus:outline-none ${inputBg}`}
+              aria-label="Площадь объекта"
+              className={`w-16 px-2 py-2 border font-sans text-[11px] text-center focus:outline-none ${inputBg}`}
             />
           </div>
         </div>
@@ -154,7 +197,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
         {/* Row 3: Complex Name & Phone (Condensed side-by-side Layout) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Название ЖК (при наличии)</label>
+            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Название ЖК или КП</label>
             <input
               type="text"
               value={complexName}
@@ -164,7 +207,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
             />
           </div>
           <div>
-            <label className={`font-sans text-[9px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Телефон</label>
+            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Телефон</label>
             <input
               required
               type="tel"
@@ -180,24 +223,35 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
         <div className="space-y-3">
           <button
             type="submit"
-            disabled={!isAgreed}
-            className={`w-full py-3 font-sans text-[10px] tracking-widest font-semibold uppercase transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
-              isDark 
-                ? "bg-secondary text-white hover:bg-secondary/90" 
+            disabled={!isAgreed || sending}
+            aria-busy={sending}
+            className={`w-full py-3 font-sans text-[10px] tracking-widest font-semibold uppercase transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5 ${
+              isDark
+                ? "bg-secondary text-white hover:bg-secondary/90"
                 : "bg-primary text-on-primary hover:bg-secondary"
             }`}
           >
-            Рассчитать стоимость ремонта
+            {sending && <span aria-hidden className="btn-spinner btn-spinner--sm" />}
+            {sending ? "Отправка..." : "Рассчитать стоимость ремонта"}
           </button>
+
+          {error && (
+            <p
+              role="alert"
+              className="animate-fade-up font-sans text-[11px] leading-relaxed text-center text-error"
+            >
+              {error}
+            </p>
+          )}
 
           <label className="flex items-start gap-2.5 cursor-pointer select-none">
             <input
               type="checkbox"
               checked={isAgreed}
               onChange={(e) => setIsAgreed(e.target.checked)}
-              className="mt-0.5 accent-[#725b38] w-3 h-3"
+              className="mt-0.5 accent-[#725b38] w-4 h-4 flex-shrink-0"
             />
-            <span className="font-sans text-[8px] leading-relaxed opacity-60 text-left block">
+            <span className="font-sans text-[10px] leading-relaxed opacity-60 text-left block">
               Согласен с регламентом обработки персональных данных.
             </span>
           </label>
