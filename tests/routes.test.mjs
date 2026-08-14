@@ -107,6 +107,25 @@ assert.doesNotMatch(placeholder, /<Workflow/, "workflow should not be duplicated
 assert.match(styles, /\.feature-card:nth-child/, "feature cards should have an art-directed layout");
 assert.match(styles, /\.service-webgl-stage canvas/, "3D service scene should expose stable canvas styling");
 assert.match(styles, /serviceWebglCopyIn/, "3D service copy should animate independently");
+assert.match(styles, /overflow-x:\s*clip/, "root styles should clip horizontal bleed without creating another scroll container");
+assert.doesNotMatch(
+  styles,
+  /html,\s*\r?\nbody\s*\{[\s\S]*?overflow-x:\s*hidden/,
+  "html and body should not become nested vertical scroll containers",
+);
+assert.doesNotMatch(shell, /overflow-x-hidden/, "the public site shell should not create an implicit vertical scroll container");
+for (const [name, source] of [
+  ["home page", homePage],
+  ["services page", servicesPage],
+  ["portfolio page", portfolioPage],
+  ["route placeholder", placeholder],
+]) {
+  assert.doesNotMatch(
+    source,
+    /<main[^>]*overflow-x-hidden/,
+    `${name} should not turn its main element into a vertical scroll container`,
+  );
+}
 assert.match(projectData, /getProjectHref/, "project data should expose detail route hrefs");
 assert.match(supabaseLib, /hasSupabaseConfig/, "public Supabase client should expose config availability");
 assert.match(supabaseLib, /server-only/, "public Supabase reads should stay server-only");

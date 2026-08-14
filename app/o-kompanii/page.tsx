@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <main className="overflow-x-hidden pt-12">
+    <main className="overflow-x-clip pt-12">
       {/* Hero Section */}
       <section className="w-full h-[75vh] overflow-hidden relative flex items-end">
         <Image

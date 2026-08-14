@@ -21,7 +21,7 @@ export default async function Portfolio() {
   const projects = await getAllProjects();
 
   return (
-    <main className="overflow-x-hidden pt-12">
+    <main className="overflow-x-clip pt-12">
       {/* Hero Section */}
       <Reveal as="section" className="px-margin-mobile md:px-margin-desktop pt-24 mb-16">
         <div className="max-w-[1200px] mx-auto grid grid-cols-12 gap-gutter">

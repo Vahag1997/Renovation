@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function AuraJournal() {
   return (
-    <main className="overflow-x-hidden pt-12">
+    <main className="overflow-x-clip pt-12">
       {/* Featured Editorial Hero */}
       <Reveal
         as="header"

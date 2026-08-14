@@ -59,7 +59,7 @@ async function ShowcaseGrid() {
 
 export default async function Home() {
   return (
-    <main className="overflow-x-hidden">
+    <main className="overflow-x-clip">
       {/* Full-Bleed Hero Section */}
       <section className="relative h-[82svh] min-h-[620px] max-h-[900px] w-full overflow-hidden flex items-end md:items-center">
         <div className="absolute inset-0 z-0">

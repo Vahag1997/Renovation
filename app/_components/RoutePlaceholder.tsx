@@ -134,7 +134,7 @@ export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
 
   // Render Inner Route Layout with Stitch Design
   return (
-    <main className="min-h-screen pt-12 overflow-x-hidden">
+    <main className="min-h-screen pt-12 overflow-x-clip">
       {/* Hero section */}
       <section 
         className="relative min-h-[60vh] bg-cover bg-center flex items-center lg:items-end py-20 px-margin-mobile lg:px-margin-desktop border-b border-outline-variant"

@@ -48,7 +48,7 @@ const partnersList = [
 
 export default function Partners() {
   return (
-    <main className="overflow-x-hidden pt-12">
+    <main className="overflow-x-clip pt-12">
       {/* Hero Header */}
       <Reveal as="header" className="pt-24 pb-16 px-margin-mobile md:px-margin-desktop">
         <div className="max-w-[1200px] mx-auto">

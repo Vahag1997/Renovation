@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function Services() {
   return (
-    <main className="overflow-x-hidden">
+    <main className="overflow-x-clip">
       <header className="relative h-[72svh] min-h-[620px] max-h-[820px] flex items-end overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2000&q=88"

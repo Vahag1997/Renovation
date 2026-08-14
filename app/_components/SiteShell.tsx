@@ -148,7 +148,7 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
   const hasOverlayHero = pathname === "/" || pathname === "/o-kompanii";
 
   return (
-    <div className="relative w-full max-w-full overflow-x-hidden flex flex-col min-h-screen bg-background text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
+    <div className="relative w-full max-w-full overflow-x-clip flex flex-col min-h-screen bg-background text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
       {/* Header Container */}
       <header
         ref={headerRef}

@@ -15,7 +15,7 @@ export async function ProjectDetailPage({ project }: ProjectDetailPageProps) {
   const relatedProjects = await getRelatedProjects(project);
 
   return (
-    <main className="overflow-x-hidden bg-background text-on-background">
+    <main className="overflow-x-clip bg-background text-on-background">
       <section className="project-detail-hero relative min-h-[72svh] lg:min-h-[82vh] flex items-end overflow-hidden border-b border-outline-variant">
         <Image
           className="absolute inset-0 object-cover grayscale-[12%]"
