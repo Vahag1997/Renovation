@@ -20,6 +20,7 @@ const TIMELINE_LABELS: Record<string, string> = {
 export function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
+    phone: "",
     size: "",
     service: "",
     timeline: "",
@@ -64,8 +65,8 @@ export function ContactForm() {
     e.preventDefault();
     if (status === "sending") return;
 
-    if (!formData.name || !formData.size || !formData.service) {
-      setError("Пожалуйста, заполните имя, площадь и тип услуги.");
+    if (!formData.name || !formData.phone || !formData.size || !formData.service) {
+      setError("Пожалуйста, заполните имя, телефон, площадь и тип услуги.");
       return;
     }
 
@@ -77,6 +78,7 @@ export function ContactForm() {
       res = await submitLead({
         source: "contact",
         name: formData.name,
+        phone: formData.phone,
         area: `${formData.size} м²`,
         serviceType: SERVICE_LABELS[formData.service] ?? formData.service,
         timeline: TIMELINE_LABELS[formData.timeline] ?? formData.timeline,
@@ -98,7 +100,7 @@ export function ContactForm() {
     setStatus("success");
     setTimeout(() => {
       setStatus("idle");
-      setFormData({ name: "", size: "", service: "", timeline: "" });
+      setFormData({ name: "", phone: "", size: "", service: "", timeline: "" });
       setEstimate(null);
     }, 4000);
   };
@@ -107,42 +109,65 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-10">
       {/* Name */}
       <div className="relative">
-        <label className="font-label-caps text-label-caps text-on-surface-variant block mb-2">
+        <label htmlFor="contact-name" className="font-label-caps text-label-caps text-on-surface-variant block mb-2">
           ВАШЕ ИМЯ
         </label>
         <input
           required
+          id="contact-name"
           type="text"
           name="name"
           value={formData.name}
           onChange={handleInputChange}
+          autoComplete="name"
           className="w-full input-underline font-body-lg text-body-lg text-primary placeholder:text-outline/40"
           placeholder="Введите ФИО"
+        />
+      </div>
+
+      <div className="relative">
+        <label htmlFor="contact-phone" className="font-label-caps text-label-caps text-on-surface-variant block mb-2">
+          ТЕЛЕФОН
+        </label>
+        <input
+          id="contact-phone"
+          required
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={handleInputChange}
+          autoComplete="tel"
+          inputMode="tel"
+          className="w-full input-underline font-body-lg text-body-lg text-primary placeholder:text-outline/40"
+          placeholder="+374 или +7"
         />
       </div>
 
       {/* Size & Service */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
         <div className="relative">
-          <label className="font-label-caps text-label-caps text-on-surface-variant block mb-2">
+          <label htmlFor="contact-size" className="font-label-caps text-label-caps text-on-surface-variant block mb-2">
             ПЛОЩАДЬ (М²)
           </label>
           <input
             required
+            id="contact-size"
             type="number"
             name="size"
             value={formData.size}
             onChange={handleInputChange}
+            min="1"
             className="w-full input-underline font-body-lg text-body-lg text-primary placeholder:text-outline/40"
             placeholder="Например: 120"
           />
         </div>
         <div className="relative">
-          <label className="font-label-caps text-label-caps text-on-surface-variant block mb-2">
+          <label htmlFor="contact-service" className="font-label-caps text-label-caps text-on-surface-variant block mb-2">
             ТИП УСЛУГИ
           </label>
           <select
             required
+            id="contact-service"
             name="service"
             value={formData.service}
             onChange={handleInputChange}
@@ -160,11 +185,12 @@ export function ContactForm() {
 
       {/* Timeline */}
       <div className="relative">
-        <label className="font-label-caps text-label-caps text-on-surface-variant block mb-2">
+        <label htmlFor="contact-timeline" className="font-label-caps text-label-caps text-on-surface-variant block mb-2">
           СРОКИ ЗАПУСКА ПРОЕКТА
         </label>
         <select
           name="timeline"
+          id="contact-timeline"
           value={formData.timeline}
           onChange={handleInputChange}
           className="w-full input-underline font-body-md text-body-md text-primary appearance-none py-3"

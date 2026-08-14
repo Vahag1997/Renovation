@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 import { JournalContent } from "@/app/_components/JournalContent";
 import { Reveal } from "@/app/_components/Reveal";
@@ -31,12 +32,12 @@ export default function AuraJournal() {
               Исследуем, как естественное освещение превращает бетонные плоскости в живые храмы покоя,
               переопределяя баланс между плотностью застройки мегаполиса и тихой безмятежностью.
             </p>
-            <button className="group flex items-center gap-2 font-button text-button text-primary border-b border-primary w-fit pb-1 hover:opacity-75 transition-opacity">
-              ЧИТАТЬ СТАТЬЮ
+            <Link href="#journal-articles" className="group flex items-center gap-2 font-button text-button text-primary border-b border-primary w-fit pb-1 hover:opacity-75 transition-opacity">
+              СМОТРЕТЬ МАТЕРИАЛЫ
               <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">
                 arrow_forward
               </span>
-            </button>
+            </Link>
           </div>
           <div className="md:col-span-5 order-1 md:order-2">
             <div className="relative aspect-[4/5] overflow-hidden bg-surface-container">

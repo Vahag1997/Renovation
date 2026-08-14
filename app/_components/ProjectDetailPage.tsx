@@ -16,13 +16,22 @@ export async function ProjectDetailPage({ project }: ProjectDetailPageProps) {
 
   return (
     <main className="overflow-x-hidden bg-background text-on-background">
-      <section className="project-detail-hero relative min-h-[86vh] flex items-end overflow-hidden border-b border-outline-variant">
+      <section className="project-detail-hero relative min-h-[72svh] lg:min-h-[82vh] flex items-end overflow-hidden border-b border-outline-variant">
+        <Image
+          className="absolute inset-0 object-cover grayscale-[12%]"
+          src={project.image}
+          alt=""
+          fill
+          sizes="100vw"
+          priority
+        />
         <video
           className="project-hero-video absolute inset-0 h-full w-full object-cover grayscale-[12%]"
           autoPlay
           muted
           loop
           playsInline
+          preload="metadata"
           poster={project.image}
         >
           <source src={project.heroVideo} type="video/mp4" />

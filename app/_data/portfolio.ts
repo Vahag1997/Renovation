@@ -92,10 +92,12 @@ export const getAllProjects = cache(async (): Promise<Project[]> => {
     .order("sort_order");
 
   if (error) {
-    // Log the real cause server-side; the thrown error reaches the client as an
-    // opaque digest, so this is the only place the detail survives.
-    console.error("[portfolio] getAllProjects failed:", error.message, error);
-    throw new Error(`Supabase getAllProjects: ${error.message}`);
+    // The public site must remain deployable and usable during a database
+    // outage or configuration mistake. Admin mutations still fail loudly, but
+    // public reads degrade to the bundled portfolio until Supabase recovers.
+    const log = process.env.NODE_ENV === "production" ? console.error : console.warn;
+    log("[portfolio] Supabase unavailable; using bundled fallback:", error.message);
+    return portfolioProjects;
   }
   return (data as unknown as ProjectRow[]).map(mapProject);
 });

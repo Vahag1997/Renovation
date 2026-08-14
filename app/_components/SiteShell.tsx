@@ -11,9 +11,11 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDesktopMenu, setOpenDesktopMenu] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const desktopNavigationRef = useRef<HTMLDivElement>(null);
+  const desktopCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isScrolledRef = useRef(false);
-  const [headerHeight, setHeaderHeight] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,23 +26,79 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
       }
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMobileMenuOpen(false);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
     isScrolledRef.current = isScrolled;
   }, [isScrolled]);
+
+  useEffect(() => {
+    if (!openDesktopMenu) return;
+
+    const closeOnPointerDown = (event: PointerEvent) => {
+      if (!desktopNavigationRef.current?.contains(event.target as Node)) {
+        setOpenDesktopMenu(null);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenDesktopMenu(null);
+    };
+    const closeOnScroll = () => setOpenDesktopMenu(null);
+
+    document.addEventListener("pointerdown", closeOnPointerDown);
+    window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("scroll", closeOnScroll, { passive: true });
+    return () => {
+      document.removeEventListener("pointerdown", closeOnPointerDown);
+      window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("scroll", closeOnScroll);
+    };
+  }, [openDesktopMenu]);
+
+  useEffect(() => {
+    return () => {
+      if (desktopCloseTimerRef.current) {
+        clearTimeout(desktopCloseTimerRef.current);
+      }
+    };
+  }, []);
 
   // The header is fixed, so content below it needs padding equal to its height.
   // That height depends on how the utility bar and nav labels wrap, which no
   // hardcoded value can track — so measure it at its resting (unscrolled) size.
+  //
+  // The measurement is published as a CSS custom property rather than React
+  // state on purpose: the content wrapper holds the router's Suspense boundary,
+  // and re-rendering that element after hydration leaves streamed content stuck
+  // in its pending state. Writing a CSS variable keeps that element untouched.
   useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
     const measure = () => {
       if (isScrolledRef.current) return;
-      setHeaderHeight(el.getBoundingClientRect().height);
+      document.documentElement.style.setProperty(
+        "--site-header-h",
+        `${Math.ceil(el.getBoundingClientRect().height)}px`,
+      );
     };
     measure();
     const observer = new ResizeObserver(measure);
@@ -54,6 +112,32 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const openDesktopSubmenu = (href: string) => {
+    if (desktopCloseTimerRef.current) {
+      clearTimeout(desktopCloseTimerRef.current);
+      desktopCloseTimerRef.current = null;
+    }
+    setOpenDesktopMenu(href);
+  };
+
+  const scheduleDesktopSubmenuClose = () => {
+    if (desktopCloseTimerRef.current) {
+      clearTimeout(desktopCloseTimerRef.current);
+    }
+    desktopCloseTimerRef.current = setTimeout(() => {
+      setOpenDesktopMenu(null);
+      desktopCloseTimerRef.current = null;
+    }, 120);
+  };
+
+  const closeDesktopSubmenu = () => {
+    if (desktopCloseTimerRef.current) {
+      clearTimeout(desktopCloseTimerRef.current);
+      desktopCloseTimerRef.current = null;
+    }
+    setOpenDesktopMenu(null);
   };
 
   // The admin panel has its own chrome — render it without the public header/footer.
@@ -92,12 +176,27 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex gap-4 xl:gap-8 items-center">
+          <div
+            ref={desktopNavigationRef}
+            className="hidden lg:flex gap-4 xl:gap-8 items-center"
+          >
             {siteRoutes.map((route) => {
               const isActive = pathname === route.href || pathname.startsWith(route.href + "/");
               const hasChildren = !!route.children && route.children.length > 0;
+              const isSubmenuOpen = openDesktopMenu === route.href;
               return (
-                <div key={route.href} className="relative group py-2">
+                <div
+                  key={route.href}
+                  className="relative py-2"
+                  onMouseEnter={() => hasChildren && openDesktopSubmenu(route.href)}
+                  onMouseLeave={() => hasChildren && scheduleDesktopSubmenuClose()}
+                  onFocus={() => hasChildren && openDesktopSubmenu(route.href)}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget)) {
+                      scheduleDesktopSubmenuClose();
+                    }
+                  }}
+                >
                   <Link
                     className={`font-sans text-[11px] lg:text-xs leading-none tracking-widest font-medium uppercase transition-colors duration-300 pb-1 hover:text-primary flex items-center gap-1.5 whitespace-nowrap ${
                       isActive
@@ -105,11 +204,15 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
                         : "text-on-surface-variant"
                     }`}
                     href={route.href}
+                    onClick={closeDesktopSubmenu}
+                    aria-expanded={hasChildren ? isSubmenuOpen : undefined}
                   >
                     {route.label}
                     {hasChildren && (
                       <svg
-                        className="w-3.5 h-3.5 opacity-60 transition-transform group-hover:rotate-180 duration-300"
+                        className={`w-3.5 h-3.5 opacity-60 transition-transform duration-150 ${
+                          isSubmenuOpen ? "rotate-180" : ""
+                        }`}
                         fill="none"
                         stroke="currentColor"
                         strokeWidth={2}
@@ -121,7 +224,14 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
                     <LinkPendingHint />
                   </Link>
                   {hasChildren && route.children && (
-                    <div className="absolute top-full left-0 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                    <div
+                      aria-hidden={!isSubmenuOpen}
+                      className={`absolute top-full left-0 pt-3 z-50 transition-[opacity,transform,visibility] duration-150 ease-out ${
+                        isSubmenuOpen
+                          ? "opacity-100 visible translate-y-0"
+                          : "opacity-0 invisible pointer-events-none -translate-y-1"
+                      }`}
+                    >
                       <div className="bg-background border border-outline-variant min-w-[240px] shadow-lg flex flex-col py-3">
                         {route.children.map((child) => {
                           const isChildActive = pathname === child.href;
@@ -129,6 +239,8 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
                             <Link
                               key={child.href}
                               href={child.href}
+                              tabIndex={isSubmenuOpen ? undefined : -1}
+                              onClick={closeDesktopSubmenu}
                               className={`px-6 py-2.5 hover:bg-surface-container font-sans text-[10px] tracking-widest font-medium uppercase transition-colors text-left block ${
                                 isChildActive ? "text-primary font-medium" : "text-on-surface-variant hover:text-primary"
                               }`}
@@ -155,9 +267,12 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
             </Link>
 
             <button
+              type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden flex items-center text-primary p-2 hover:opacity-80 transition-opacity"
-              aria-label="Открыть меню"
+              aria-label={isMobileMenuOpen ? "Закрыть меню" : "Открыть меню"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               {isMobileMenuOpen ? (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -174,7 +289,7 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
 
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 w-full border-t border-b border-outline-variant bg-background/98 backdrop-blur-lg p-8 flex flex-col gap-6 shadow-xl animate-fade-in z-50 max-h-[80vh] overflow-y-auto px-margin-mobile">
+          <div id="mobile-navigation" className="lg:hidden absolute top-full left-0 w-full border-t border-b border-outline-variant bg-background/98 backdrop-blur-lg p-8 flex flex-col gap-6 shadow-xl animate-fade-in z-50 max-h-[calc(100vh-var(--site-header-h,116px))] overflow-y-auto px-margin-mobile">
             {siteRoutes.map((route) => {
               const isActive = pathname === route.href || pathname.startsWith(route.href + "/");
               const hasChildren = !!route.children && route.children.length > 0;
@@ -227,13 +342,10 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
           with a class fallback for the first paint before measurement lands. */}
       <div
         className={`flex-grow ${
-          hasOverlayHero ? "pt-0" : "pt-[131px] sm:pt-[116px] lg:pt-[126px] xl:pt-[116px]"
+          hasOverlayHero
+            ? "pt-0"
+            : "pt-[var(--site-header-h,131px)] sm:pt-[var(--site-header-h,116px)] lg:pt-[var(--site-header-h,126px)] xl:pt-[var(--site-header-h,116px)]"
         }`}
-        style={
-          hasOverlayHero || headerHeight === null
-            ? undefined
-            : { paddingTop: `${Math.ceil(headerHeight)}px` }
-        }
       >
         {children}
       </div>
@@ -279,15 +391,12 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
           <div className="col-span-6 md:col-span-3 flex flex-col gap-4">
             <span className="font-sans text-xs leading-none tracking-widest font-semibold uppercase text-primary mb-2">Связаться</span>
             <p className="font-body-md text-body-md text-on-surface-variant">
-              ул. Амиряна, 12, Ереван, Армения
-              <br />
-              ул. Кутузовский Проспект, 21, Москва
-            </p>
-            <p className="font-body-md text-body-md text-on-surface-variant mt-2">
               <span className="font-sans text-[10px] leading-none tracking-wider font-normal uppercase block text-on-surface-variant/60 mb-1">
                 Email
               </span>
-              hello@studioaura.design
+              <a className="hover:text-secondary transition-colors" href="mailto:hello@studioaura.design">
+                hello@studioaura.design
+              </a>
             </p>
           </div>
 
@@ -307,7 +416,9 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
               Партнеры
             </Link>
             <button
+              type="button"
               onClick={scrollToTop}
+              aria-label="Вернуться в начало страницы"
               className="mt-6 flex items-center gap-2 py-2 text-on-surface-variant cursor-pointer group hover:text-primary transition-colors"
             >
               <span className="font-sans text-xs leading-none tracking-widest font-medium uppercase">ВВЕРХ</span>

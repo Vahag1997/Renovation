@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
-import { isAuthed, SESSION_COOKIE } from "@/app/_lib/auth";
+import { checkPassword, isAuthed, makeSessionToken, SESSION_COOKIE } from "@/app/_lib/auth";
 import { MEDIA_BUCKET, supabaseAdmin } from "@/app/_lib/supabaseAdmin";
 
 // ---- helpers ------------------------------------------------------------
@@ -21,6 +21,14 @@ function nextOrder(): number {
   // Strictly increasing small integer (seconds since 2023-11), keeps insert order.
   return Math.floor(Date.now() / 1000) - 1_700_000_000;
 }
+
+const MAX_IMAGE_BYTES = 7 * 1024 * 1024;
+const IMAGE_EXTENSIONS: Record<string, string> = {
+  "image/avif": "avif",
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+};
 
 const RU_MAP: Record<string, string> = {
   а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh", з: "z",
@@ -44,7 +52,9 @@ function fallbackSlug(): string {
 }
 
 async function uploadToStorage(file: File, folder: string): Promise<string> {
-  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+  const ext = IMAGE_EXTENSIONS[file.type];
+  if (!ext) throw new Error("Поддерживаются только JPG, PNG, WebP и AVIF.");
+  if (file.size > MAX_IMAGE_BYTES) throw new Error("Размер изображения не должен превышать 7 МБ.");
   const path = `${folder}/${crypto.randomUUID()}.${ext}`;
   const bytes = new Uint8Array(await file.arrayBuffer());
   const { error } = await supabaseAdmin.storage
@@ -55,7 +65,17 @@ async function uploadToStorage(file: File, folder: string): Promise<string> {
 }
 
 // ---- auth ---------------------------------------------------------------
-export async function login() {
+export async function login(formData: FormData) {
+  const password = String(formData.get("password") ?? "");
+  if (!checkPassword(password)) redirect("/admin/login?error=1");
+
+  (await cookies()).set(SESSION_COOKIE, makeSessionToken(), {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+    path: "/admin",
+    maxAge: 60 * 60 * 12,
+  });
   redirect("/admin");
 }
 
@@ -91,6 +111,8 @@ export async function updateProject(formData: FormData) {
   await assertAuthed();
   const id = String(formData.get("id"));
   const title = String(formData.get("title") ?? "").trim();
+  const categoryId = String(formData.get("category_id") ?? "");
+  if (!id || !title || !categoryId) redirect(`/admin/projects/${id}?error=1`);
 
   // Keep slug non-empty and unique (Cyrillic titles transliterate to latin).
   let slug = slugify(String(formData.get("slug") ?? "")) || slugify(title) || fallbackSlug();
@@ -105,7 +127,7 @@ export async function updateProject(formData: FormData) {
   const patch = {
     title,
     slug,
-    category_id: String(formData.get("category_id") ?? ""),
+    category_id: categoryId,
     location: String(formData.get("location") ?? "").trim() || null,
     area: String(formData.get("area") ?? "").trim() || null,
     year: String(formData.get("year") ?? "").trim() || null,
@@ -146,6 +168,9 @@ export async function uploadCover(formData: FormData) {
   await assertAuthed();
   const id = String(formData.get("id"));
   const field = String(formData.get("field")); // cover_image | before_image | after_image
+  if (!["cover_image", "before_image", "after_image"].includes(field)) {
+    throw new Error("Недопустимое поле изображения.");
+  }
   const file = formData.get("file") as File | null;
   if (!file || file.size === 0) redirect(`/admin/projects/${id}`);
   const url = await uploadToStorage(file as File, id);
@@ -160,6 +185,9 @@ export async function addImage(formData: FormData) {
   await assertAuthed();
   const id = String(formData.get("id"));
   const kind = String(formData.get("kind")); // gallery | planning
+  if (!["gallery", "planning"].includes(kind)) {
+    throw new Error("Недопустимый тип изображения.");
+  }
   const file = formData.get("file") as File | null;
   if (!file || file.size === 0) redirect(`/admin/projects/${id}`);
   const url = await uploadToStorage(file as File, id);
@@ -211,6 +239,9 @@ export async function updateLeadStatus(formData: FormData) {
   await assertAuthed();
   const id = String(formData.get("id"));
   const status = String(formData.get("status"));
+  if (!["new", "in_progress", "done"].includes(status)) {
+    throw new Error("Недопустимый статус заявки.");
+  }
   const { error } = await supabaseAdmin.from("leads").update({ status }).eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/leads");

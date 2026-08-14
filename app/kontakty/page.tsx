@@ -37,9 +37,9 @@ export default function Contact() {
               <span className="font-label-caps text-[10px] text-on-surface-variant block mb-2">
                 ПРЯМАЯ СВЯЗЬ
               </span>
-              <p className="font-body-md text-body-md text-primary font-medium">
+              <a href="mailto:hello@studioaura.design" className="font-body-md text-body-md text-primary font-medium hover:text-secondary transition-colors">
                 hello@studioaura.design
-              </p>
+              </a>
             </div>
             <div>
               <span className="font-label-caps text-[10px] text-on-surface-variant block mb-2">

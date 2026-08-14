@@ -12,9 +12,10 @@ type ProjectPageProps = {
   }>;
 };
 
-// Re-check the database every 60s, and render projects added after build on demand.
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Cached shell, refreshed on demand by the admin panel (revalidatePath) and at
+// most every 5 minutes as a safety net. `dynamicParams` keeps projects added
+// after the build renderable on first request.
+export const revalidate = 300;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {

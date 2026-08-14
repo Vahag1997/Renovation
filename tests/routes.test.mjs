@@ -45,6 +45,16 @@ const portfolioData = readFileSync(join(root, "app", "_data", "portfolio.ts"), "
 const supabaseLib = readFileSync(join(root, "app", "_lib", "supabase.ts"), "utf8");
 const supabaseAdminLib = readFileSync(join(root, "app", "_lib", "supabaseAdmin.ts"), "utf8");
 const homePage = readFileSync(join(root, "app", "page.tsx"), "utf8");
+const servicesPage = readFileSync(join(root, "app", "uslugi", "page.tsx"), "utf8");
+const servicesShowcase = readFileSync(
+  join(root, "app", "_components", "ServicesShowcase.tsx"),
+  "utf8",
+);
+const servicesCarousel = readFileSync(
+  join(root, "app", "_components", "ServicesCarousel3D.tsx"),
+  "utf8",
+);
+const calculator = readFileSync(join(root, "app", "_components", "Calculator.tsx"), "utf8");
 const portfolioPage = readFileSync(join(root, "app", "portfolio", "page.tsx"), "utf8");
 const portfolioDetailPage = readFileSync(join(root, "app", "portfolio", "[category]", "[project]", "page.tsx"), "utf8");
 const authLib = readFileSync(join(root, "app", "_lib", "auth.ts"), "utf8");
@@ -66,9 +76,37 @@ assert.match(shell, /site-footer/, "site shell should include a website footer")
 assert.match(placeholder, /home-hero/, "home page should render a real website hero");
 assert.match(placeholder, /page-showcase/, "inner routes should render website-like page sections");
 assert.match(shell, /utility-bar/, "site shell should include a polished utility bar");
+assert.match(shell, /openDesktopMenu/, "desktop submenus should use explicit open state");
+assert.match(shell, /closeOnPointerDown/, "desktop submenus should close when clicking outside");
+assert.match(shell, /closeOnEscape/, "desktop submenus should close with Escape");
+assert.match(shell, /closeOnScroll/, "desktop submenus should close while scrolling");
 assert.match(placeholder, /home-hero-shell/, "home hero should have a composed content shell");
 assert.match(placeholder, /route-preview-strip/, "home page should include a route preview strip");
+assert.match(homePage, /Капитальный ремонт/, "home hero should use the approved repair wording");
+assert.doesNotMatch(homePage, /Фундаментальный Ремонт/, "obsolete home hero wording should be removed");
+assert.doesNotMatch(homePage, /Сметный расчет|моментально/, "removed calculator claims should stay removed");
+assert.doesNotMatch(homePage, /<Workflow/, "workflow should be removed from the homepage");
+assert.match(servicesPage, /<ServicesCarousel3D \/>/, "services page should include the interactive service carousel");
+assert.match(servicesPage, /<Calculator isDark \/>/, "services page should include the shared object form");
+assert.match(servicesCarousel, /new THREE\.WebGLRenderer/, "service carousel should render a real WebGL scene");
+assert.match(servicesCarousel, /new THREE\.PerspectiveCamera/, "service carousel should use perspective projection");
+assert.match(servicesCarousel, /new THREE\.Raycaster/, "service cards should support 3D pointer selection");
+assert.match(servicesCarousel, /new THREE\.PlaneGeometry/, "service routes should render as 3D planes");
+assert.match(servicesCarousel, /onPointerDown=\{handlePointerDown\}/, "service carousel should support swipe gestures");
+assert.match(servicesCarousel, /ArrowLeft/, "service carousel should support keyboard navigation");
+assert.match(servicesCarousel, /href=\{activeService\.href\}/, "active service content should link to its route");
+assert.match(servicesShowcase, /ROMAN_NUMERALS/, "homepage advantages should use Roman numerals");
+assert.match(calculator, /Коммерческое помещение/, "the common form should support commercial properties");
+assert.match(calculator, /Земельный участок/, "the common form should support landscape projects");
+assert.match(calculator, />Объект<\/label>/, "the common form should label the property field as Object");
+assert.match(calculator, /isObjectLocked/, "single-service forms should lock their object field");
+assert.match(calculator, /readOnly/, "locked object fields should render without an irrelevant dropdown");
+assert.match(placeholder, /SERVICE_CONFIG/, "service forms should be configured for their current route");
+assert.match(placeholder, /relatedProjects/, "service pages should include relevant portfolio projects");
+assert.doesNotMatch(placeholder, /<Workflow/, "workflow should not be duplicated across service pages");
 assert.match(styles, /\.feature-card:nth-child/, "feature cards should have an art-directed layout");
+assert.match(styles, /\.service-webgl-stage canvas/, "3D service scene should expose stable canvas styling");
+assert.match(styles, /serviceWebglCopyIn/, "3D service copy should animate independently");
 assert.match(projectData, /getProjectHref/, "project data should expose detail route hrefs");
 assert.match(supabaseLib, /hasSupabaseConfig/, "public Supabase client should expose config availability");
 assert.match(supabaseLib, /server-only/, "public Supabase reads should stay server-only");
@@ -76,19 +114,46 @@ assert.match(supabaseLib, /SUPABASE_SERVICE_ROLE_KEY/, "public server reads shou
 assert.match(supabaseLib, /: null/, "public Supabase client should not instantiate without env vars");
 assert.match(portfolioData, /portfolioProjects/, "database portfolio reads should have a static fallback");
 assert.match(portfolioData, /!hasSupabaseConfig/, "portfolio reads should fall back when Supabase env vars are missing");
-assert.match(homePage, /dynamic = "force-dynamic"/, "home project data should not be hidden by ISR cache");
-assert.match(portfolioPage, /dynamic = "force-dynamic"/, "portfolio data should not be hidden by ISR cache");
-assert.match(portfolioDetailPage, /dynamic = "force-dynamic"/, "portfolio detail data should not be hidden by ISR cache");
+assert.match(
+  portfolioData,
+  /Supabase unavailable; using bundled fallback:[\s\S]*return portfolioProjects/,
+  "portfolio reads should fall back when Supabase is unavailable or misconfigured",
+);
+// Project data is served from the ISR cache rather than re-rendered per request
+// (`force-dynamic` cannot be used: in Next 16.2.7 it postpones Suspense
+// boundaries and never resumes them, which strands the loading skeletons).
+// Freshness is therefore guaranteed by two things instead, both asserted here:
+// a bounded revalidate window, and on-demand revalidation after admin edits.
+for (const [name, source] of [
+  ["home", homePage],
+  ["portfolio", portfolioPage],
+  ["portfolio detail", portfolioDetailPage],
+]) {
+  assert.match(
+    source,
+    /export const revalidate = [1-9]\d*/,
+    `${name} should declare a bounded revalidate window so data cannot go stale forever`,
+  );
+  assert.doesNotMatch(
+    source,
+    /dynamic = "force-dynamic"/,
+    `${name} must not use force-dynamic — it breaks Suspense/loading fallbacks`,
+  );
+}
+assert.match(
+  adminActions,
+  /revalidatePath\("\/", "layout"\)/,
+  "admin mutations should revalidate the public site so edits appear immediately",
+);
 assert.match(supabaseAdminLib, /new Proxy/, "admin Supabase client should be lazy at module load");
 assert.match(supabaseAdminLib, /hasSupabaseAdminConfig/, "admin Supabase config should be checkable before queries");
 assert.match(adminDashboard, /AdminConfigNotice/, "admin dashboard should not crash when Supabase env is missing");
 assert.match(adminNewProject, /AdminConfigNotice/, "new project page should not crash when Supabase env is missing");
 assert.match(adminEditProject, /AdminConfigNotice/, "edit project page should not crash when Supabase env is missing");
-assert.match(authLib, /return true;/, "admin auth should be temporarily disabled");
-assert.doesNotMatch(authLib, /FALLBACK_ADMIN_PASSWORD/, "admin auth should not keep a temporary password");
-assert.doesNotMatch(adminActions, /checkPassword/, "admin login action should not check a password");
-assert.match(adminLogin, /redirect\("\/admin"\)/, "admin login page should redirect to admin");
-assert.doesNotMatch(adminLogin, /password/i, "admin login page should not render a password form");
+assert.match(authLib, /timingSafeEqual/, "admin password and cookie comparisons should be timing-safe");
+assert.match(authLib, /ADMIN_SESSION_SECRET/, "admin sessions should require a deployment secret");
+assert.match(adminActions, /checkPassword/, "admin login action should validate the configured password");
+assert.match(adminLogin, /type="password"/, "admin login page should render a protected password form");
 assert.match(projectData, /heroVideo:/, "portfolio projects should support hero video media");
 assert.match(projectData, /\/media\/project-hero\.mp4/, "project hero video should use a local public asset");
 assert.match(projectData, /gallery:/, "portfolio projects should include gallery images");
@@ -126,11 +191,8 @@ assert.ok(
 );
 assert.match(beforeAfter, /before-after-slider/, "before/after component should expose the slider surface");
 assert.match(beforeAfter, /setSliderPosition/, "before/after component should support drag updates");
-assert.match(
-  beforeAfter,
-  /containerRef\.current\?\.getBoundingClientRect\(\)\.width/,
-  "before/after slider should preserve the original after-image width behavior",
-);
+assert.match(beforeAfter, /clipPath/, "before/after slider should reveal aligned images without resizing either image");
+assert.match(beforeAfter, /role="slider"/, "before/after comparison should be keyboard accessible");
 assert.match(projectGallery, /project-gallery-grid/, "project gallery should include a photo grid");
 assert.match(projectGallery, /project-gallery-tile/, "project gallery should include animated gallery tiles");
 assert.match(projectGallery, /gallery-slider/, "project gallery should open a slider modal");

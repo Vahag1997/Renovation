@@ -1,7 +1,5 @@
 "use client";
 
-/* eslint-disable react-hooks/refs */
-
 import { useRef, useState } from "react";
 
 type BeforeAfterSliderProps = {
@@ -36,14 +34,14 @@ export function BeforeAfterSlider({
     setSliderPosition(percentage);
   };
 
-  const handleTouchMove = (event: React.TouchEvent) => {
-    handleMove(event.touches[0].clientX);
-  };
-
-  const handleMouseMove = (event: React.MouseEvent) => {
-    if (isDragging.current) {
-      handleMove(event.clientX);
-    }
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const step = event.shiftKey ? 10 : 2;
+    if (event.key === "ArrowLeft") setSliderPosition((value) => Math.max(0, value - step));
+    else if (event.key === "ArrowRight") setSliderPosition((value) => Math.min(100, value + step));
+    else if (event.key === "Home") setSliderPosition(0);
+    else if (event.key === "End") setSliderPosition(100);
+    else return;
+    event.preventDefault();
   };
 
   return (
@@ -60,11 +58,27 @@ export function BeforeAfterSlider({
 
         <div
           ref={containerRef}
-          onMouseMove={handleMouseMove}
-          onTouchMove={handleTouchMove}
-          onMouseDown={() => (isDragging.current = true)}
-          onMouseUp={() => (isDragging.current = false)}
-          onMouseLeave={() => (isDragging.current = false)}
+          role="slider"
+          tabIndex={0}
+          aria-label={`Сравнение до и после: ${title}`}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(sliderPosition)}
+          onKeyDown={handleKeyDown}
+          onPointerDown={(event) => {
+            isDragging.current = true;
+            event.currentTarget.setPointerCapture(event.pointerId);
+            handleMove(event.clientX);
+          }}
+          onPointerMove={(event) => {
+            if (isDragging.current) handleMove(event.clientX);
+          }}
+          onPointerUp={(event) => {
+            isDragging.current = false;
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }}
+          onPointerCancel={() => (isDragging.current = false)}
+          style={{ touchAction: "none" }}
           className="before-after-slider relative w-full aspect-[16/9] cursor-ew-resize bg-surface-dim select-none border border-outline-variant overflow-hidden"
         >
           {/* Before Image */}
@@ -80,13 +94,12 @@ export function BeforeAfterSlider({
           />
           {/* After Image */}
           <div
-            style={{ width: `${sliderPosition}%` }}
-            className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
+            style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+            className="absolute inset-0 overflow-hidden pointer-events-none"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              style={{ width: containerRef.current?.getBoundingClientRect().width ?? "100%" }}
-              className="absolute inset-0 max-w-none h-full object-cover pointer-events-none"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
               alt={afterAlt}
               src={afterImage}
               draggable={false}

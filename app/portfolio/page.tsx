@@ -13,8 +13,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/portfolio" },
 };
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Cached shell, refreshed on demand by the admin panel (revalidatePath) and at
+// most every 5 minutes as a safety net.
+export const revalidate = 300;
 
 export default async function Portfolio() {
   const projects = await getAllProjects();

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import { Reveal } from "@/app/_components/Reveal";
@@ -68,18 +69,6 @@ const filterTabs = [
 
 export function JournalContent() {
   const [activeTab, setActiveTab] = useState("ALL");
-  const [email, setEmail] = useState("");
-  const [subStatus, setSubStatus] = useState<"idle" | "success">("idle");
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubStatus("success");
-    setTimeout(() => {
-      setSubStatus("idle");
-      setEmail("");
-    }, 3000);
-  };
 
   const filteredArticles =
     activeTab === "ALL"
@@ -96,8 +85,10 @@ export function JournalContent() {
           </span>
           {filterTabs.map((tab) => (
             <button
+              type="button"
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
+              aria-pressed={activeTab === tab.key}
               className={`font-label-caps text-label-caps transition-all ${
                 activeTab === tab.key
                   ? "text-primary border-b border-primary pb-1"
@@ -111,10 +102,10 @@ export function JournalContent() {
       </section>
 
       {/* Article Grid */}
-      <section className="max-w-container-max-width mx-auto px-6 md:px-margin-desktop mb-section-gap">
+      <section id="journal-articles" className="max-w-container-max-width mx-auto px-6 md:px-margin-desktop mb-section-gap scroll-mt-36">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
           {filteredArticles.map((art) => (
-            <article key={art.id} className={`${art.span} mb-16 group cursor-pointer`}>
+            <article key={art.id} className={`${art.span} mb-16 group`}>
               <div className="relative aspect-square bg-surface-container-low overflow-hidden mb-6 border border-outline-variant/30">
                 <Image
                   className="object-cover transition-transform duration-700 group-hover:scale-103"
@@ -135,49 +126,28 @@ export function JournalContent() {
                   {art.desc}
                 </p>
               )}
-              <span className="font-label-caps text-[11px] text-primary border-b border-outline-variant hover:border-primary pb-1 transition-all">
-                ЧИТАТЬ СТАТЬЮ
-              </span>
             </article>
           ))}
         </div>
       </section>
 
-      {/* Newsletter Signup (Закрытый Клуб) */}
+      {/* Contact CTA. A real newsletter backend can replace this later; do not
+          present a fake successful subscription in production. */}
       <Reveal as="section" className="bg-surface-container-low py-section-gap border-t border-outline-variant">
         <div className="max-w-container-max-width mx-auto px-6 md:px-margin-desktop text-center">
           <div className="max-w-2xl mx-auto border border-outline-variant p-12 md:p-20 bg-background shadow-sm">
             <p className="font-label-caps text-label-caps text-secondary mb-4">
-              РЕДАКЦИОННАЯ ПОДПИСКА
+              ДИАЛОГ С AURA
             </p>
             <h2 className="font-headline-md text-headline-md mb-8 text-primary leading-tight">
-              Присоединяйтесь к закрытому рассылочному клубу Aura.
+              Обсудите с нами ваш будущий интерьер.
             </h2>
             <p className="font-body-md text-body-md text-on-surface-variant mb-12 max-w-md mx-auto leading-relaxed">
-              Раз в месяц мы отправляем глубокие размышления об архитектурной порядочности, подборе
-              материалов и тихой роскоши в быту.
+              Расскажите о пространстве, сроках и задачах. Мы предложим следующий практический шаг и предварительную оценку.
             </p>
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 items-end">
-              <div className="w-full text-left">
-                <label className="font-label-caps text-[10px] text-on-surface-variant mb-2 block">
-                  EMAIL АДРЕС
-                </label>
-                <input
-                  required
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-transparent border-0 border-b border-primary px-0 py-3 focus:ring-0 font-body-md placeholder:text-outline/40 text-primary"
-                  placeholder="email@example.com"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full sm:w-auto bg-primary text-on-primary font-button text-button px-12 py-4 uppercase hover:bg-opacity-95 transition-all whitespace-nowrap tracking-wider"
-              >
-                {subStatus === "idle" ? "ПОДПИСАТЬСЯ" : "ГОТОВО!"}
-              </button>
-            </form>
+            <Link href="/kontakty" className="inline-block bg-primary text-on-primary font-button text-button px-12 py-4 uppercase hover:opacity-90 transition-opacity tracking-wider">
+              ОБСУДИТЬ ПРОЕКТ
+            </Link>
           </div>
         </div>
       </Reveal>

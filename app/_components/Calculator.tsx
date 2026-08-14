@@ -7,13 +7,21 @@ import { submitLead } from "@/app/_actions/leads";
 interface CalculatorProps {
   isDark?: boolean;
   isCompact?: boolean;
+  objectOptions?: readonly CalculatorObjectOption[];
 }
 
-const PREMISES_LABELS: Record<string, string> = {
-  apartment: "Квартира",
-  house: "Дом",
-  townhouse: "Таунхаус",
+export type CalculatorObjectOption = {
+  value: string;
+  label: string;
 };
+
+const DEFAULT_OBJECT_OPTIONS: readonly CalculatorObjectOption[] = [
+  { value: "apartment", label: "Квартира" },
+  { value: "house", label: "Дом" },
+  { value: "townhouse", label: "Таунхаус" },
+  { value: "commercial", label: "Коммерческое помещение" },
+  { value: "landscape", label: "Земельный участок" },
+];
 
 const STYLE_LABELS: Record<string, string> = {
   minimalism: "Минимализм",
@@ -22,8 +30,14 @@ const STYLE_LABELS: Record<string, string> = {
   bespoke: "Дизайн-проект",
 };
 
-export function Calculator({ isDark = false, isCompact = false }: CalculatorProps) {
-  const [premisesType, setPremisesType] = useState("apartment");
+export function Calculator({
+  isDark = false,
+  isCompact = false,
+  objectOptions = DEFAULT_OBJECT_OPTIONS,
+}: CalculatorProps) {
+  const availableObjects = objectOptions.length > 0 ? objectOptions : DEFAULT_OBJECT_OPTIONS;
+  const isObjectLocked = availableObjects.length === 1;
+  const [premisesType, setPremisesType] = useState(availableObjects[0].value);
   const [styleType, setStyleType] = useState("minimalism");
   const [area, setArea] = useState<number>(80);
   const [complexName, setComplexName] = useState("");
@@ -34,30 +48,7 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
   const [error, setError] = useState<string | null>(null);
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let input = e.target.value.replace(/\D/g, "");
-    // Format as Russian Phone: +7 (XXX) XXX-XX-XX
-    if (input.startsWith("7") || input.startsWith("8")) {
-      input = input.substring(1);
-    }
-    let formatted = "+7 ";
-    if (input.length > 0) {
-      formatted += "(" + input.substring(0, 3);
-    }
-    if (input.length >= 4) {
-      formatted += ") " + input.substring(3, 6);
-    }
-    if (input.length >= 7) {
-      formatted += "-" + input.substring(6, 8);
-    }
-    if (input.length >= 9) {
-      formatted += "-" + input.substring(8, 10);
-    }
-    
-    if (e.target.value === "") {
-      setPhone("");
-    } else {
-      setPhone(formatted.substring(0, 18));
-    }
+    setPhone(e.target.value.replace(/[^+\d\s()-]/g, "").slice(0, 24));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,7 +63,9 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
         source: "calculator",
         phone,
         area: `${area} м²`,
-        premisesType: PREMISES_LABELS[premisesType] ?? premisesType,
+        premisesType:
+          availableObjects.find((option) => option.value === premisesType)?.label ??
+          premisesType,
         style: STYLE_LABELS[styleType] ?? styleType,
         complexName,
       });
@@ -126,27 +119,41 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
         {/* Row 1: Dropdowns */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Тип помещения</label>
-            <select
-              value={premisesType}
-              onChange={(e) => setPremisesType(e.target.value)}
-              className={`w-full min-w-0 px-3 py-2 border font-sans text-[10px] uppercase tracking-wider focus:outline-none appearance-none ${inputBg}`}
-              style={{
-                backgroundImage: selectIcon,
-                backgroundPosition: "right 8px center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "16px",
-                paddingRight: "28px"
-              }}
-            >
-              <option value="apartment">Квартира</option>
-              <option value="house">Дом</option>
-              <option value="townhouse">Таунхаус</option>
-            </select>
+            <label htmlFor="calculator-premises" className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Объект</label>
+            {isObjectLocked ? (
+              <input
+                id="calculator-premises"
+                value={availableObjects[0].label}
+                readOnly
+                aria-readonly="true"
+                className={`w-full min-w-0 px-3 py-2 border font-sans text-[10px] uppercase tracking-wider focus:outline-none cursor-default ${inputBg}`}
+              />
+            ) : (
+              <select
+                id="calculator-premises"
+                value={premisesType}
+                onChange={(e) => setPremisesType(e.target.value)}
+                className={`w-full min-w-0 px-3 py-2 border font-sans text-[10px] uppercase tracking-wider focus:outline-none appearance-none ${inputBg}`}
+                style={{
+                  backgroundImage: selectIcon,
+                  backgroundPosition: "right 8px center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "16px",
+                  paddingRight: "28px",
+                }}
+              >
+                {availableObjects.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
           <div>
-            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Выберите стиль</label>
+            <label htmlFor="calculator-style" className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Выберите стиль</label>
             <select
+              id="calculator-style"
               value={styleType}
               onChange={(e) => setStyleType(e.target.value)}
               className={`w-full min-w-0 px-3 py-2 border font-sans text-[10px] uppercase tracking-wider focus:outline-none appearance-none ${inputBg}`}
@@ -169,12 +176,13 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
         {/* Row 2: Area Slider & Input */}
         <div>
           <div className="flex justify-between items-center mb-1.5">
-            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold ${labelColor}`}>Площадь объекта</label>
+            <label htmlFor="calculator-area-range" className={`font-sans text-[10px] tracking-widest uppercase font-semibold ${labelColor}`}>Площадь объекта</label>
             <span className="font-serif text-base italic text-secondary">{area} м²</span>
           </div>
           <div className="flex items-center gap-3">
             <input
               type="range"
+              id="calculator-area-range"
               min="30"
               max="500"
               value={area}
@@ -197,8 +205,9 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
         {/* Row 3: Complex Name & Phone (Condensed side-by-side Layout) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Название ЖК или КП</label>
+            <label htmlFor="calculator-complex" className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Название ЖК или КП</label>
             <input
+              id="calculator-complex"
               type="text"
               value={complexName}
               onChange={(e) => setComplexName(e.target.value)}
@@ -207,14 +216,17 @@ export function Calculator({ isDark = false, isCompact = false }: CalculatorProp
             />
           </div>
           <div>
-            <label className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Телефон</label>
+            <label htmlFor="calculator-phone" className={`font-sans text-[10px] tracking-widest uppercase font-semibold block mb-1.5 ${labelColor}`}>Телефон</label>
             <input
               required
+              id="calculator-phone"
               type="tel"
               value={phone}
               onChange={handlePhoneChange}
               className={`w-full min-w-0 px-3 py-2 border font-sans text-xs focus:outline-none ${inputBg}`}
-              placeholder="+7 (999) 000-00-00"
+              autoComplete="tel"
+              inputMode="tel"
+              placeholder="+374 или +7"
             />
           </div>
         </div>

@@ -96,7 +96,7 @@ export default async function AdminLeadsPage() {
                 <Field label="Имя" value={lead.name} />
                 <Field label="Телефон" value={lead.phone} />
                 <Field label="Площадь" value={lead.area} />
-                <Field label="Тип помещения" value={lead.premises_type} />
+                <Field label="Объект" value={lead.premises_type} />
                 <Field label="Стиль" value={lead.style} />
                 <Field label="ЖК" value={lead.complex_name} />
                 <Field label="Услуга" value={lead.service_type} />

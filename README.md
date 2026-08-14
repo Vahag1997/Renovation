@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Studio Aura
 
-## Getting Started
+Production website and content administration panel for Studio Aura. Built with Next.js 16, React 19, Tailwind CSS, and Supabase.
 
-First, run the development server:
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.example` to `.env.local` and configure:
 
-## Learn More
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_SITE_URL=https://www.aeremont.ru
+ADMIN_PASSWORD=
+ADMIN_SESSION_SECRET=
+```
 
-To learn more about Next.js, take a look at the following resources:
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` must be the publishable key from the same Supabase project as the URL.
+- `SUPABASE_SERVICE_ROLE_KEY` is server-only and must never receive a `NEXT_PUBLIC_` prefix.
+- `ADMIN_SESSION_SECRET` should be a long random value, independent from the admin password.
+- Apply all variables to Production and Preview in Vercel, then redeploy.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Supabase setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run the SQL and storage setup described in `supabase/README.md`. Public pages fall back to bundled portfolio content when Supabase is unavailable; admin mutations require a working service-role connection.
 
-## Deploy on Vercel
+## Production checks
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run lint
+npm run test:routes
+npm run build
+npm audit --omit=dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Expected behavior:
+
+- `/admin` redirects to `/admin/login` without a valid signed session.
+- `robots.txt` blocks `/admin` and points to the production sitemap.
+- Portfolio data refreshes after admin mutations and at least every five minutes.
+- Image uploads accept JPG, PNG, WebP, and AVIF up to 7 MB.
+
+## Deployment
+
+Import the GitHub repository into Vercel, configure the environment variables, and connect both `aeremont.ru` and `www.aeremont.ru`. Use `www.aeremont.ru` as the primary domain and redirect the apex domain to it.

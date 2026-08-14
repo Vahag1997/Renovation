@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import { getAllProjects } from "@/app/_data/portfolio";
 import { getProjectHref } from "@/app/_data/projects";
 import { Calculator } from "@/app/_components/Calculator";
 import { Reveal } from "@/app/_components/Reveal";
-import { Workflow } from "@/app/_components/Workflow";
 import { ServicesShowcase } from "@/app/_components/ServicesShowcase";
-import { SkeletonProjectCard } from "@/app/_components/Skeleton";
 
 export const metadata: Metadata = {
   description:
@@ -16,19 +13,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Cached shell, refreshed on demand by the admin panel (revalidatePath) and at
+// most every 5 minutes as a safety net.
+export const revalidate = 300;
 
-/**
- * Only this part of the home page needs the database. Isolating it behind its
- * own Suspense boundary lets the hero and everything else paint immediately
- * instead of the whole page waiting on Supabase.
- *
- * Note: the boundary lives here rather than in a root `loading.tsx` on purpose —
- * a root-level loading file wraps every nested `error.tsx` in a Suspense, which
- * stops those boundaries from ever receiving an error (the visitor is left on a
- * skeleton forever). Keep page-level fallbacks page-level.
- */
+/** The only part of the home page that reads from the database. */
 async function ShowcaseGrid() {
   const showcaseProjects = (await getAllProjects()).slice(0, 6);
 
@@ -68,27 +57,11 @@ async function ShowcaseGrid() {
   );
 }
 
-function ShowcaseGridSkeleton() {
-  return (
-    <div
-      role="status"
-      aria-live="polite"
-      aria-busy="true"
-      className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
-    >
-      <span className="sr-only">Загружаем проекты</span>
-      {Array.from({ length: 6 }).map((_, i) => (
-        <SkeletonProjectCard key={i} delayMs={i * 110} />
-      ))}
-    </div>
-  );
-}
-
 export default async function Home() {
   return (
     <main className="overflow-x-hidden">
       {/* Full-Bleed Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden flex items-end md:items-center">
+      <section className="relative h-[82svh] min-h-[620px] max-h-[900px] w-full overflow-hidden flex items-end md:items-center">
         <div className="absolute inset-0 z-0">
           <Image
             className="object-cover grayscale-[20%] transition-transform duration-[3000ms] hover:scale-105"
@@ -104,7 +77,7 @@ export default async function Home() {
           <div className="max-w-4xl">
             <h1 className="font-display-lg-mobile md:text-display-lg md:font-display-lg text-white leading-tight mb-10 drop-shadow-md">
               Проектирование и <br />
-              Фундаментальный Ремонт
+              Капитальный ремонт
             </h1>
             <div className="flex flex-col md:flex-row gap-8 items-start">
               <Link
@@ -184,11 +157,12 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Project grid streams in behind its own skeleton; the rest of the page
-            does not wait on the database. Cards cascade rather than popping in. */}
-        <Suspense fallback={<ShowcaseGridSkeleton />}>
-          <ShowcaseGrid />
-        </Suspense>
+        {/* Rendered inline, not behind <Suspense>. Next 16.2.7 postpones any
+            boundary that is not fully resolved at prerender time and never
+            resumes it on a hard page load, which strands the fallback on screen
+            permanently. Navigation feedback comes from the prefetch + the nav
+            pending indicators instead. */}
+        <ShowcaseGrid />
       </Reveal>
 
       {/* Calculator Section */}
@@ -196,16 +170,14 @@ export default async function Home() {
         <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
           {/* Left Column: Context / Value Prop */}
           <div className="lg:col-span-5 space-y-6">
-            <span className="font-sans text-xs font-semibold tracking-[0.2em] uppercase text-secondary">
-              Сметный расчет
-            </span>
             <h2 className="font-sans text-3xl sm:text-4xl md:text-[42px] font-black uppercase tracking-tight text-primary leading-[1.1]">
               Узнайте бюджет <br />
-              вашего ремонта <br />
-              моментально
+              вашего ремонта
             </h2>
             <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-              STUDIO AURA ценит прозрачность и точность планирования. Мы стараемся находить консенсус в живой беседе в реалиях самого заказчика и текущей обстановки в мире.
+              STUDIO AURA ценит прозрачность и точность планирования. Мы создаем
+              решения под бюджет и задачи клиента, адаптируясь к любым изменениям в
+              мире.
             </p>
             <div className="space-y-3 pt-4 border-t border-outline-variant/50">
               <div className="flex items-center gap-3 text-sm font-sans font-medium uppercase text-primary">
@@ -231,9 +203,6 @@ export default async function Home() {
       </Reveal>
 
       <ServicesShowcase />
-
-      <Workflow />
-
 
       {/* Magazine Section */}
       <Reveal

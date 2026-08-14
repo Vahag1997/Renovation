@@ -16,8 +16,45 @@ type RoutePlaceholderProps = {
 import { getProjectHref } from "@/app/_data/projects";
 import { getProjectsByCategory } from "@/app/_data/portfolio";
 import { BeforeAfterSlider } from "@/app/_components/BeforeAfterSlider";
-import { Calculator } from "@/app/_components/Calculator";
-import { Workflow } from "@/app/_components/Workflow";
+import {
+  Calculator,
+  type CalculatorObjectOption,
+} from "@/app/_components/Calculator";
+
+const SERVICE_CONFIG: Record<
+  string,
+  {
+    objectOptions: readonly CalculatorObjectOption[];
+    portfolioCategory: string;
+    portfolioHref: string;
+  }
+> = {
+  "/uslugi/remont-kvartir": {
+    objectOptions: [{ value: "apartment", label: "Квартира" }],
+    portfolioCategory: "kvartiry",
+    portfolioHref: "/portfolio/kvartiry",
+  },
+  "/uslugi/remont-domov": {
+    objectOptions: [{ value: "house", label: "Частный дом" }],
+    portfolioCategory: "doma",
+    portfolioHref: "/portfolio/doma",
+  },
+  "/uslugi/dizayn-proekty": {
+    objectOptions: [{ value: "design", label: "Дизайн-проект" }],
+    portfolioCategory: "proekty",
+    portfolioHref: "/portfolio/proekty",
+  },
+  "/uslugi/remont-kommercheskih-pomescheniy": {
+    objectOptions: [{ value: "commercial", label: "Коммерческое помещение" }],
+    portfolioCategory: "kommercheskie-pomescheniya",
+    portfolioHref: "/portfolio/kommercheskie-pomescheniya",
+  },
+  "/uslugi/landshaftnyy-dizayn": {
+    objectOptions: [{ value: "landscape", label: "Земельный участок" }],
+    portfolioCategory: "landshaft",
+    portfolioHref: "/portfolio/landshaft",
+  },
+};
 
 export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
   const route = getRouteByHref(href) ?? homeRoute;
@@ -87,8 +124,12 @@ export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
   const isServiceSubroute = href.startsWith("/uslugi/");
   const isPortfolioSubroute = href.startsWith("/portfolio/");
   const categorySlug = href.split("/").pop() ?? "";
+  const serviceConfig = SERVICE_CONFIG[href];
   const categoryProjects = isPortfolioSubroute
     ? await getProjectsByCategory(categorySlug)
+    : [];
+  const relatedProjects = serviceConfig
+    ? (await getProjectsByCategory(serviceConfig.portfolioCategory)).slice(0, 3)
     : [];
 
   // Render Inner Route Layout with Stitch Design
@@ -120,17 +161,26 @@ export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
                 <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg text-white mb-6 leading-tight max-w-4xl">{route.title}</h1>
                 <p className="font-body-lg text-body-lg text-white/85 max-w-2xl leading-relaxed">{route.description}</p>
                 <div className="flex gap-4 mt-6 flex-wrap">
-                  {route.bullets?.map((bullet) => (
-                    <span key={bullet} className="px-3 py-1 bg-white/10 border border-white/20 text-white font-label-caps text-[9px] tracking-wider">
+                  {route.bullets?.map((bullet, index) => (
+                    <a
+                      key={bullet}
+                      href={`#work-${index + 1}`}
+                      className="px-3 py-1 bg-white/10 border border-white/20 text-white font-label-caps text-[9px] tracking-wider hover:bg-white hover:text-primary transition-colors"
+                    >
                       {bullet}
-                    </span>
+                    </a>
                   ))}
                 </div>
               </div>
               
               {/* Right Column: Calculator */}
               <div className="lg:col-span-5 w-full mt-8 lg:mt-0">
-                <Calculator isDark={true} isCompact={true} />
+                <Calculator
+                  key={href}
+                  isDark={true}
+                  isCompact={true}
+                  objectOptions={serviceConfig?.objectOptions}
+                />
               </div>
             </div>
           ) : (
@@ -203,7 +253,10 @@ export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
         <>
           {isServiceSubroute && (
             <>
-              <section className="page-showcase max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-20 pb-0">
+              <section
+                id="etapy-rabot"
+                className="page-showcase max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-20"
+              >
                 {/* Scope of Work Section */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
                   <div className="md:col-span-4 sticky top-32">
@@ -219,7 +272,11 @@ export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
                       <h3 className="font-label-caps text-label-caps text-primary mb-6 tracking-wider">СПЕЦИФИКАЦИЯ РАБОТ</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
                         {route.bullets?.map((bullet, idx) => (
-                          <div key={bullet} className="font-body-md text-body-md text-primary flex items-start">
+                          <div
+                            id={`work-${idx + 1}`}
+                            key={bullet}
+                            className="font-body-md text-body-md text-primary flex items-start scroll-mt-36"
+                          >
                             <span className="font-label-caps text-secondary mr-4 text-xs font-bold">0{idx + 1}.</span>
                             <span>{bullet}</span>
                           </div>
@@ -250,7 +307,66 @@ export async function RoutePlaceholder({ href }: RoutePlaceholderProps) {
                   </div>
                 </div>
               </section>
-              <Workflow />
+
+              {serviceConfig && relatedProjects.length > 0 && (
+                <section className="bg-surface-container-low border-y border-outline-variant/40 px-margin-mobile md:px-margin-desktop py-20 md:py-28">
+                  <div className="max-w-container-max-width mx-auto">
+                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+                      <div>
+                        <span className="font-label-caps text-label-caps text-secondary block mb-4">
+                          Портфолио
+                        </span>
+                        <h2 className="font-headline-md text-headline-md text-primary">
+                          Проекты в этом направлении
+                        </h2>
+                      </div>
+                      <Link
+                        href={serviceConfig.portfolioHref}
+                        className="inline-flex items-center gap-3 font-label-caps text-label-caps text-primary border-b border-primary pb-2 self-start md:self-auto"
+                      >
+                        Смотреть все проекты
+                        <span className="material-symbols-outlined text-[18px]">
+                          arrow_forward
+                        </span>
+                      </Link>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                      {relatedProjects.map((project) => (
+                        <Link
+                          key={project.id}
+                          href={getProjectHref(project)}
+                          className="group block"
+                        >
+                          <div className="relative aspect-[4/3] overflow-hidden bg-surface-container border border-outline-variant/30 mb-5">
+                            <Image
+                              src={project.image}
+                              alt={project.title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 33vw"
+                              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                          </div>
+                          <div className="flex items-start justify-between gap-4 border-b border-outline-variant pb-4">
+                            <div>
+                              <h3 className="font-headline-sm text-headline-sm text-primary leading-tight mb-1 group-hover:text-secondary transition-colors">
+                                {project.title}
+                              </h3>
+                              <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                {project.location} · {project.area}
+                              </p>
+                            </div>
+                            <span className="material-symbols-outlined text-[20px] text-secondary transition-transform duration-300 group-hover:translate-x-1">
+                              arrow_forward
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
             </>
           )}
 

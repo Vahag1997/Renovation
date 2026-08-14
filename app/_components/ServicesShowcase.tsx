@@ -16,52 +16,44 @@ interface TabItem {
 const TABS_DATA: TabItem[] = [
   {
     id: "apartments",
-    label: "Дизайн квартир",
-    title: "Дизайн интерьера квартир",
-    description: "Создание уникальных пространств для городских апартаментов премиум-класса. Мы разрабатываем проекты, которые объединяют функциональность, безупречную эргономику и высокое искусство. Каждый элемент интерьера — от планировочного решения до текстиля — создается и подбирается с учетом стиля жизни владельца.",
+    label: "Ремонт квартир",
+    title: "Ремонт квартир под ключ",
+    description: "Организуем полный цикл ремонта квартиры: обследование, инженерные сети, черновые и чистовые работы, комплектацию и финальную приемку. Все этапы ведет одна команда с единым контролем качества, бюджета и сроков.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAA2F7ce4aBeLVBnXauMVP6fmKgatvsb_dN28dbRT78g6BMUg9s60nSKmzmvE431CQQaonVKyHycvhlz1-YukKRTuzv5IkpA1p5BOJbVQYc20ooNcDVGkp-AQNX5Xwcp2Q2Jkhq8FysxAxNl1hlFxMSFit8qJ7wAaMn13Hdkw_voNnWYAkoSJEOuw4mmaACQHIlD1Znqqm6PSa-JwTR0ttFLP4hWkuntHe7vHucSG5msTOLra0wuioGZmmrb4g3b_qI45gyBQIjhl4",
     link: "/uslugi/remont-kvartir"
   },
   {
     id: "houses",
-    label: "Архитектура домов",
-    title: "Архитектурный дизайн резиденций",
-    description: "Проектирование частных домов, загородных вилл и коттеджей. Мы создаем архитектурные концепции, гармонично вписанные в окружающий ландшафт. Комплексный подход включает в себя разработку фасадных решений, планов остекления, генерального плана участка и дизайн-проектов всех внутренних помещений.",
+    label: "Ремонт домов",
+    title: "Ремонт частных домов",
+    description: "Работаем с загородными домами и резиденциями комплексно: от инженерной подготовки и фасадов до интерьеров, террас и оснащения. Учитываем архитектуру здания и особенности эксплуатации каждого помещения.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDqplEB02zapq9gVXMkZd_wXQkBh-v8RfIzkcCNYTnjTVAD-Huf9mN_-hKDpdynU_A0Zp54R2v4qpzhgh1X4-dO4HwEOFuxFMECweP6S-GGzaduF0V0kopHohqykuwLOPccW1RIDdfJ0rJfCLnYlYEy-tfuhR8oZ7tGlTGpJgru0CQLJ5THtbMZ98wjkXtoDZxWv7g9PxcznpMYiUKv4_Px3brl6BPOGqjVSl7Nhi4FGqlMHtWK0Tz-0JMWSvc3IHz3IcYZjdDsHUI",
     link: "/uslugi/remont-domov"
   },
   {
-    id: "furniture",
-    label: "Подбор мебели",
-    title: "Комплектация и декорирование",
-    description: "Эксклюзивный подбор мебели, сантехники, освещения и отделочных материалов от ведущих европейских и мировых фабрик. Мы работаем напрямую с производителями, обеспечивая лучшие условия поставок, логистику, проверку качества и полное соответствие предметов общей художественной концепции проекта.",
+    id: "design",
+    label: "Дизайн-проекты",
+    title: "Дизайн-проекты интерьеров",
+    description: "Разрабатываем функциональную и визуальную концепцию пространства: планировочные решения, реалистичные визуализации, рабочие чертежи и спецификации. Проект становится точной основой для реализации без случайных решений на стройке.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB3PLFXe659f5udN-A0YVCtbgXjsGTgvImTYQk5nZySxTK1HyteEdMAiz13AdDtVsirYooatuKIGir5ZL_Ik1M9og7piyYDuVFr2wMxP9sIztCBJYIkdLw7TTV0NlBLeMMU3-x5ji3D2NVhegs95jKgZvrN-NQsHTaBVjwJqT5TH-8001pJrBs3SP76mosX5XyDnB_mvAxobJEGwva1ZL0MdfXo6UudsHPueovQrP2m9LHJYQBSTNqZqbcSsQGFfVqKdPio4wnp7CE",
     link: "/uslugi/dizayn-proekty"
   },
   {
-    id: "management",
-    label: "Управление проектом",
-    title: "Управление строительным процессом",
-    description: "Полный контроль и координация всех процессов реализации на объекте. Мы связываем воедино работу проектировщиков, поставщиков, подрядчиков и строительных бригад. Обеспечиваем движение проекта без хаоса, срывов сроков и непредвиденного роста сметы, освобождая вас от строительной рутины.",
+    id: "commercial",
+    label: "Коммерческие помещения",
+    title: "Ремонт коммерческих помещений",
+    description: "Проектируем и реализуем офисы, салоны, шоурумы и пространства ритейла с учетом бизнес-процессов, потока посетителей и графика запуска. Координируем подрядчиков и инженерные работы до готовности объекта к эксплуатации.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBXg_eyMN76Havk-_5L0J8oNAXCX5v53YEPtnAm3sWPBFBckuaOArssbNASJmMNvlcoqtnOUHCFf9EEdXLCMMZbQ-jBMAEzu-hMmsg8hUNOa8pH0IIf3-SmQAmkrC-PJn1apBzZq_bmcUdYMxjd3_Z5f5fyoIhLO72spbBe39xVXIdyG56rOU7AxqR6-E2aCTOxe1ZzhvJCBEq8Mb23iiaWhPI-S-djjIF2dA7_u1Z-xslbEDBzj4NU6A-Ld-4Z32o71M9a12srOH0",
     link: "/uslugi/remont-kommercheskih-pomescheniy"
   },
   {
-    id: "supervision",
-    label: "Авторский надзор",
-    title: "Авторский и технический надзор",
-    description: "Регулярные выезды автора проекта на объект для контроля точного соответствия выполняемых строительно-монтажных работ утвержденным чертежам и спецификациям. Мы оперативно вносим необходимые корректировки, консультируем строителей и решаем сложные технические вопросы в процессе реализации.",
+    id: "landscape",
+    label: "Ландшафтный дизайн",
+    title: "Ландшафтный дизайн участка",
+    description: "Создаем цельную среду вокруг дома: план участка, сценарии движения, озеленение, освещение, террасы и малые архитектурные формы. Проектируем пространство с учетом сезона, климата и дальнейшего ухода.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDvSxJGM209LGVLwKI6YA3nq77vgz0fA4Ro5qmrS4--YC_5Q2wVwAd2jgiLlGlpOHvaVELQY_H7WFKMzSBM9vVUxpUqOcrOalQRmnbY2ZcjUaIjdoZ5Y2lVAFRmJM4ZdjQwAl03y3-dHI4UcttlPsb2swZMueWCRFtHvH6iUNv9uk56lRi9_PgZGRtu3agmNSPFeBZ2tiXlSQsH4MhyDf614od5jNXu5J8oDABCKT79EzAjPD479DSfit2ekH3BIFZHeYUgj9G_ekA",
     link: "/uslugi/landshaftnyy-dizayn"
   },
-  {
-    id: "construction",
-    label: "Строительные работы",
-    title: "Строительно-монтажные и отделочные работы",
-    description: "Премиальное строительство городских апартаментов и загородных резиденций. Мы воплощаем в жизнь сложные архитектурные и дизайнерские проекты, объединяя бескомпромиссное качество исполнения, передовые инженерные технологии и ювелирную точность деталей. Каждая стадия строительно-монтажных и отделочных работ — от возведения конструкций до финальной инсталляции оборудования — реализуется в строгом соответствии с премиальными стандартами и стилем жизни заказчика.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDu77dm4QaRE2JSdD1fypOekeiFQTujjii_BoYkr0YdDsbEA-ShgpTKjHYRSQJez6qionDxnQ-yZrUNTJhKhRp-BAIAAncCkx3S60P2_txWTgq0sQgszDuHBXb8OG_F8t0Ddam5qmc0ZN-RGi6GskeXkmWobaG_OFPMf_ck6qQtX-ahYEWOWLluOaVCUkwNnhMF6SswuFatE95oWrZiMHxH7bxRVraVk3lMvOoVmckr1zB3olNe0lo4_YiPFBunxdhlpxhbXRK1v5Q",
-    link: "/uslugi"
-  }
 ];
 
 interface ValueBadge {
@@ -69,7 +61,13 @@ interface ValueBadge {
   text: string;
 }
 
-export function ServicesShowcase() {
+interface ServicesShowcaseProps {
+  showValues?: boolean;
+}
+
+const ROMAN_NUMERALS = ["I", "II", "III", "IV", "V"];
+
+export function ServicesShowcase({ showValues = true }: ServicesShowcaseProps) {
   const [activeTabIdx, setActiveTabIdx] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -185,7 +183,7 @@ export function ServicesShowcase() {
           </div>
 
           {/* Right Column: Visual Frame with Glassmorphic Overlay Panel */}
-          <div className="lg:col-span-8 relative aspect-[16/10] sm:aspect-[16/9.5] overflow-hidden border border-outline-variant/40 shadow-xl group">
+          <div className="lg:col-span-8 relative h-[520px] sm:h-[540px] lg:h-auto lg:aspect-[16/9.5] overflow-hidden border border-outline-variant/40 shadow-xl group">
             {/* Active Image */}
             <div className="absolute inset-0 w-full h-full">
               <Image
@@ -237,7 +235,7 @@ export function ServicesShowcase() {
         </div>
 
         {/* Brand values / Badges strip */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 border-t border-b border-outline-variant/30 py-10 mt-24 gap-8">
+        {showValues && <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 border-t border-b border-outline-variant/30 py-10 mt-24 gap-8">
           {values.map((val, idx) => (
             <div key={idx} className="flex gap-4 items-start group">
               <div className="w-8 h-8 rounded-full bg-[#6b5849]/5 flex items-center justify-center flex-shrink-0 group-hover:bg-[#6b5849]/10 transition-colors duration-500">
@@ -245,7 +243,7 @@ export function ServicesShowcase() {
               </div>
               <div className="space-y-1">
                 <span className="font-sans text-[10px] tracking-[0.2em] text-[#c5a880] font-bold uppercase block">
-                  Преимущество 0{idx + 1}
+                  Преимущество {ROMAN_NUMERALS[idx]}
                 </span>
                 <p className="font-sans text-[11px] leading-relaxed text-on-surface-variant font-medium tracking-wide">
                   {val.text}
@@ -253,7 +251,7 @@ export function ServicesShowcase() {
               </div>
             </div>
           ))}
-        </div>
+        </div>}
 
       </div>
     </section>

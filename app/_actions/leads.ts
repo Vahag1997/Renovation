@@ -1,5 +1,7 @@
 "use server";
 
+import { headers } from "next/headers";
+
 import { hasSupabaseAdminConfig, supabaseAdmin } from "@/app/_lib/supabaseAdmin";
 
 export type LeadInput = {
@@ -17,10 +19,34 @@ export type LeadInput = {
 
 export type LeadResult = { ok: true } | { ok: false; error: string };
 
+const RATE_WINDOW_MS = 10 * 60 * 1000;
+const RATE_LIMIT = 5;
+const leadAttempts = new Map<string, { count: number; resetAt: number }>();
+
 function clean(value: unknown, max = 200): string | null {
   if (typeof value !== "string") return null;
   const trimmed = value.trim().slice(0, max);
   return trimmed.length > 0 ? trimmed : null;
+}
+
+async function isRateLimited(): Promise<boolean> {
+  const requestHeaders = await headers();
+  const key = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const now = Date.now();
+  const existing = leadAttempts.get(key);
+
+  if (!existing || existing.resetAt <= now) {
+    leadAttempts.set(key, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+
+  existing.count += 1;
+  if (leadAttempts.size > 1000) {
+    for (const [attemptKey, attempt] of leadAttempts) {
+      if (attempt.resetAt <= now) leadAttempts.delete(attemptKey);
+    }
+  }
+  return existing.count > RATE_LIMIT;
 }
 
 /**
@@ -36,13 +62,17 @@ export async function submitLead(input: LeadInput): Promise<LeadResult> {
   const source = input.source === "calculator" ? "calculator" : "contact";
   const name = clean(input.name);
   const phone = clean(input.phone, 40);
+  const hasReachablePhone = Boolean(phone && phone.replace(/\D/g, "").length >= 7);
 
   // Minimal validation so a lead is actually reachable / meaningful.
-  if (source === "calculator" && !phone) {
-    return { ok: false, error: "Укажите телефон." };
+  if (source === "calculator" && !hasReachablePhone) {
+    return { ok: false, error: "Укажите корректный телефон." };
   }
-  if (source === "contact" && !name) {
-    return { ok: false, error: "Укажите имя." };
+  if (source === "contact" && (!name || !hasReachablePhone)) {
+    return { ok: false, error: "Укажите имя и корректный телефон." };
+  }
+  if (await isRateLimited()) {
+    return { ok: false, error: "Слишком много попыток. Попробуйте через несколько минут." };
   }
 
   try {

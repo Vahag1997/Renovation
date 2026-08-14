@@ -30,6 +30,7 @@ export default async function DashboardLayout({
             <Link
               href="/"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-sm text-neutral-500 hover:text-neutral-900"
             >
               Открыть сайт ↗

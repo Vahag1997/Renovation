@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 type ProjectGalleryProps = {
   images: string[];
@@ -10,6 +11,8 @@ type ProjectGalleryProps = {
 
 export function ProjectGallery({ images, title }: ProjectGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const openerRef = useRef<HTMLButtonElement>(null);
   const activeImage = activeIndex === null ? null : images[activeIndex];
   const isOpen = activeIndex !== null;
 
@@ -19,6 +22,7 @@ export function ProjectGallery({ images, title }: ProjectGalleryProps) {
 
   const closeSlider = useCallback(() => {
     setActiveIndex(null);
+    requestAnimationFrame(() => openerRef.current?.focus());
   }, []);
 
   const showNext = useCallback(() => {
@@ -51,6 +55,7 @@ export function ProjectGallery({ images, title }: ProjectGalleryProps) {
     };
 
     document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
@@ -79,7 +84,10 @@ export function ProjectGallery({ images, title }: ProjectGalleryProps) {
               <button
                 className={`${spanClass} project-gallery-tile group relative min-h-[320px] overflow-hidden bg-surface-container border border-outline-variant/40 text-left cursor-zoom-in`}
                 key={`${title}-gallery-${image}`}
-                onClick={() => openSlider(index)}
+                onClick={(event) => {
+                  openerRef.current = event.currentTarget;
+                  openSlider(index);
+                }}
                 style={{ animationDelay: `${index * 90}ms` }}
                 type="button"
                 aria-label={`Открыть фото ${index + 1} проекта ${title}`}
@@ -101,7 +109,7 @@ export function ProjectGallery({ images, title }: ProjectGalleryProps) {
         </div>
       </section>
 
-      {isOpen && activeImage ? (
+      {isOpen && activeImage ? createPortal(
         <div
           className="gallery-slider fixed inset-0 z-[100] bg-black/92 backdrop-blur-sm"
           role="dialog"
@@ -124,6 +132,7 @@ export function ProjectGallery({ images, title }: ProjectGalleryProps) {
                 <h2 className="font-headline-sm text-headline-sm">{title}</h2>
               </div>
               <button
+                ref={closeButtonRef}
                 className="grid h-11 w-11 place-items-center border border-white/25 text-white hover:bg-white hover:text-primary transition-colors"
                 onClick={closeSlider}
                 type="button"
@@ -179,7 +188,8 @@ export function ProjectGallery({ images, title }: ProjectGalleryProps) {
               ))}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       ) : null}
     </>
   );
